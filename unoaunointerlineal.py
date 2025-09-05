@@ -48,7 +48,7 @@ def main():
     """
     Función principal de la aplicación.
     """
-    st.title("Lector Interlineal del Nuevo Testamento.")
+    st.title("Lector Interlineal del Nuevo Testamento 📖")
     st.markdown("---")
     st.write("Selecciona un libro, capítulo y versículo para ver el texto interlineal.")
 
@@ -93,8 +93,8 @@ def main():
             full_text = str(result.iloc[0]['Texto'])
             
             # Encuentra el punto de separación entre español y griego
-            # Buscamos el primer carácter griego para dividir
-            split_point = re.search(r'[α-ωΑ-Ω]', full_text)
+            # Buscamos la primera secuencia de 2 o más caracteres griegos para una división más fiable
+            split_point = re.search(r'[α-ωΑ-Ω]{2,}', full_text)
             
             if split_point:
                 spanish_text = full_text[:split_point.start()].strip()
