@@ -229,17 +229,21 @@ def main():
         st.markdown("---")
         st.write("Ingresa la secuencia de letras a buscar en todo el Nuevo Testamento. 🔍")
 
-        # Inicializa el historial de búsqueda si no existe
+        # Inicializa el historial y el término de búsqueda en el estado de la sesión
         if 'search_history' not in st.session_state:
             st.session_state.search_history = []
-        
+        if 'search_term_value' not in st.session_state:
+            st.session_state.search_term_value = ""
+
         # Campo de entrada de texto
-        search_term = st.text_input(
+        st.text_input(
             "Ingresa la secuencia de letras a buscar:",
-            placeholder="Ejemplo: σπ o libertad"
+            placeholder="Ejemplo: σπ o libertad",
+            key="search_term_value"
         )
         
         if st.button("Buscar y analizar"):
+            search_term = st.session_state.search_term_value
             if not search_term:
                 st.warning("Por favor, ingresa una secuencia de letras a buscar.")
             else:
@@ -271,9 +275,9 @@ def main():
             st.markdown("---")
             with st.expander("Historial de búsquedas recientes"):
                 for term in st.session_state.search_history:
-                    if st.button(term):
-                        # Al hacer clic, se actualiza el campo de entrada y se vuelve a ejecutar la búsqueda
-                        st.text_input("Ingresa la secuencia de letras a buscar:", value=term, key="rerun_search")
+                    # El botón ahora actualiza el valor del campo de búsqueda directamente
+                    if st.button(term, key=f"history_button_{term}"):
+                        st.session_state.search_term_value = term
                         st.rerun()
 
 if __name__ == "__main__":
