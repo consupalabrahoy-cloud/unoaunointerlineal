@@ -49,14 +49,14 @@ def main():
     """
     Función principal de la aplicación.
     """
-    st.title("Lector Interlineal del Nuevo Testamento 📖")
+    st.title("Lector Interlineal del Nuevo Testamento.")
     st.markdown("---")
     st.write("Selecciona un libro, capítulo y versículo para ver el texto interlineal.")
 
     # Diccionario de libros y sus URL públicas
     # REEMPLAZA las URLs de ejemplo con las URL raw de tus archivos de texto en GitHub
     BOOKS = {
-        "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/refs/heads/main/Mateo.txt",
+        "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.txt",
         # Agrega el resto de los libros y sus URLs aquí
     }
 
