@@ -3,22 +3,29 @@ import pandas as pd
 import requests
 import io
 import re
+import csv
 
 @st.cache_data(ttl=3600)
 def load_data_from_url(url):
     """
-    Función para cargar los datos de una URL pública de GitHub.
+    Función para cargar los datos de una URL pública de GitHub de forma robusta.
     """
     try:
         response = requests.get(url, timeout=10)
-        response.raise_for_status()  # Lanza una excepción para errores HTTP
+        response.raise_for_status()
         
-        # Lee el contenido del archivo como texto, asegurando la codificación UTF-8
-        text_content = response.content.decode('utf-8')
+        # Usa el módulo 'csv' para manejar el archivo de forma robusta
+        content = response.content.decode('utf-8')
+        reader = csv.reader(content.splitlines())
         
-        # Usa pandas para leer el archivo CSV directamente
-        # El parámetro 'quotechar' le dice a pandas que ignore las comas dentro de las comillas dobles
-        df = pd.read_csv(io.StringIO(text_content), quotechar='"')
+        # Ignora la fila de encabezados
+        next(reader)
+        
+        # Procesa las filas restantes
+        data = list(reader)
+        
+        # Crea el DataFrame con las columnas correctas
+        df = pd.DataFrame(data, columns=['Libro', 'Capítulo', 'Versículo', 'Texto'])
         
         # Convierte las columnas a tipos de datos correctos
         df['Capítulo'] = pd.to_numeric(df['Capítulo'], errors='coerce').fillna(0).astype(int)
@@ -86,6 +93,7 @@ def main():
             greek_text = ""
             found_greek_start = False
             for char in full_text:
+                # Los rangos de los caracteres griegos
                 if '\u0370' <= char <= '\u03FF' or '\u1F00' <= char <= '\u1FFF':
                     found_greek_start = True
                 
