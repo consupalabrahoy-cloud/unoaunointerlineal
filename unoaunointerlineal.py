@@ -17,7 +17,8 @@ def load_data_from_url(url):
         text_content = response.content.decode('utf-8')
         
         # Usa pandas para leer el archivo CSV directamente
-        df = pd.read_csv(io.StringIO(text_content))
+        # El parámetro 'quotechar' le dice a pandas que ignore las comas dentro de las comillas dobles
+        df = pd.read_csv(io.StringIO(text_content), quotechar='"')
         
         # Convierte las columnas a tipos de datos correctos
         df['Capítulo'] = pd.to_numeric(df['Capítulo'], errors='coerce').fillna(0).astype(int)
