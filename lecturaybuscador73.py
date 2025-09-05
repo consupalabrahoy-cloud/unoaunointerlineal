@@ -146,7 +146,7 @@ def main():
                 st.session_state.selected_chapter = 1
         if 'font_size' not in st.session_state:
             st.session_state.font_size = 18
-        
+
         # Controles de navegación y fuente
         col1, col2, col3 = st.columns([1, 1, 2])
         with col3:
@@ -228,57 +228,36 @@ def main():
     elif mode == "Modo Buscador":
         st.markdown("---")
         st.write("Ingresa la secuencia de letras a buscar en todo el Nuevo Testamento. 🔍")
-
-        # Inicializa el historial y el término de búsqueda en el estado de la sesión
-        if 'search_history' not in st.session_state:
-            st.session_state.search_history = []
-        if 'search_term_value' not in st.session_state:
-            st.session_state.search_term_value = ""
-
-        # Campo de entrada de texto
-        st.text_input(
+        
+        search_term = st.text_input(
             "Ingresa la secuencia de letras a buscar:",
-            placeholder="Ejemplo: σπ o libertad",
-            key="search_term_value"
+            placeholder="Ejemplo: σπ o libertad"
         )
         
+        st.markdown("---")
+
         if st.button("Buscar y analizar"):
-            search_term = st.session_state.search_term_value
             if not search_term:
                 st.warning("Por favor, ingresa una secuencia de letras a buscar.")
             else:
                 try:
-                    # Añade el término de búsqueda al historial
-                    if search_term not in st.session_state.search_history:
-                        st.session_state.search_history.insert(0, search_term)
-                    # Limita el historial a los últimos 5 términos
-                    if len(st.session_state.search_history) > 5:
-                        st.session_state.search_history.pop()
-
                     all_occurrences = parse_and_find_occurrences(combined_df, search_term)
                     
                     if not all_occurrences:
                         st.warning(f"No se encontraron coincidencias que contengan '{search_term}' en el archivo.")
                     else:
-                        st.subheader(f"{len(all_occurrences)} resultados encontrados que contienen '{search_term}':")
+                        st.subheader(f" {len(all_occurrences)} resultados encontrados que contienen '{search_term}':")
                         for occurrence in all_occurrences:
                             st.markdown(f"**{occurrence['libro']} {occurrence['capitulo']}:{occurrence['versiculo']}**")
                             st.markdown(f"{occurrence['spanish_text']}")
                             st.markdown(f"_{occurrence['greek_text']}_")
                             st.markdown(f"**Coincidencia encontrada en {occurrence['language']}:** `{occurrence['found_word']}`")
                             st.markdown("---")
+
                 except Exception as e:
                     st.error(f"Ocurrió un error al procesar el archivo: {e}")
 
-        # Sección para mostrar el historial
-        if st.session_state.search_history:
-            st.markdown("---")
-            with st.expander("Historial de búsquedas recientes"):
-                for term in st.session_state.search_history:
-                    # El botón ahora actualiza el valor del campo de búsqueda directamente
-                    if st.button(term, key=f"history_button_{term}"):
-                        st.session_state.search_term_value = term
-                        st.rerun()
-
 if __name__ == "__main__":
     main()
+
+
