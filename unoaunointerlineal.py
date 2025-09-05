@@ -11,7 +11,7 @@ def load_data_from_url(url):
     y verificar que las columnas necesarias existan.
     """
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=10) # Se añade un timeout de 10 segundos
         if response.status_code == 200:
             csv_data = io.StringIO(response.text)
             df = pd.read_csv(csv_data)
@@ -31,6 +31,9 @@ def load_data_from_url(url):
         else:
             st.error(f"Error al cargar datos desde la URL. Código de estado: {response.status_code}")
             return None
+    except requests.exceptions.Timeout:
+        st.error(f"Error: Tiempo de espera agotado al intentar cargar los datos desde la URL.")
+        return None
     except Exception as e:
         st.error(f"Ocurrió un error inesperado al cargar el archivo: {e}")
         return None
@@ -47,10 +50,8 @@ def main():
     # REEMPLAZA las URLs de ejemplo con las URL reales de tus hojas de cálculo
     BOOKS = {
         "Mateo": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS5t_DYgzHVvcbSXJEAcr4YrqaikQKHohfXX6uCAHctZpnTKPuTyAkdr_Os4297BIMp76T-MSw2f2Iu/pub?output=csv",
-        "Marcos": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqg4e9BCqwv59ERdSyMfyTJt0Cpxz-dHfY88aOej6o46OEXadXaKuOoQtxuh9OtaRRbfdrdQokMb_e/pub?output=csv",
-         "Lucas": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQlBkh2rLp5UyRNnWSlgCe10sMGngxJOdNwHkztDG49pDK03fak4IlJ3pka7CU07qIMEjX0TgiUpDO3/pub?output=csv",
-         "Juan":"https://docs.google.com/spreadsheets/d/e/2PACX-1vTIKeJdAPzl_W8fPJAhe1QgmJa23ybBJzNIUtafTsd9kRjr6CnEPSVIMQzTumgOAMb0ZQ2ZlEZe6ZZJ/pub?output=csv",
-        # Agrega el resto de los libros y sus URLs aquí        
+        
+        # Agrega el resto de los libros y sus URLs aquí
     }
 
     # Carga todos los datos de los libros
