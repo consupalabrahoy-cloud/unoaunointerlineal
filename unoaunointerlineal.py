@@ -13,7 +13,15 @@ def load_data_from_url(url):
         if response.status_code == 200:
             csv_data = io.StringIO(response.text)
             df = pd.read_csv(csv_data)
-            df = df[['Libro', 'Capítulo', 'Versículo', 'Texto']]
+            
+            # Verificación de que las columnas existen
+            required_cols = ['Libro', 'Capítulo', 'Versículo', 'Texto']
+            if not all(col in df.columns for col in required_cols):
+                st.error(f"Error: El archivo CSV no contiene las columnas requeridas. "
+                         f"Asegúrate de que los encabezados de tu hoja de cálculo sean: {required_cols}")
+                return None
+            
+            df = df[required_cols]
             return df
         else:
             st.error(f"Error al cargar datos desde la URL. Código de estado: {response.status_code}")
@@ -26,7 +34,7 @@ def main():
     """
     Función principal de la aplicación.
     """
-    st.title("Lector Interlineal del Nuevo Testamento 📖")
+    st.title("Lector Interlineal del Nuevo Testamento.")
     st.markdown("---")
     st.write("Selecciona un libro, capítulo y versículo para ver el texto interlineal.")
 
@@ -35,7 +43,7 @@ def main():
     BOOKS = {
         "Mateo": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS5t_DYgzHVvcbSXJEAcr4YrqaikQKHohfXX6uCAHctZpnTKPuTyAkdr_Os4297BIMp76T-MSw2f2Iu/pub?output=csv",
         "Marcos": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqg4e9BCqwv59ERdSyMfyTJt0Cpxz-dHfY88aOej6o46OEXadXaKuOoQtxuh9OtaRRbfdrdQokMb_e/pub?output=csv",
-         "Lucas": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQlBkh2rLp5UyRNnWSlgCe10sMGngxJOdNwHkztDG49pDK03fak4IlJ3pka7CU07qIMEjX0TgiUpDO3/pub?output=csv",
+        "Lucas": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQlBkh2rLp5UyRNnWSlgCe10sMGngxJOdNwHkztDG49pDK03fak4IlJ3pka7CU07qIMEjX0TgiUpDO3/pub?output=csv",
          "Juan":"https://docs.google.com/spreadsheets/d/e/2PACX-1vTIKeJdAPzl_W8fPJAhe1QgmJa23ybBJzNIUtafTsd9kRjr6CnEPSVIMQzTumgOAMb0ZQ2ZlEZe6ZZJ/pub?output=csv",
         # Agrega el resto de los libros y sus URLs aquí
     }
@@ -44,14 +52,14 @@ def main():
     all_books_data = {}
     for book_name, url in BOOKS.items():
         all_books_data[book_name] = load_data_from_url(url)
+    
+    # Maneja el caso en que la carga falle
+    if not all_books_data or any(data is None for data in all_books_data.values()):
+        return
 
     # Widgets para la selección de Libro, Capítulo y Versículo
     selected_book = st.selectbox("Selecciona un libro:", list(BOOKS.keys()))
     
-    # Maneja el caso en que la carga falle
-    if all_books_data[selected_book] is None:
-        return
-
     # Filtra los capítulos y versículos disponibles para el libro seleccionado
     df = all_books_data[selected_book]
     chapters = sorted(df['Capítulo'].unique())
