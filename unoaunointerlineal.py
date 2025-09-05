@@ -42,7 +42,7 @@ def main():
     """
     Función principal de la aplicación.
     """
-    st.title("Lector Interlineal del Nuevo Testamento 📖")
+    st.title("Lector Interlineal del Nuevo Testamento")
     st.markdown("---")
     st.write("Selecciona un libro, capítulo y versículo para ver el texto interlineal.")
 
@@ -50,7 +50,9 @@ def main():
     # REEMPLAZA las URLs de ejemplo con las URL reales de tus hojas de cálculo
     BOOKS = {
         "Mateo": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS5t_DYgzHVvcbSXJEAcr4YrqaikQKHohfXX6uCAHctZpnTKPuTyAkdr_Os4297BIMp76T-MSw2f2Iu/pub?output=csv",
-        
+         "Marcos": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqg4e9BCqwv59ERdSyMfyTJt0Cpxz-dHfY88aOej6o46OEXadXaKuOoQtxuh9OtaRRbfdrdQokMb_e/pub?output=csv",
+         "Lucas": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQlBkh2rLp5UyRNnWSlgCe10sMGngxJOdNwHkztDG49pDK03fak4IlJ3pka7CU07qIMEjX0TgiUpDO3/pub?output=csv",
+         "Juan":"https://docs.google.com/spreadsheets/d/e/2PACX-1vTIKeJdAPzl_W8fPJAhe1QgmJa23ybBJzNIUtafTsd9kRjr6CnEPSVIMQzTumgOAMb0ZQ2ZlEZe6ZZJ/pub?output=csv",
         # Agrega el resto de los libros y sus URLs aquí
     }
 
@@ -101,3 +103,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
