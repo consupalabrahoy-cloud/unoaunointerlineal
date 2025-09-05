@@ -91,6 +91,8 @@ def main():
             st.session_state.selected_chapter = first_chapter
         else:
             st.session_state.selected_chapter = 1
+    if 'font_size' not in st.session_state:
+        st.session_state.font_size = 18
 
     # Selector de libro
     selected_book = st.selectbox("Selecciona un libro:", list(BOOKS.keys()), index=list(BOOKS.keys()).index(st.session_state.selected_book))
@@ -118,7 +120,7 @@ def main():
         st.session_state.selected_chapter = chapters[0]
 
     # Botones de navegación de capítulos
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns([1, 1, 2])
     with col1:
         if st.button("Capítulo Anterior", disabled=(current_chapter_index == 0)):
             st.session_state.selected_chapter = chapters[current_chapter_index - 1]
@@ -127,6 +129,14 @@ def main():
         if st.button("Capítulo Siguiente", disabled=(current_chapter_index == len(chapters) - 1)):
             st.session_state.selected_chapter = chapters[current_chapter_index + 1]
             st.rerun()
+    with col3:
+        # Control deslizante para el tamaño de la fuente
+        st.session_state.font_size = st.slider(
+            "Tamaño de la fuente:",
+            min_value=16,
+            max_value=30,
+            value=st.session_state.font_size
+        )
 
     # Selector de capítulo
     selected_chapter = st.selectbox(
@@ -163,12 +173,11 @@ def main():
                     else:
                         greek_text += char
                 
-                # Muestra cada versículo con el nuevo estilo
+                # Muestra cada versículo con el nuevo estilo y tamaño de fuente
                 st.markdown(f"**Versículo {verse_number}**")
                 if found_greek_start:
-                    # Se ha cambiado el color a negro puro (#000000)
-                    st.markdown(f"<p style='color:#000000;'>{spanish_text.strip()}</p>", unsafe_allow_html=True)
-                    st.markdown(f"<p style='color:#000000;'><i>{greek_text.strip()}</i></p>", unsafe_allow_html=True)
+                    st.markdown(f"<p style='color:#000000; font-size:{st.session_state.font_size}px;'>{spanish_text.strip()}</p>", unsafe_allow_html=True)
+                    st.markdown(f"<p style='color:#000000; font-size:{st.session_state.font_size}px;'><i>{greek_text.strip()}</i></p>", unsafe_allow_html=True)
                 else:
                     st.warning("No se pudo separar el texto en español y griego. Verifica el formato del archivo.")
             
