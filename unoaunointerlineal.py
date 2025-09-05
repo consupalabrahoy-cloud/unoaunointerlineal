@@ -14,15 +14,17 @@ def load_data_from_url(url):
         response.raise_for_status()  # Lanza una excepción para errores HTTP
         
         # Lee el contenido del archivo como texto
+        response.encoding = 'utf-8'
         text_content = response.text
         
         # Procesa el texto para crear un DataFrame
         lines = text_content.strip().split('\n')
         data = []
-        for line in lines:
+        
+        # Se omite la primera línea (encabezados) al procesar los datos
+        for line in lines[1:]: 
             parts = line.split(',', 3)
             if len(parts) == 4:
-                # La columna 'Texto' contiene tanto español como griego
                 data.append(parts)
         
         df = pd.DataFrame(data, columns=['Libro', 'Capítulo', 'Versículo', 'Texto'])
@@ -54,7 +56,7 @@ def main():
     # Diccionario de libros y sus URL públicas
     # REEMPLAZA las URLs de ejemplo con las URL raw de tus archivos de texto en GitHub
     BOOKS = {
-        "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.txt",
+        "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/refs/heads/main/Mateo.txt",
         # Agrega el resto de los libros y sus URLs aquí
     }
 
@@ -111,5 +113,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
