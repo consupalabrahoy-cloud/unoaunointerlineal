@@ -7,26 +7,32 @@ import re
 @st.cache_data(ttl=3600)
 def load_data_from_url(url):
     """
-    Función para cargar los datos de una URL pública de Google Sheets (CSV)
-    y verificar que las columnas necesarias existan.
+    Función para cargar los datos de una URL pública de Google Sheets (CSV),
+    asignar los encabezados manualmente y limpiar los datos.
     """
     try:
         response = requests.get(url, timeout=10) # Se añade un timeout de 10 segundos
         if response.status_code == 200:
             csv_data = io.StringIO(response.text)
-            df = pd.read_csv(csv_data)
-
-            # Verificación de que las columnas existen
-            required_cols = ['Libro', 'Capítulo', 'Versículo', 'Texto']
-            if not all(col in df.columns for col in required_cols):
-                st.error(f"Error: El archivo CSV no contiene las columnas requeridas. "
-                         f"Asegúrate de que los encabezados de tu hoja de cálculo sean: {required_cols}")
-                return None
             
-            # Filtra las columnas requeridas y convierte los tipos
-            df = df[required_cols]
+            # Leer el archivo sin encabezado, ya que el CSV no lo tiene en una línea separada
+            df = pd.read_csv(csv_data, header=None)
+            
+            # Asignar los nombres de las columnas manualmente
+            df.columns = ['Libro', 'Capítulo', 'Versículo', 'Texto']
+            
+            # Se elimina la primera fila, que contiene los encabezados reales
+            df = df.iloc[1:]
+
+            # Convertir las columnas a tipos de datos correctos
             df['Capítulo'] = pd.to_numeric(df['Capítulo'], errors='coerce').fillna(0).astype(int)
             df['Versículo'] = pd.to_numeric(df['Versículo'], errors='coerce').fillna(0).astype(int)
+            
+            # Asegurarse de que el DataFrame no esté vacío
+            if df.empty:
+                st.error("Error: El archivo CSV está vacío o no tiene datos válidos después de la primera fila.")
+                return None
+                
             return df
         else:
             st.error(f"Error al cargar datos desde la URL. Código de estado: {response.status_code}")
@@ -42,15 +48,14 @@ def main():
     """
     Función principal de la aplicación.
     """
-    st.title("Lector Interlineal del Nuevo Testamento")
+    st.title("Lector Interlineal del Nuevo Testamento.")
     st.markdown("---")
     st.write("Selecciona un libro, capítulo y versículo para ver el texto interlineal.")
 
     # Diccionario de libros y sus URL públicas
     # REEMPLAZA las URLs de ejemplo con las URL reales de tus hojas de cálculo
     BOOKS = {
-        "Mateo": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS5t_DYgzHVvcbSXJEAcr4YrqaikQKHohfXX6uCAHctZpnTKPuTyAkdr_Os4297BIMp76T-MSw2f2Iu/pub?output=csv",
-         "Marcos": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqg4e9BCqwv59ERdSyMfyTJt0Cpxz-dHfY88aOej6o46OEXadXaKuOoQtxuh9OtaRRbfdrdQokMb_e/pub?output=csv",
+        "Marcos": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqg4e9BCqwv59ERdSyMfyTJt0Cpxz-dHfY88aOej6o46OEXadXaKuOoQtxuh9OtaRRbfdrdQokMb_e/pub?output=csv",
          "Lucas": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQlBkh2rLp5UyRNnWSlgCe10sMGngxJOdNwHkztDG49pDK03fak4IlJ3pka7CU07qIMEjX0TgiUpDO3/pub?output=csv",
          "Juan":"https://docs.google.com/spreadsheets/d/e/2PACX-1vTIKeJdAPzl_W8fPJAhe1QgmJa23ybBJzNIUtafTsd9kRjr6CnEPSVIMQzTumgOAMb0ZQ2ZlEZe6ZZJ/pub?output=csv",
         # Agrega el resto de los libros y sus URLs aquí
@@ -103,4 +108,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
