@@ -48,16 +48,17 @@ def main():
     """
     Función principal de la aplicación.
     """
-    st.title("Lector Interlineal del Nuevo Testamento 📖")
+    st.title("Lector Interlineal del Nuevo Testamento.")
     st.markdown("---")
     st.write("Selecciona un libro, capítulo y versículo para ver el texto interlineal.")
 
     # Diccionario de libros y sus URL públicas
     # REEMPLAZA las URLs de ejemplo con las URL reales de tus hojas de cálculo
     BOOKS = {
+        "Mateo": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS5t_DYgzHVvcbSXJEAcr4YrqaikQKHohfXX6uCAHctZpnTKPuTyAkdr_Os4297BIMp76T-MSw2f2Iu/pub?output=csv",
         "Marcos": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqg4e9BCqwv59ERdSyMfyTJt0Cpxz-dHfY88aOej6o46OEXadXaKuOoQtxuh9OtaRRbfdrdQokMb_e/pub?output=csv",
-         "Lucas": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQlBkh2rLp5UyRNnWSlgCe10sMGngxJOdNwHkztDG49pDK03fak4IlJ3pka7CU07qIMEjX0TgiUpDO3/pub?output=csv",
-         "Juan":"https://docs.google.com/spreadsheets/d/e/2PACX-1vTIKeJdAPzl_W8fPJAhe1QgmJa23ybBJzNIUtafTsd9kRjr6CnEPSVIMQzTumgOAMb0ZQ2ZlEZe6ZZJ/pub?output=csv",
+        "Lucas": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQlBkh2rLp5UyRNnWSlgCe10sMGngxJOdNwHkztDG49pDK03fak4IlJ3pka7CU07qIMEjX0TgiUpDO3/pub?output=csv",
+        "Juan":"https://docs.google.com/spreadsheets/d/e/2PACX-1vTIKeJdAPzl_W8fPJAhe1QgmJa23ybBJzNIUtafTsd9kRjr6CnEPSVIMQzTumgOAMb0ZQ2ZlEZe6ZZJ/pub?output=csv",
         # Agrega el resto de los libros y sus URLs aquí
     }
 
@@ -93,8 +94,8 @@ def main():
             full_text = str(result.iloc[0]['Texto'])
             
             # Encuentra el punto de separación entre español y griego
-            # Buscamos la primera secuencia de 2 o más caracteres griegos para una división más fiable
-            split_point = re.search(r'[α-ωΑ-Ω]{2,}', full_text)
+            # Este patrón busca la primera letra griega, incluyendo acentos y signos de puntuación
+            split_point = re.search(r'[\u0370-\u03FF\u1F00-\u1FFF]', full_text)
             
             if split_point:
                 spanish_text = full_text[:split_point.start()].strip()
