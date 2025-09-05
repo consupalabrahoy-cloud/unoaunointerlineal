@@ -163,11 +163,11 @@ def main():
                     else:
                         greek_text += char
                 
-                # Muestra cada versículo
+                # Muestra cada versículo con el nuevo estilo
                 st.markdown(f"**Versículo {verse_number}**")
                 if found_greek_start:
-                    st.write(spanish_text.strip())
-                    st.write(greek_text.strip())
+                    st.markdown(f"<p style='color:#262730;'>{spanish_text.strip()}</p>", unsafe_allow_html=True)
+                    st.markdown(f"<p style='color:#262730;'><i>{greek_text.strip()}</i></p>", unsafe_allow_html=True)
                 else:
                     st.warning("No se pudo separar el texto en español y griego. Verifica el formato del archivo.")
             
