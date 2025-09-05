@@ -114,7 +114,7 @@ def main():
     """
     Función principal de la aplicación.
     """
-    st.title("Lector y Buscador Interlineal del NT")
+    st.title("Lector y Buscador Interlineal del NT. Reina-Valera Antigua y Westcott-Hort.")
     st.markdown("---")
 
     combined_df = load_all_data()
@@ -259,5 +259,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
