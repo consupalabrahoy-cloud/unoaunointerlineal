@@ -80,21 +80,71 @@ def main():
     if not all_books_data or any(data is None for data in all_books_data.values()):
         return
 
-    # Widgets para la selección de Libro y Capítulo
-    selected_book = st.selectbox("Selecciona un libro:", list(BOOKS.keys()))
-    
-    # Filtra los capítulos disponibles para el libro seleccionado
-    df = all_books_data[selected_book]
+    # Inicializa el estado de la sesión si no existe
+    if 'selected_book' not in st.session_state:
+        st.session_state.selected_book = list(BOOKS.keys())[0]
+    if 'selected_chapter' not in st.session_state:
+        # Obtiene el primer capítulo del primer libro por defecto
+        first_book_df = all_books_data[st.session_state.selected_book]
+        if not first_book_df.empty:
+            first_chapter = sorted(first_book_df['Capítulo'].unique())[0]
+            st.session_state.selected_chapter = first_chapter
+        else:
+            st.session_state.selected_chapter = 1
+
+    # Selector de libro
+    selected_book = st.selectbox("Selecciona un libro:", list(BOOKS.keys()), index=list(BOOKS.keys()).index(st.session_state.selected_book))
+    if selected_book != st.session_state.selected_book:
+        st.session_state.selected_book = selected_book
+        # Reinicia el capítulo al cambiar de libro
+        new_book_df = all_books_data[selected_book]
+        if not new_book_df.empty:
+            first_chapter = sorted(new_book_df['Capítulo'].unique())[0]
+            st.session_state.selected_chapter = first_chapter
+        else:
+            st.session_state.selected_chapter = 1
+        st.rerun()
+
+    # Obtiene los capítulos del libro seleccionado
+    df = all_books_data[st.session_state.selected_book]
     chapters = sorted(df['Capítulo'].unique())
-    selected_chapter = st.selectbox("Selecciona un capítulo:", chapters)
+    
+    # Maneja la selección de capítulo desde el menú desplegable
+    try:
+        current_chapter_index = chapters.index(st.session_state.selected_chapter)
+    except ValueError:
+        # Si el capítulo guardado no existe en el nuevo libro, vuelve al primer capítulo
+        current_chapter_index = 0
+        st.session_state.selected_chapter = chapters[0]
+
+    # Botones de navegación de capítulos
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Capítulo Anterior", disabled=(current_chapter_index == 0)):
+            st.session_state.selected_chapter = chapters[current_chapter_index - 1]
+            st.rerun()
+    with col2:
+        if st.button("Capítulo Siguiente", disabled=(current_chapter_index == len(chapters) - 1)):
+            st.session_state.selected_chapter = chapters[current_chapter_index + 1]
+            st.rerun()
+
+    # Selector de capítulo
+    selected_chapter = st.selectbox(
+        "Selecciona un capítulo:",
+        chapters,
+        index=chapters.index(st.session_state.selected_chapter)
+    )
+    if selected_chapter != st.session_state.selected_chapter:
+        st.session_state.selected_chapter = selected_chapter
+        st.rerun()
 
     # Muestra los versículos del capítulo seleccionado
-    if selected_book and selected_chapter:
+    if st.session_state.selected_book and st.session_state.selected_chapter:
         st.markdown("---")
-        st.subheader(f"{selected_book} {selected_chapter}")
+        st.subheader(f"{st.session_state.selected_book} {st.session_state.selected_chapter}")
 
         # Filtra todas las filas del capítulo seleccionado
-        chapter_verses = df[df['Capítulo'] == selected_chapter]
+        chapter_verses = df[df['Capítulo'] == st.session_state.selected_chapter]
 
         if not chapter_verses.empty:
             for index, row in chapter_verses.iterrows():
@@ -119,7 +169,7 @@ def main():
                     st.write(spanish_text.strip())
                     st.write(greek_text.strip())
                 else:
-                    st.warning("No se pudo separar el texto en español y griego.")
+                    st.warning("No se pudo separar el texto en español y griego. Verifica el formato del archivo.")
             
         else:
             st.warning("No se encontraron versículos en este capítulo. Por favor, revisa tu selección.")
