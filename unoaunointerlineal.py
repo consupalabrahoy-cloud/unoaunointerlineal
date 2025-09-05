@@ -43,7 +43,7 @@ def main():
     # Diccionario de libros y sus URL públicas
     # REEMPLAZA las URLs de ejemplo con las URL raw de tus archivos CSV en GitHub
     BOOKS = {
-        "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.csv",
+        "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo - Mateo.csv",
         # Agrega el resto de los libros y sus URLs aquí
     }
 
@@ -100,3 +100,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
