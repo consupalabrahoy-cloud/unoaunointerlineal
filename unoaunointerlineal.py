@@ -7,58 +7,54 @@ import re
 @st.cache_data(ttl=3600)
 def load_data_from_url(url):
     """
-    Función para cargar los datos de una URL pública de Google Sheets (CSV),
-    asignar los encabezados manualmente y limpiar los datos.
+    Función para cargar los datos de una URL pública de GitHub.
     """
     try:
-        response = requests.get(url, timeout=10) # Se añade un timeout de 10 segundos
-        if response.status_code == 200:
-            csv_data = io.StringIO(response.text)
-            
-            # Leer el archivo sin encabezado, ya que el CSV no lo tiene en una línea separada
-            df = pd.read_csv(csv_data, header=None)
-            
-            # Asignar los nombres de las columnas manualmente
-            df.columns = ['Libro', 'Capítulo', 'Versículo', 'Texto']
-            
-            # Se elimina la primera fila, que contiene los encabezados reales
-            df = df.iloc[1:]
-
-            # Convertir las columnas a tipos de datos correctos
-            df['Capítulo'] = pd.to_numeric(df['Capítulo'], errors='coerce').fillna(0).astype(int)
-            df['Versículo'] = pd.to_numeric(df['Versículo'], errors='coerce').fillna(0).astype(int)
-            
-            # Asegurarse de que el DataFrame no esté vacío
-            if df.empty:
-                st.error("Error: El archivo CSV está vacío o no tiene datos válidos después de la primera fila.")
-                return None
-                
-            return df
-        else:
-            st.error(f"Error al cargar datos desde la URL. Código de estado: {response.status_code}")
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # Lanza una excepción para errores HTTP
+        
+        # Lee el contenido del archivo como texto
+        text_content = response.text
+        
+        # Procesa el texto para crear un DataFrame
+        lines = text_content.strip().split('\n')
+        data = []
+        for line in lines:
+            parts = line.split(',', 3)
+            if len(parts) == 4:
+                # La columna 'Texto' contiene tanto español como griego
+                data.append(parts)
+        
+        df = pd.DataFrame(data, columns=['Libro', 'Capítulo', 'Versículo', 'Texto'])
+        
+        # Convierte las columnas a tipos de datos correctos
+        df['Capítulo'] = pd.to_numeric(df['Capítulo'], errors='coerce').fillna(0).astype(int)
+        df['Versículo'] = pd.to_numeric(df['Versículo'], errors='coerce').fillna(0).astype(int)
+        
+        if df.empty:
+            st.error("Error: El archivo de texto está vacío o tiene un formato incorrecto.")
             return None
-    except requests.exceptions.Timeout:
-        st.error(f"Error: Tiempo de espera agotado al intentar cargar los datos desde la URL.")
+        return df
+
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error al cargar datos desde la URL: {e}")
         return None
     except Exception as e:
-        st.error(f"Ocurrió un error inesperado al cargar el archivo: {e}")
+        st.error(f"Ocurrió un error inesperado al procesar el archivo: {e}")
         return None
 
 def main():
     """
     Función principal de la aplicación.
     """
-    st.title("Lector Interlineal del Nuevo Testamento.")
+    st.title("Lector Interlineal del Nuevo Testamento 📖")
     st.markdown("---")
     st.write("Selecciona un libro, capítulo y versículo para ver el texto interlineal.")
 
     # Diccionario de libros y sus URL públicas
-    # REEMPLAZA las URLs de ejemplo con las URL reales de tus hojas de cálculo
+    # REEMPLAZA las URLs de ejemplo con las URL raw de tus archivos de texto en GitHub
     BOOKS = {
-        "Mateo": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS5t_DYgzHVvcbSXJEAcr4YrqaikQKHohfXX6uCAHctZpnTKPuTyAkdr_Os4297BIMp76T-MSw2f2Iu/pub?output=csv",
-        "Marcos": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqg4e9BCqwv59ERdSyMfyTJt0Cpxz-dHfY88aOej6o46OEXadXaKuOoQtxuh9OtaRRbfdrdQokMb_e/pub?output=csv",
-        "Lucas": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQlBkh2rLp5UyRNnWSlgCe10sMGngxJOdNwHkztDG49pDK03fak4IlJ3pka7CU07qIMEjX0TgiUpDO3/pub?output=csv",
-        "Juan":"https://docs.google.com/spreadsheets/d/e/2PACX-1vTIKeJdAPzl_W8fPJAhe1QgmJa23ybBJzNIUtafTsd9kRjr6CnEPSVIMQzTumgOAMb0ZQ2ZlEZe6ZZJ/pub?output=csv",
+        "Mateo": "https://raw.githubusercontent.com/tu-usuario/tu-repositorio/main/mateo.txt",
         # Agrega el resto de los libros y sus URLs aquí
     }
 
@@ -92,22 +88,22 @@ def main():
 
         if not result.empty:
             full_text = str(result.iloc[0]['Texto'])
-            st.write(f"DEBUG: Texto recibido: {full_text}")
 
-            # Encuentra el punto de separación entre español y griego
-            # Este patrón busca la primera letra griega, incluyendo acentos y signos de puntuación
-            split_point_greek_start = -1
-            for i, char in enumerate(full_text):
-                # Comprueba si el carácter está en el rango Unicode del griego
+            spanish_text = ""
+            greek_text = ""
+            found_greek_start = False
+            for char in full_text:
                 if '\u0370' <= char <= '\u03FF' or '\u1F00' <= char <= '\u1FFF':
-                    split_point_greek_start = i
-                    break
+                    found_greek_start = True
+                
+                if not found_greek_start:
+                    spanish_text += char
+                else:
+                    greek_text += char
             
-            if split_point_greek_start != -1:
-                spanish_text = full_text[:split_point_greek_start].strip()
-                greek_text = full_text[split_point_greek_start:].strip()
-                st.write(spanish_text)
-                st.write(greek_text)
+            if found_greek_start:
+                st.write(spanish_text.strip())
+                st.write(greek_text.strip())
             else:
                 st.warning("No se pudo separar el texto en español y griego. Verifica el formato del archivo.")
         else:
