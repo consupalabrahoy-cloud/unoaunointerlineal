@@ -13,21 +13,11 @@ def load_data_from_url(url):
         response = requests.get(url, timeout=10)
         response.raise_for_status()  # Lanza una excepción para errores HTTP
         
-        # Lee el contenido del archivo como texto
-        response.encoding = 'utf-8'
-        text_content = response.text
+        # Lee el contenido del archivo como texto, asegurando la codificación UTF-8
+        text_content = response.content.decode('utf-8')
         
-        # Procesa el texto para crear un DataFrame
-        lines = text_content.strip().split('\n')
-        data = []
-        
-        # Se omite la primera línea (encabezados) al procesar los datos
-        for line in lines[1:]: 
-            parts = line.split(',', 3)
-            if len(parts) == 4:
-                data.append(parts)
-        
-        df = pd.DataFrame(data, columns=['Libro', 'Capítulo', 'Versículo', 'Texto'])
+        # Usa pandas para leer el archivo CSV directamente
+        df = pd.read_csv(io.StringIO(text_content))
         
         # Convierte las columnas a tipos de datos correctos
         df['Capítulo'] = pd.to_numeric(df['Capítulo'], errors='coerce').fillna(0).astype(int)
@@ -49,7 +39,7 @@ def main():
     """
     Función principal de la aplicación.
     """
-    st.title("Lector Interlineal del Nuevo Testamento.")
+    st.title("Lector Interlineal del Nuevo Testamento 📖")
     st.markdown("---")
     st.write("Selecciona un libro, capítulo y versículo para ver el texto interlineal.")
 
