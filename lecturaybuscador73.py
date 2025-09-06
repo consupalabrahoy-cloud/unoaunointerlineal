@@ -221,7 +221,7 @@ def main():
                     st.markdown(f"<p style='color:#000000; font-size:{st.session_state.font_size}px;'>{spanish_text.strip()}</p>", unsafe_allow_html=True)
                     st.markdown(f"<p style='color:#000000; font-size:{st.session_state.font_size}px;'><i>{greek_text.strip()}</i></p>", unsafe_allow_html=True)
                 else:
-                    st.warning("No se pudo separar el texto en español y griego. Verifica el formato del archivo.")
+                    st.warning("Al parecer no hay texto griego en este versículo.")
         else:
             st.warning("No se encontraron versículos en este capítulo. Por favor, revisa tu selección.")
 
@@ -259,6 +259,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
