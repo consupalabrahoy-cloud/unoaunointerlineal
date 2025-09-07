@@ -156,7 +156,7 @@ def main():
                 max_value=30,
                 value=st.session_state.font_size
             )
-            
+        
         selected_book = st.selectbox("Selecciona un libro:", list(BOOKS.keys()), index=list(BOOKS.keys()).index(st.session_state.selected_book))
         if selected_book != st.session_state.selected_book:
             st.session_state.selected_book = selected_book
@@ -218,8 +218,8 @@ def main():
                 
                 st.markdown(f"**Versículo {verse_number}**")
                 if found_greek_start:
-                    st.markdown(f"<p style='color:#000000; font-size:{st.session_state.font_size}px;'>{spanish_text.strip()}</p>", unsafe_allow_html=True)
-                    st.markdown(f"<p style='color:#000000; font-size:{st.session_state.font_size}px;'><i>{greek_text.strip()}</i></p>", unsafe_allow_html=True)
+                    st.markdown(f"<p style='font-size:{st.session_state.font_size}px;'>{spanish_text.strip()}</p>", unsafe_allow_html=True)
+                    st.markdown(f"<p style='font-size:{st.session_state.font_size}px;'><i>{greek_text.strip()}</i></p>", unsafe_allow_html=True)
                 else:
                     st.warning("Al parecer no hay texto griego en este versículo.")
         else:
@@ -247,6 +247,21 @@ def main():
                         st.warning(f"No se encontraron coincidencias que contengan '{search_term}' en el archivo.")
                     else:
                         st.subheader(f" {len(all_occurrences)} resultados encontrados que contienen '{search_term}':")
+                        
+                        # Crear un DataFrame para la descarga
+                        results_df = pd.DataFrame(all_occurrences)
+                        
+                        # Convertir el DataFrame a CSV para el botón de descarga
+                        csv_data = results_df.to_csv(index=False).encode('utf-8')
+                        
+                        # Mostrar el botón de descarga
+                        st.download_button(
+                            label="Descargar resultados en CSV",
+                            data=csv_data,
+                            file_name=f"resultados_{search_term}.csv",
+                            mime="text/csv",
+                        )
+
                         for occurrence in all_occurrences:
                             st.markdown(f"**{occurrence['libro']} {occurrence['capitulo']}:{occurrence['versiculo']}**")
                             st.markdown(f"{occurrence['spanish_text']}")
@@ -259,7 +274,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
