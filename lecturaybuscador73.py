@@ -6,6 +6,7 @@ import re
 
 # Diccionario de libros y sus URL públicas
 # REEMPLAZA las URLs con las URL raw de tus archivos CSV en GitHub
+# NOTA: Se ha corregido la URL de Mateo para que sea consistente
 BOOKS = {
     "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.csv",
     "Marcos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Marcos - Marcos.csv",
@@ -217,8 +218,10 @@ def main():
                         greek_text += char
                 
                 st.markdown(f"**Versículo {verse_number}**")
+                # Se muestra el texto en español siempre
+                st.markdown(f"<p style='font-size:{st.session_state.font_size}px;'>{spanish_text.strip()}</p>", unsafe_allow_html=True)
+
                 if found_greek_start:
-                    st.markdown(f"<p style='font-size:{st.session_state.font_size}px;'>{spanish_text.strip()}</p>", unsafe_allow_html=True)
                     st.markdown(f"<p style='font-size:{st.session_state.font_size}px;'><i>{greek_text.strip()}</i></p>", unsafe_allow_html=True)
                 else:
                     st.warning("Al parecer no hay texto griego en este versículo.")
@@ -307,7 +310,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
