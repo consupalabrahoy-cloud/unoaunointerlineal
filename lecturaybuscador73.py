@@ -228,6 +228,13 @@ def main():
     elif mode == "Modo Buscador":
         st.markdown("---")
         st.write("Ingresa la secuencia de letras a buscar en todo el Nuevo Testamento. 🔍")
+
+        # Nuevo: Filtro de libros para la búsqueda
+        selected_books_to_search = st.multiselect(
+            "Selecciona los libros para buscar:",
+            options=list(BOOKS.keys()),
+            default=list(BOOKS.keys())
+        )
         
         search_term = st.text_input(
             "Ingresa la secuencia de letras a buscar:",
@@ -239,9 +246,13 @@ def main():
         if st.button("Buscar y analizar"):
             if not search_term:
                 st.warning("Por favor, ingresa una secuencia de letras a buscar.")
+            elif not selected_books_to_search:
+                st.warning("Por favor, selecciona al menos un libro para buscar.")
             else:
                 try:
-                    all_occurrences = parse_and_find_occurrences(combined_df, search_term)
+                    # Filtra el DataFrame completo según los libros seleccionados
+                    filtered_df = combined_df[combined_df['Libro'].isin(selected_books_to_search)]
+                    all_occurrences = parse_and_find_occurrences(filtered_df, search_term)
                     
                     if not all_occurrences:
                         st.warning(f"No se encontraron coincidencias que contengan '{search_term}' en el archivo.")
