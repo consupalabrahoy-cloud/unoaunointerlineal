@@ -7,7 +7,7 @@ import re
 # Diccionario de libros y sus URL públicas
 # REEMPLAZA las URLs con las URL raw de tus archivos CSV en GitHub
 BOOKS = {
-    "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo - Mateo(1).csv",
+    "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.csv",
     "Marcos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Marcos - Marcos.csv",
     "Lucas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Lucas - Lucas.csv",
     "Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Juan - Juan.csv",
@@ -307,6 +307,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
