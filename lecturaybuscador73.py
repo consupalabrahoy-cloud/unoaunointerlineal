@@ -251,6 +251,14 @@ def main():
                         # Crear un DataFrame para la descarga
                         results_df = pd.DataFrame(all_occurrences)
                         
+                        # Renombrar las columnas para que estén en español
+                        results_df = results_df.rename(columns={
+                            'spanish_text': 'Texto en Español',
+                            'greek_text': 'Texto en Griego',
+                            'found_word': 'Palabra Encontrada',
+                            'language': 'Idioma'
+                        })
+
                         # Convertir el DataFrame a CSV para el botón de descarga
                         csv_data = results_df.to_csv(index=False).encode('utf-8')
                         
