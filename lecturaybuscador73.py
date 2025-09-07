@@ -229,12 +229,26 @@ def main():
         st.markdown("---")
         st.write("Ingresa la secuencia de letras a buscar en todo el Nuevo Testamento. 🔍")
 
-        # Nuevo: Filtro de libros para la búsqueda
+        # Inicializar el estado para la selección de libros
+        if 'selected_books_to_search' not in st.session_state:
+            st.session_state.selected_books_to_search = list(BOOKS.keys())
+
+        # Botones de selección/deselección
+        col_select_all, col_deselect_all = st.columns(2)
+        with col_select_all:
+            if st.button("Seleccionar todos"):
+                st.session_state.selected_books_to_search = list(BOOKS.keys())
+        with col_deselect_all:
+            if st.button("Deseleccionar todos"):
+                st.session_state.selected_books_to_search = []
+        
         selected_books_to_search = st.multiselect(
             "Selecciona los libros para buscar:",
             options=list(BOOKS.keys()),
-            default=list(BOOKS.keys())
+            default=st.session_state.selected_books_to_search
         )
+
+        st.session_state.selected_books_to_search = selected_books_to_search
         
         search_term = st.text_input(
             "Ingresa la secuencia de letras a buscar:",
@@ -246,16 +260,16 @@ def main():
         if st.button("Buscar y analizar"):
             if not search_term:
                 st.warning("Por favor, ingresa una secuencia de letras a buscar.")
-            elif not selected_books_to_search:
+            elif not st.session_state.selected_books_to_search:
                 st.warning("Por favor, selecciona al menos un libro para buscar.")
             else:
                 try:
                     # Filtra el DataFrame completo según los libros seleccionados
-                    filtered_df = combined_df[combined_df['Libro'].isin(selected_books_to_search)]
+                    filtered_df = combined_df[combined_df['Libro'].isin(st.session_state.selected_books_to_search)]
                     all_occurrences = parse_and_find_occurrences(filtered_df, search_term)
                     
                     if not all_occurrences:
-                        st.warning(f"No se encontraron coincidencias que contengan '{search_term}' en el archivo.")
+                        st.warning(f"No se encontraron coincidencias que contengan '{search_term}' en los libros seleccionados.")
                     else:
                         st.subheader(f" {len(all_occurrences)} resultados encontrados que contienen '{search_term}':")
                         
