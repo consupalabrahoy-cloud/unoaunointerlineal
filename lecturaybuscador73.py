@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import requests
@@ -103,8 +104,8 @@ def parse_and_find_occurrences(df, search_term):
         	"libro": row['Libro'],
         	"capitulo": row['Capítulo'],
         	"versiculo": verse_number,
-        	"spanish_text": spanish_text,
-        	"greek_text": greek_text,
+        	"spanish_text": spanish_text.strip(),
+        	"greek_text": greek_text.strip(),
         	"found_word": search_term,
         	"language": language
     	})
@@ -135,16 +136,9 @@ def main():
     	st.markdown("---")
     	st.write("Selecciona un libro y un capítulo para leer el texto interlineal.")
    	 
-    	# Inicializa el estado de la sesión si no existe
+    	# Inicializa el estado de la sesión de manera segura
     	if 'selected_book' not in st.session_state:
         	st.session_state.selected_book = list(BOOKS.keys())[0]
-    	if 'selected_chapter' not in st.session_state:
-        	first_book_df = combined_df[combined_df['Libro'] == st.session_state.selected_book]
-        	if not first_book_df.empty:
-            	first_chapter = sorted(first_book_df['Capítulo'].unique())[0]
-            	st.session_state.selected_chapter = first_chapter
-        	else:
-            	st.session_state.selected_chapter = 1
     	if 'font_size' not in st.session_state:
         	st.session_state.font_size = 18
 
@@ -158,43 +152,47 @@ def main():
             	value=st.session_state.font_size
         	)
    	 
-    	selected_book = st.selectbox("Selecciona un libro:", list(BOOKS.keys()), index=list(BOOKS.keys()).index(st.session_state.selected_book))
+    	# Selectbox para el libro
+    	selected_book = st.selectbox(
+        	"Selecciona un libro:", 
+        	list(BOOKS.keys()), 
+        	index=list(BOOKS.keys()).index(st.session_state.selected_book)
+    	)
+   	 
+    	# Lógica para cambiar de libro y actualizar el capítulo
     	if selected_book != st.session_state.selected_book:
         	st.session_state.selected_book = selected_book
-        	new_book_df = combined_df[combined_df['Libro'] == selected_book]
-        	if not new_book_df.empty:
-            	first_chapter = sorted(new_book_df['Capítulo'].unique())[0]
-            	st.session_state.selected_chapter = first_chapter
-        	else:
-            	st.session_state.selected_chapter = 1
-        	st.rerun()
+        	# No es necesario un st.rerun() aquí, Streamlit lo hará por sí solo.
 
-    	chapters = sorted(combined_df[combined_df['Libro'] == st.session_state.selected_book]['Capítulo'].unique())
+    	# Obtener la lista de capítulos para el libro seleccionado
+    	book_chapters = sorted(combined_df[combined_df['Libro'] == st.session_state.selected_book]['Capítulo'].unique())
+    	
+    	# Asegurar que el capítulo seleccionado sea válido para el nuevo libro
+    	if 'selected_chapter' not in st.session_state or st.session_state.selected_chapter not in book_chapters:
+        	st.session_state.selected_chapter = book_chapters[0]
    	 
-    	try:
-        	current_chapter_index = chapters.index(st.session_state.selected_chapter)
-    	except ValueError:
-        	current_chapter_index = 0
-        	st.session_state.selected_chapter = chapters[0]
+    	# Botones de navegación de capítulos
+    	current_chapter_index = book_chapters.index(st.session_state.selected_chapter)
    	 
     	col1, col2 = st.columns(2)
     	with col1:
         	if st.button("Capítulo Anterior", disabled=(current_chapter_index == 0)):
-            	st.session_state.selected_chapter = chapters[current_chapter_index - 1]
+            	st.session_state.selected_chapter = book_chapters[current_chapter_index - 1]
             	st.rerun()
     	with col2:
-        	if st.button("Capítulo Siguiente", disabled=(current_chapter_index == len(chapters) - 1)):
-            	st.session_state.selected_chapter = chapters[current_chapter_index + 1]
+        	if st.button("Capítulo Siguiente", disabled=(current_chapter_index == len(book_chapters) - 1)):
+            	st.session_state.selected_chapter = book_chapters[current_chapter_index + 1]
             	st.rerun()
 
+    	# Selectbox para el capítulo
     	selected_chapter = st.selectbox(
         	"Selecciona un capítulo:",
-        	chapters,
-        	index=chapters.index(st.session_state.selected_chapter)
+        	book_chapters,
+        	index=book_chapters.index(st.session_state.selected_chapter)
     	)
     	if selected_chapter != st.session_state.selected_chapter:
         	st.session_state.selected_chapter = selected_chapter
-        	st.rerun()
+        	# No es necesario un st.rerun() aquí.
 
     	# Muestra los versículos
     	st.markdown("---")
