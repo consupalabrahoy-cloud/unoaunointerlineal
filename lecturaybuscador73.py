@@ -2,11 +2,10 @@ import streamlit as st
 import pandas as pd
 import requests
 import io
-import re
+import json
+import google.generativeai as genai
 
 # Diccionario de libros y sus URL públicas
-# REEMPLAZA las URLs con las URL raw de tus archivos CSV en GitHub
-# NOTA: Se ha corregido la URL de Mateo para que sea consistente
 BOOKS = {
     "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.csv",
     "Marcos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Marcos - Marcos.csv",
@@ -21,14 +20,14 @@ BOOKS = {
     "Filipenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Filipenses - Filipenses.csv",
     "Colosenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Colosenses - Colosenses.csv",
     "1º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera a Tesalonicenses - Primera a Tesalonicenses.csv",
-    "2º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda a Tesalonicenses - Segunda a Tesalonicenses.csv",
+    "2º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabohoy-cloud/unoaunointerlineal/main/Segunda a Tesalonicenses - Segunda a Tesalonicenses.csv",
     "1º a Timoteo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera a Timoteo - Primera a Timoteo.csv",
     "2º a Timoteo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda a Timoteo - Segunda a Timoteo.csv",
     "Tito": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Tito - Tito.csv",
     "Filemón": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Filemón - Filemón.csv",
     "Hebreos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Hebreos - Hebreos.csv",
-    "Santiago": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera de Pedro - Primera de Pedro.csv",
-    "1º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Santiago - Santiago.csv",
+    "Santiago": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Santiago - Santiago.csv",
+    "1º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera de Pedro - Primera de Pedro.csv",
     "2º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda de Pedro - Segunda de Pedro.csv",
     "1º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera de Juan - Primera de Juan.csv",
     "2º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda de Juan - Segunda de Juan.csv",
@@ -39,7 +38,7 @@ BOOKS = {
 
 @st.cache_data(ttl=3600)
 def load_all_data():
-    """Carga y combina los datos de todos los libros en un solo DataFrame."""
+    """Loads and combines the data from all books into a single DataFrame."""
     all_dfs = []
     for book_name, url in BOOKS.items():
         try:
@@ -47,7 +46,7 @@ def load_all_data():
             response.raise_for_status()
             text_content = response.content.decode('utf-8')
             df = pd.read_csv(io.StringIO(text_content), sep=',')
-            df['Libro'] = book_name  # Agrega la columna del libro para identificarlo
+            df['Libro'] = book_name
             all_dfs.append(df)
         except requests.exceptions.RequestException as e:
             st.error(f"Error al cargar datos de {book_name}: {e}")
@@ -58,7 +57,6 @@ def load_all_data():
 
     if all_dfs:
         combined_df = pd.concat(all_dfs, ignore_index=True)
-        # Convierte las columnas a tipos de datos correctos
         combined_df['Capítulo'] = pd.to_numeric(combined_df['Capítulo'], errors='coerce').fillna(0).astype(int)
         combined_df['Versículo'] = pd.to_numeric(combined_df['Versículo'], errors='coerce').fillna(0).astype(int)
         return combined_df
@@ -66,22 +64,19 @@ def load_all_data():
 
 def parse_and_find_occurrences(df, search_term):
     """
-    Busca un término en los DataFrames.
+    Finds a term in the DataFrames.
     """
     occurrences = []
     
-    # Crea una máscara booleana para encontrar las coincidencias en español y griego
     spanish_matches = df['Texto'].str.lower().str.contains(search_term.lower(), na=False, regex=False)
     greek_matches = df['Texto'].str.contains(search_term.lower(), na=False, regex=False)
     
-    # Combina las coincidencias de ambos idiomas
     all_matches = df[spanish_matches | greek_matches]
 
     for _, row in all_matches.iterrows():
         full_text = str(row['Texto'])
         verse_number = row['Versículo']
 
-        # Separa el texto en español y griego
         spanish_text = ""
         greek_text = ""
         found_greek_start = False
@@ -94,7 +89,6 @@ def parse_and_find_occurrences(df, search_term):
             else:
                 greek_text += char
 
-        # Determina si la coincidencia fue en español o griego
         language = "Español"
         if search_term.lower() in greek_text.lower():
             language = "Griego"
@@ -111,9 +105,39 @@ def parse_and_find_occurrences(df, search_term):
     
     return occurrences
 
+def get_gemini_analysis(word, api_key):
+    """
+    Analyzes a Greek word using the Gemini API.
+    """
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+
+    prompt = f"""
+    Actúa como un lingüista experto en el griego koiné del Nuevo Testamento. Proporciona una transliteración, una traducción literal al español y un análisis gramatical detallado de la palabra griega "{word}".
+    El análisis gramatical debe incluir la raíz, la clase de palabra (verbo, sustantivo, adjetivo, etc.), el caso, el género, el número, el tiempo, la voz, el modo (si aplica) y cualquier otra información relevante para su interpretación.
+    Formato de respuesta JSON:
+    {{
+      "transliteracion": "...",
+      "traduccion_literal": "...",
+      "analisis_gramatical": "..."
+    }}
+    """
+    
+    try:
+        response = model.generate_content(
+            prompt,
+            generation_config=genai.types.GenerationConfig(response_mime_type="application/json")
+        )
+        if response and response.text:
+            return json.loads(response.text)
+    except Exception as e:
+        st.error(f"Ocurrió un error con la API de Gemini: {e}")
+    
+    return None
+
 def main():
     """
-    Función principal de la aplicación.
+    Main function of the application.
     """
     st.title("Lector y Buscador Interlineal del NT. Reina-Valera Antigua y Westcott-Hort.")
     st.markdown("---")
@@ -124,7 +148,6 @@ def main():
         st.error("No se pudo cargar la base de datos completa. Por favor, verifica las URL y tu conexión a internet.")
         return
 
-    # Modo de selección
     mode = st.radio(
         "Selecciona el modo de uso:",
         ("Modo Lector", "Modo Buscador"),
@@ -135,7 +158,6 @@ def main():
         st.markdown("---")
         st.write("Selecciona un libro y un capítulo para leer el texto interlineal.")
         
-        # Inicializa el estado de la sesión si no existe
         if 'selected_book' not in st.session_state:
             st.session_state.selected_book = list(BOOKS.keys())[0]
         if 'selected_chapter' not in st.session_state:
@@ -148,7 +170,6 @@ def main():
         if 'font_size' not in st.session_state:
             st.session_state.font_size = 18
 
-        # Controles de navegación y fuente
         col1, col2, col3 = st.columns([1, 1, 2])
         with col3:
             st.session_state.font_size = st.slider(
@@ -196,7 +217,6 @@ def main():
             st.session_state.selected_chapter = selected_chapter
             st.rerun()
 
-        # Muestra los versículos
         st.markdown("---")
         st.subheader(f"{st.session_state.selected_book} {st.session_state.selected_chapter}")
         chapter_verses = combined_df[(combined_df['Libro'] == st.session_state.selected_book) & (combined_df['Capítulo'] == st.session_state.selected_chapter)]
@@ -218,9 +238,7 @@ def main():
                         greek_text += char
                 
                 st.markdown(f"**Versículo {verse_number}**")
-                # Se muestra el texto en español siempre
                 st.markdown(f"<p style='font-size:{st.session_state.font_size}px;'>{spanish_text.strip()}</p>", unsafe_allow_html=True)
-
                 if found_greek_start:
                     st.markdown(f"<p style='font-size:{st.session_state.font_size}px;'><i>{greek_text.strip()}</i></p>", unsafe_allow_html=True)
                 else:
@@ -230,6 +248,31 @@ def main():
 
     elif mode == "Modo Buscador":
         st.markdown("---")
+        st.header("Modo Buscador")
+        st.markdown("---")
+        
+        # New section for Gemini
+        st.subheader("Análisis con Gemini")
+        st.write("Copia y pega una palabra griega para obtener su transliteración, traducción y análisis morfológico.")
+        
+        api_key = st.text_input("Ingresa tu API Key de Google Gemini:", type="password")
+        greek_word_input = st.text_input("Palabra Griega:", placeholder="Ejemplo: ἀγαθός")
+        
+        if st.button("Analizar Palabra Griega"):
+            if not api_key:
+                st.error("Por favor, ingresa tu API Key de Gemini para usar esta función.")
+            elif not greek_word_input:
+                st.warning("Por favor, ingresa una palabra griega para analizar.")
+            else:
+                with st.spinner('Analizando palabra...'):
+                    analysis = get_gemini_analysis(greek_word_input, api_key)
+                    if analysis:
+                        st.subheader("Resultados del Análisis:")
+                        st.markdown(f"**Transliteración:** `{analysis.get('transliteracion', 'N/A')}`")
+                        st.markdown(f"**Traducción Literal:** `{analysis.get('traduccion_literal', 'N/A')}`")
+                        st.markdown(f"**Análisis Morfológico:** `{analysis.get('analisis_gramatical', 'N/A')}`")
+        
+        st.markdown("---")
         st.header("La búsqueda se realizará en todos los Libros o si prefiere, utilice el filtro.")
         
         search_term = st.text_input(
@@ -237,13 +280,10 @@ def main():
             placeholder="Ejemplo: σπ o libertad"
         )
 
-        # Usar un expander para ocultar el filtro
         with st.expander("Filtrar la búsqueda de la palabra por Libros:"):
-            # Inicializar el estado de los libros si no existe
             if 'book_selection' not in st.session_state:
                 st.session_state.book_selection = {book: False for book in BOOKS.keys()}
 
-            # Crear las casillas de selección
             for book_name in BOOKS.keys():
                 st.session_state.book_selection[book_name] = st.checkbox(
                     book_name, 
@@ -253,21 +293,18 @@ def main():
 
         st.markdown("---")
 
-        if st.button("Buscar y analizar"):
+        if st.button("Buscar y analizar", key="search_button"):
             if not search_term:
                 st.warning("Por favor, ingresa una secuencia de letras a buscar.")
             else:
-                # Determinar qué libros buscar
                 selected_books_list = [book for book, is_selected in st.session_state.book_selection.items() if is_selected]
                 
-                # Si no se seleccionó ningún libro, buscar en todos por defecto
                 if not selected_books_list:
                     books_to_search = list(BOOKS.keys())
                 else:
                     books_to_search = selected_books_list
 
                 try:
-                    # Filtra el DataFrame completo según los libros seleccionados
                     filtered_df = combined_df[combined_df['Libro'].isin(books_to_search)]
                     all_occurrences = parse_and_find_occurrences(filtered_df, search_term)
                     
@@ -276,10 +313,8 @@ def main():
                     else:
                         st.subheader(f" {len(all_occurrences)} resultados encontrados que contienen '{search_term}':")
                         
-                        # Crear un DataFrame para la descarga
                         results_df = pd.DataFrame(all_occurrences)
                         
-                        # Renombrar las columnas para que estén en español
                         results_df = results_df.rename(columns={
                             'spanish_text': 'Texto en Español',
                             'greek_text': 'Texto en Griego',
@@ -287,10 +322,8 @@ def main():
                             'language': 'Idioma'
                         })
 
-                        # Convertir el DataFrame a CSV para el botón de descarga
                         csv_data = results_df.to_csv(index=False).encode('utf-8')
                         
-                        # Mostrar el botón de descarga
                         st.download_button(
                             label="Descargar resultados en CSV",
                             data=csv_data,
