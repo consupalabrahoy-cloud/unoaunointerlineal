@@ -116,6 +116,21 @@ if 'df' not in st.session_state:
 if st.session_state.df is not None:
     # 1. Selección y lectura del pasaje
     st.sidebar.header('Seleccionar pasaje')
+    
+    # Selector para el tamaño de la fuente
+    font_size_option = st.sidebar.selectbox(
+        'Tamaño de la fuente',
+        ['Normal', 'Grande', 'Pequeña']
+    )
+    
+    font_size_map = {
+        'Pequeña': '16px',
+        'Normal': '18px',
+        'Grande': '22px'
+    }
+    
+    greek_font_size = font_size_map[font_size_option]
+    
     selected_book = st.sidebar.selectbox(
         'Libro',
         st.session_state.df['Libro'].unique()
@@ -149,7 +164,7 @@ if st.session_state.df is not None:
                 greek_text += char
         
         st.markdown(f"**{verse_number}** {spanish_text}")
-        st.markdown(f'<span style="font-family:serif;font-size:18px;font-style:italic;">{greek_text}</span>', unsafe_allow_html=True)
+        st.markdown(f'<span style="font-family:serif;font-size:{greek_font_size};font-style:italic;">{greek_text}</span>', unsafe_allow_html=True)
     
     # 2. Búsqueda y concordancia
     st.markdown('---')
@@ -184,5 +199,3 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
-
-
