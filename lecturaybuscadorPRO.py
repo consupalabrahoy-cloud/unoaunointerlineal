@@ -3,11 +3,6 @@ import pandas as pd
 import requests
 import io
 import re
-import json
-import base64
-import firebase_admin
-from firebase_admin import credentials, firestore
-from google.api_core.exceptions import ResourceExhausted
 import unicodedata
 
 # Diccionario de libros y sus URL públicas
@@ -40,48 +35,6 @@ BOOKS = {
     "Judas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Judas%20-%20Judas.csv",
     "Apocalipsis": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Apocalipsis%20-%20Apocalipsis.csv",
 }
-
-# --- Inicialización de Firebase (con Streamlit Secrets) ---
-def init_firebase():
-    """Inicializa la app de Firebase si aún no ha sido inicializada."""
-    if not firebase_admin._apps:
-        try:
-            key_base64 = st.secrets.firebase_key_base64
-            key_json = base64.b64decode(key_base64).decode('utf-8')
-            key_dict = json.loads(key_json)
-            
-            cred = credentials.Certificate(key_dict)
-            firebase_admin.initialize_app(cred)
-            st.success("Conexión con Firebase establecida.")
-        except Exception as e:
-            st.error(f"Error al inicializar Firebase: {e}")
-            st.info("Asegúrate de que la clave de Firebase esté correctamente codificada en Base64 en tu `secrets.toml`.")
-            return None
-    return firestore.client()
-
-def get_word_from_firestore(word):
-    """
-    Busca información sobre una palabra en la base de datos de Firestore.
-    Se conecta directamente a la base de datos sin usar la caché.
-    """
-    db = firestore.client()
-    if db:
-        normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
-        
-        try:
-            # Firestore tiene un límite de cuota de lectura.
-            # Este código maneja el error si se excede el límite.
-            docs = db.collection('vocabulario_nt').where('palabra', '==', normalized_search_word).stream()
-            for doc in docs:
-                return doc.to_dict()
-        except ResourceExhausted as e:
-            st.error("Error: Se ha excedido la cuota de lectura de la base de datos de Firebase. Por favor, inténtalo de nuevo más tarde o revisa tu plan de facturación de Firebase.")
-            return None
-        except Exception as e:
-            st.error(f"Ocurrió un error inesperado al buscar en la base de datos: {e}")
-            return None
-
-    return None
 
 @st.cache_data(ttl=3600)
 def load_all_data():
@@ -155,9 +108,6 @@ st.title('Lector Interlineal del Nuevo Testamento')
 st.markdown('***')
 st.markdown('¡Bienvenido! Esta es una herramienta para el estudio interlineal del Nuevo Testamento en griego.')
 
-# Inicializar Firebase
-init_firebase()
-
 # Cargar datos
 if 'df' not in st.session_state:
     st.session_state.df = load_all_data()
@@ -203,42 +153,36 @@ if st.session_state.df is not None:
     
     # 2. Búsqueda y concordancia
     st.markdown('---')
-    st.markdown('#### Buscar en el vocabulario y el texto')
+    st.markdown('#### Buscar en el texto')
     
-    search_term = st.text_input('Ingrese una palabra en español o griego')
+    search_term = st.text_input('Ingrese una palabra o secuencia de letras en español o griego')
 
     if search_term:
-        # B. Concordancia de ocurrencias (rápida y local)
+        # Concordancia de ocurrencias (rápida y local)
         st.markdown('##### Ocurrencias en el texto')
-        occurrences = parse_and_find_occurrences(st.session_state.df, search_term)
+        occurrences_list = parse_and_find_occurrences(st.session_state.df, search_term)
         
-        if occurrences:
-            st.info(f"Se encontraron {len(occurrences)} ocurrencias en total.")
-            for occ in occurrences:
+        if occurrences_list:
+            st.info(f"Se encontraron {len(occurrences_list)} ocurrencias en total.")
+            for occ in occurrences_list:
                 st.markdown(f"- **{occ['Libro']} {occ['Capítulo']}:{occ['Versículo']}**")
                 st.markdown(f"  > {occ['Texto_Español']}")
                 st.markdown(f'  > <span style="font-family:serif;font-size:16px;font-style:italic;">{occ["Texto_Griego"]}</span>', unsafe_allow_html=True)
+
+            # Botón de descarga
+            df_to_download = pd.DataFrame(occurrences_list)
+            csv_data = df_to_download.to_csv(index=False).encode('utf-8')
+            
+            st.download_button(
+                label="Descargar resultados en CSV",
+                data=csv_data,
+                file_name=f'concordancia_{search_term}.csv',
+                mime='text/csv'
+            )
+
         else:
             st.info("No se encontraron ocurrencias en el texto de los libros.")
-
-        # A. Información de la base de datos (con botón)
-        st.markdown('---')
-        st.markdown('##### Más información sobre la palabra seleccionada')
-        
-        if st.button('Obtener información del vocabulario'):
-            word_info = get_word_from_firestore(search_term)
-            if word_info:
-                st.info(f"Información para: '{search_term}'")
-                
-                # Mostrar campos específicos en un orden legible
-                st.markdown(f"**Palabra:** {word_info.get('palabra', 'N/A')}")
-                st.markdown(f"**Traducción:** {word_info.get('traduccion', 'N/A')}")
-                st.markdown(f"**Número Strong:** {word_info.get('strong', 'N/A')}")
-                st.markdown(f"**Transliteración:** {word_info.get('transliteracion', 'N/A')}")
-                st.markdown(f"**Pronunciación:** {word_info.get('pronunciacion', 'N/A')}")
-                st.markdown(f"**Análisis morfológico:** {word_info.get('analisis_morfologico', 'N/A')}")
-                st.markdown(f"**Análisis sintáctico:** {word_info.get('analisis_sintactico', 'N/A')}")
-            else:
-                st.warning(f"No se encontró información en el vocabulario para: '{search_term}'")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
+
+
