@@ -5,16 +5,14 @@ import io
 import re
 import json
 import base64
-
-# Importa el SDK de Firebase Admin
 import firebase_admin
 from firebase_admin import credentials, firestore
 
 # Diccionario de libros y sus URL públicas
 BOOKS = {
     "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.csv",
-    "Marcos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Marcos - Marcos.csv",
-    "Lucas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Lucas - Lucas.csv",
+    "Marcos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Marcos%20-%20Marcos.csv",
+    "Lucas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Lucas%20-%20Lucas.csv",
     "Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Juan%20-%20Juan.csv",
     "Hechos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Hechos%20-%20Hechos.csv",
     "Romanos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Romanos%20-%20Romanos.csv",
@@ -88,45 +86,99 @@ def load_all_data():
         return combined_df
     return None
 
-db = init_firebase()
+def get_word_from_firestore(db, word):
+    """
+    Busca información sobre una palabra en la base de datos de Firestore.
+    """
+    if db:
+        # Asume que tu colección se llama 'vocabulario_NT' y el campo de la palabra griega es 'palabra'
+        # y el campo de la traducción al español es 'traduccion'
+        # Ajusta los nombres de los campos si son diferentes.
+        
+        # Búsqueda por la palabra exacta
+        # La forma de buscar la palabra exacta es con `where('palabra', '==', word)`
+        docs = db.collection('vocabulario_NT').where('palabra', '==', word).stream()
+        for doc in docs:
+            return doc.to_dict()
+
+    return None
+
+def parse_and_find_occurrences(df, search_term):
+    """
+    Busca un término en los DataFrames.
+    """
+    occurrences = []
+    
+    # Crea una máscara booleana para encontrar las coincidencias en español y griego
+    spanish_matches = df['Texto'].str.lower().str.contains(search_term.lower(), na=False, regex=False)
+    greek_matches = df['Texto'].str.contains(search_term.lower(), na=False, regex=False)
+    
+    # Combina las coincidencias de ambos idiomas
+    all_matches = df[spanish_matches | greek_matches]
+
+    for _, row in all_matches.iterrows():
+        full_text = str(row['Texto'])
+        verse_number = row['Versículo']
+
+        # Separa el texto en español y griego
+        spanish_text = ""
+        greek_text = ""
+        found_greek_start = False
+        for char in full_text:
+            if '\u0370' <= char <= '\u03FF' or '\u1F00' <= char <= '\u1FFF':
+                found_greek_start = True
+            
+            if not found_greek_start:
+                spanish_text += char
+            else:
+                greek_text += char
+        
+        occurrences.append({
+            'Libro': row['Libro'],
+            'Capítulo': row['Capítulo'],
+            'Versículo': row['Versículo'],
+            'Texto_Español': spanish_text.strip(),
+            'Texto_Griego': greek_text.strip()
+        })
+    
+    return occurrences
 
 # --- Contenido de la Aplicación ---
-st.title('Interlineal Bíblico')
+st.title('Lector Interlineal del Nuevo Testamento')
 st.markdown('***')
 st.markdown('¡Bienvenido! Esta es una herramienta para el estudio interlineal del Nuevo Testamento en griego.')
 
-# Carga de datos
+# Inicializar Firebase
+db = init_firebase()
+
+# Cargar datos
 if 'df' not in st.session_state:
     st.session_state.df = load_all_data()
 
+# Lógica principal de la UI
 if st.session_state.df is not None:
-    # Selección de libro, capítulo y versículo
-    selected_book = st.selectbox(
-        'Seleccione un libro',
+    # Selectores para Libro y Capítulo
+    st.sidebar.header('Seleccionar pasaje')
+    selected_book = st.sidebar.selectbox(
+        'Libro',
         st.session_state.df['Libro'].unique()
     )
 
     df_filtered_by_book = st.session_state.df[st.session_state.df['Libro'] == selected_book]
     capitulos = sorted(df_filtered_by_book['Capítulo'].unique())
-    selected_chapter = st.selectbox(
-        'Seleccione un capítulo',
+    selected_chapter = st.sidebar.selectbox(
+        'Capítulo',
         capitulos
     )
 
+    # Mostrar el capítulo completo
+    st.header(f'{selected_book} {selected_chapter}')
     df_filtered_by_chapter = df_filtered_by_book[df_filtered_by_book['Capítulo'] == selected_chapter]
-    versiculos = sorted(df_filtered_by_chapter['Versículo'].unique())
-    selected_verse = st.selectbox(
-        'Seleccione un versículo',
-        versiculos
-    )
 
-    # Mostrar el texto del versículo seleccionado
-    df_selected_verse = df_filtered_by_chapter[df_filtered_by_chapter['Versículo'] == selected_verse]
+    for _, row in df_filtered_by_chapter.iterrows():
+        full_text = str(row['Texto'])
+        verse_number = row['Versículo']
 
-    if not df_selected_verse.empty:
-        full_text = df_selected_verse['Texto'].iloc[0]
-        st.markdown(f"### {selected_book} {selected_chapter}:{selected_verse}")
-        
         # Separar el texto en español y griego
         spanish_text = ""
         greek_text = ""
@@ -141,32 +193,34 @@ if st.session_state.df is not None:
             else:
                 greek_text += char
         
-        st.markdown("#### Texto en Español")
-        st.write(spanish_text)
-        
-        st.markdown("#### Texto en Griego")
-        st.markdown(f'<p style="font-family:serif;font-size:20px;font-style:italic;">{greek_text}</p>', unsafe_allow_html=True)
-
+        # Formato de visualización
+        st.markdown(f"**{verse_number}** {spanish_text}")
+        st.markdown(f'<span style="font-family:serif;font-size:18px;font-style:italic;">{greek_text}</span>', unsafe_allow_html=True)
+    
     # Búsqueda de palabras
     st.markdown('***')
-    st.markdown('#### Búsqueda de Palabras')
-    search_term = st.text_input('Ingrese una palabra en español o griego para buscar en el vocabulario')
+    st.markdown('#### Buscar en el vocabulario')
+    search_term = st.text_input('Ingrese una palabra en español o griego')
 
     if search_term:
-        word_info = get_word_from_firestore(db, search_term)
-        
-        if word_info:
-            st.success("Palabra encontrada en la base de datos de vocabulario.")
-            st.write(word_info)
+        if db:
+            word_info = get_word_from_firestore(db, search_term)
+            if word_info:
+                st.success(f"Información para: '{search_term}'")
+                st.write(word_info)
+            else:
+                st.warning(f"No se encontró información para: '{search_term}'")
         else:
-            st.warning("No se encontró información sobre esa palabra en la base de datos de vocabulario.")
-            
+            st.error("No se pudo conectar con la base de datos de vocabulario.")
+
+        st.markdown(f'#### Ocurrencias en el texto de los libros')
         occurrences = parse_and_find_occurrences(st.session_state.df, search_term)
         
         if occurrences:
-            st.markdown(f'#### Ocurrencias de "{search_term}"')
             for occ in occurrences:
-                st.write(f"- {occ['Libro']} {occ['Capítulo']}:{occ['Versículo']}")
+                st.markdown(f"- **{occ['Libro']} {occ['Capítulo']}:{occ['Versículo']}**")
+                st.markdown(f"  > {occ['Texto_Español']}")
+                st.markdown(f'  > <span style="font-family:serif;font-size:16px;font-style:italic;">{occ["Texto_Griego"]}</span>', unsafe_allow_html=True)
         else:
             st.info("No se encontraron ocurrencias en el texto de los libros.")
 else:
