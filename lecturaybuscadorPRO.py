@@ -6,16 +6,11 @@ import re
 import json
 import base64
 
-# Muestra un mensaje de inicio para depurar
-st.text("Paso 1: Iniciando la aplicación...")
-
 # Importa el SDK de Firebase Admin
 import firebase_admin
 from firebase_admin import credentials, firestore
 
 # Diccionario de libros y sus URL públicas
-# REEMPLAZA las URLs con las URL raw de tus archivos CSV en GitHub
-# NOTA: Se ha corregido la URL de Mateo para que sea consistente
 BOOKS = {
     "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.csv",
     "Marcos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Marcos - Marcos.csv",
@@ -51,21 +46,14 @@ def init_firebase():
     """Inicializa la app de Firebase si aún no ha sido inicializada."""
     if not firebase_admin._apps:
         try:
-            st.text("Paso 2: Leyendo secretos...")
             # Lee la cadena Base64 del archivo de secretos
             key_base64 = st.secrets.firebase_key_base64
-            
-            st.text("Paso 3: Decodificando Base64...")
             # Decodifica la cadena a un JSON legible
             key_json = base64.b64decode(key_base64).decode('utf-8')
-            
-            st.text("Paso 4: Cargando JSON...")
             key_dict = json.loads(key_json)
             
-            st.text("Paso 5: Conectando a Firebase...")
             cred = credentials.Certificate(key_dict)
             firebase_admin.initialize_app(cred)
-            
             st.success("Conexión con Firebase establecida.")
         except Exception as e:
             st.error(f"Error al inicializar Firebase: {e}")
@@ -73,9 +61,34 @@ def init_firebase():
             return None
     return firestore.client()
 
-st.text("Paso 6: Llamando a init_firebase()...")
+@st.cache_data(ttl=3600)
+def load_all_data():
+    """Carga y combina los datos de todos los libros en un solo DataFrame."""
+    all_dfs = []
+    for book_name, url in BOOKS.items():
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            text_content = response.content.decode('utf-8')
+            df = pd.read_csv(io.StringIO(text_content), sep=',')
+            df['Libro'] = book_name  # Agrega la columna del libro para identificarlo
+            all_dfs.append(df)
+        except requests.exceptions.RequestException as e:
+            st.error(f"Error al cargar datos de {book_name}: {e}")
+            return None
+        except Exception as e:
+            st.error(f"Ocurrió un error inesperado al procesar {book_name}: {e}")
+            return None
+
+    if all_dfs:
+        combined_df = pd.concat(all_dfs, ignore_index=True)
+        # Convierte las columnas a tipos de datos correctos
+        combined_df['Capítulo'] = pd.to_numeric(combined_df['Capítulo'], errors='coerce').fillna(0).astype(int)
+        combined_df['Versículo'] = pd.to_numeric(combined_df['Versículo'], errors='coerce').fillna(0).astype(int)
+        return combined_df
+    return None
+
 db = init_firebase()
-st.text("Paso 7: init_firebase() ha terminado. 'db' es válido.")
 
 # --- Contenido de la Aplicación ---
 st.title('Interlineal Bíblico')
@@ -83,15 +96,11 @@ st.markdown('***')
 st.markdown('¡Bienvenido! Esta es una herramienta para el estudio interlineal del Nuevo Testamento en griego.')
 
 # Carga de datos
-st.text("Paso 8: Iniciando la carga de datos...")
 if 'df' not in st.session_state:
     st.session_state.df = load_all_data()
 
-st.text("Paso 9: Carga de datos completada.")
 if st.session_state.df is not None:
     # Selección de libro, capítulo y versículo
-    st.text("Paso 10: Mostrando selectores de libro, capítulo y versículo.")
-    
     selected_book = st.selectbox(
         'Seleccione un libro',
         st.session_state.df['Libro'].unique()
@@ -112,11 +121,9 @@ if st.session_state.df is not None:
     )
 
     # Mostrar el texto del versículo seleccionado
-    st.text("Paso 11: Buscando el versículo seleccionado.")
     df_selected_verse = df_filtered_by_chapter[df_filtered_by_chapter['Versículo'] == selected_verse]
 
     if not df_selected_verse.empty:
-        st.text("Paso 12: Versículo encontrado.")
         full_text = df_selected_verse['Texto'].iloc[0]
         st.markdown(f"### {selected_book} {selected_chapter}:{selected_verse}")
         
@@ -141,13 +148,11 @@ if st.session_state.df is not None:
         st.markdown(f'<p style="font-family:serif;font-size:20px;font-style:italic;">{greek_text}</p>', unsafe_allow_html=True)
 
     # Búsqueda de palabras
-    st.text("Paso 13: Mostrando el buscador.")
     st.markdown('***')
     st.markdown('#### Búsqueda de Palabras')
     search_term = st.text_input('Ingrese una palabra en español o griego para buscar en el vocabulario')
 
     if search_term:
-        st.text("Paso 14: Buscando la palabra en Firestore.")
         word_info = get_word_from_firestore(db, search_term)
         
         if word_info:
@@ -156,7 +161,6 @@ if st.session_state.df is not None:
         else:
             st.warning("No se encontró información sobre esa palabra en la base de datos de vocabulario.")
             
-        st.text("Paso 15: Buscando la palabra en el texto de los libros.")
         occurrences = parse_and_find_occurrences(st.session_state.df, search_term)
         
         if occurrences:
@@ -167,5 +171,3 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
-
-st.text("Paso 16: La aplicación ha finalizado su ejecución.")
