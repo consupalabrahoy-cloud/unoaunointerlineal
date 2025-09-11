@@ -7,6 +7,7 @@ import json
 import base64
 import firebase_admin
 from firebase_admin import credentials, firestore
+import unicodedata
 
 # Diccionario de libros y sus URL públicas
 BOOKS = {
@@ -89,16 +90,22 @@ def load_all_data():
 def get_word_from_firestore(db, word):
     """
     Busca información sobre una palabra en la base de datos de Firestore.
-    Ajusta la búsqueda a minúsculas y sin espacios.
+    Ajusta la búsqueda a minúsculas, sin espacios y con normalización Unicode.
     """
     if db:
-        # Normaliza la palabra de búsqueda a minúsculas y sin espacios.
-        search_word = word.lower().strip()
+        # Normaliza la palabra de búsqueda a minúsculas y elimina espacios.
+        normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
         
-        # Búsqueda por la palabra exacta
-        docs = db.collection('vocabulario_NT').where('palabra', '==', search_word).stream()
+        # Obtiene todos los documentos de la colección
+        docs = db.collection('vocabulario_NT').stream()
         for doc in docs:
-            return doc.to_dict()
+            doc_data = doc.to_dict()
+            # Normaliza la palabra del documento para una comparación exacta
+            db_word = doc_data.get('palabra', '').lower().strip()
+            normalized_db_word = unicodedata.normalize('NFC', db_word)
+            
+            if normalized_db_word == normalized_search_word:
+                return doc_data
 
     return None
 
