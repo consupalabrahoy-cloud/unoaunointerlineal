@@ -97,7 +97,7 @@ def get_word_from_firestore(db, word):
         normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
         
         # Obtiene todos los documentos de la colección
-        docs = db.collection('vocabulario_NT').stream()
+        docs = db.collection('vocabulario_nt').stream()
         for doc in docs:
             doc_data = doc.to_dict()
             # Normaliza la palabra del documento para una comparación exacta
@@ -232,3 +232,4 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
+
