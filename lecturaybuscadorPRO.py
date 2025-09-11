@@ -96,7 +96,7 @@ def get_word_from_firestore(db, word):
         # Normaliza la palabra de búsqueda a minúsculas y elimina espacios.
         normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
         
-        # Obtiene todos los documentos de la colección
+        # Obtiene todos los documentos de la colección 'vocabulario_nt' (el nombre correcto)
         docs = db.collection('vocabulario_nt').stream()
         for doc in docs:
             doc_data = doc.to_dict()
@@ -214,7 +214,14 @@ if st.session_state.df is not None:
             word_info = get_word_from_firestore(db, search_term)
             if word_info:
                 st.success(f"Información para: '{search_term}'")
-                st.write(word_info)
+                
+                # Reordenar el diccionario para mostrar el campo 'palabra' primero
+                ordered_info = {'palabra': word_info.get('palabra', 'N/A')}
+                for key, value in word_info.items():
+                    if key != 'palabra':
+                        ordered_info[key] = value
+                
+                st.write(ordered_info)
             else:
                 st.warning(f"No se encontró información para: '{search_term}'")
         else:
@@ -232,4 +239,3 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
-
