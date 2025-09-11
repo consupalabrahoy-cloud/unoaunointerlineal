@@ -89,9 +89,10 @@ def load_all_data():
 def get_word_from_firestore(db, word):
     """
     Busca información sobre una palabra en la base de datos de Firestore.
+    Ajusta la búsqueda a minúsculas y sin espacios.
     """
     if db:
-        # Acomoda la búsqueda a minúsculas y elimina espacios
+        # Normaliza la palabra de búsqueda a minúsculas y sin espacios.
         search_word = word.lower().strip()
         
         # Búsqueda por la palabra exacta
