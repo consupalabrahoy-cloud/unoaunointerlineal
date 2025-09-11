@@ -20,7 +20,7 @@ BOOKS = {
     "Filipenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Filipenses%20-%20Filipenses.csv",
     "Colosenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Colosenses%20-%20Colosenses.csv",
     "1º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera%20a%20Tesalonicenses%20-%20Primera%20a%20Tesalonicenses.csv",
-    "2º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda%20a%20Tesalonicenses%20-%20Segunda%20a%20Tesalonicenses.csv",
+    "2º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda%20a%20Tesalonicenses%20-%20Segunda%20de%20Tesalonicenses.csv",
     "1º a Timoteo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera%20a%20Timoteo%20-%20Primera%20a%20Timoteo.csv",
     "2º a Timoteo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda%20a%20Timoteo%20-%20Segunda%20a%20Timoteo.csv",
     "Tito": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Tito%20-%20Tito.csv",
@@ -129,7 +129,7 @@ if st.session_state.df is not None:
         'Grande': '22px'
     }
     
-    greek_font_size = font_size_map[font_size_option]
+    final_font_size = font_size_map[font_size_option]
     
     selected_book = st.sidebar.selectbox(
         'Libro',
@@ -163,8 +163,9 @@ if st.session_state.df is not None:
             else:
                 greek_text += char
         
-        st.markdown(f"**{verse_number}** {spanish_text}")
-        st.markdown(f'<span style="font-family:serif;font-size:{greek_font_size};font-style:italic;">{greek_text}</span>', unsafe_allow_html=True)
+        # Aplica el tamaño de fuente al texto en español y griego
+        st.markdown(f'<span style="font-size:{final_font_size};">**{verse_number}** {spanish_text}</span>', unsafe_allow_html=True)
+        st.markdown(f'<span style="font-family:serif;font-size:{final_font_size};font-style:italic;">{greek_text}</span>', unsafe_allow_html=True)
     
     # 2. Búsqueda y concordancia
     st.markdown('---')
@@ -182,7 +183,7 @@ if st.session_state.df is not None:
             for occ in occurrences_list:
                 st.markdown(f"- **{occ['Libro']} {occ['Capítulo']}:{occ['Versículo']}**")
                 st.markdown(f"  > {occ['Texto_Español']}")
-                st.markdown(f'  > <span style="font-family:serif;font-size:16px;font-style:italic;">{occ["Texto_Griego"]}</span>', unsafe_allow_html=True)
+                st.markdown(f'  > <span style="font-family:serif;font-size:{final_font_size};font-style:italic;">{occ["Texto_Griego"]}</span>', unsafe_allow_html=True)
 
             # Botón de descarga
             df_to_download = pd.DataFrame(occurrences_list)
