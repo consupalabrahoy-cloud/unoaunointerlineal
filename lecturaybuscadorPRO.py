@@ -96,7 +96,7 @@ def get_word_from_firestore(db, word):
         # Normaliza la palabra de búsqueda a minúsculas y elimina espacios.
         normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
         
-        # Obtiene todos los documentos de la colección 'vocabulario_nt' (el nombre correcto)
+        # Obtiene todos los documentos de la colección 'vocabulario_nt'
         docs = db.collection('vocabulario_nt').stream()
         for doc in docs:
             doc_data = doc.to_dict()
@@ -164,7 +164,7 @@ if 'df' not in st.session_state:
 
 # Lógica principal de la UI
 if st.session_state.df is not None:
-    # Selectores para Libro y Capítulo
+    # 1. Selección y lectura del pasaje
     st.sidebar.header('Seleccionar pasaje')
     selected_book = st.sidebar.selectbox(
         'Libro',
@@ -178,7 +178,6 @@ if st.session_state.df is not None:
         capitulos
     )
 
-    # Mostrar el capítulo completo
     st.header(f'{selected_book} {selected_chapter}')
     df_filtered_by_chapter = df_filtered_by_book[df_filtered_by_book['Capítulo'] == selected_chapter]
 
@@ -186,7 +185,6 @@ if st.session_state.df is not None:
         full_text = str(row['Texto'])
         verse_number = row['Versículo']
 
-        # Separar el texto en español y griego
         spanish_text = ""
         greek_text = ""
         found_greek_start = False
@@ -200,37 +198,43 @@ if st.session_state.df is not None:
             else:
                 greek_text += char
         
-        # Formato de visualización
         st.markdown(f"**{verse_number}** {spanish_text}")
         st.markdown(f'<span style="font-family:serif;font-size:18px;font-style:italic;">{greek_text}</span>', unsafe_allow_html=True)
     
-    # Búsqueda de palabras
-    st.markdown('***')
-    st.markdown('#### Buscar en el vocabulario')
+    # 2. Búsqueda y concordancia
+    st.markdown('---')
+    st.markdown('#### Buscar en el vocabulario y el texto')
     search_term = st.text_input('Ingrese una palabra en español o griego')
 
     if search_term:
+        # A. Información de la base de datos (con formato mejorado)
+        st.markdown('##### Información del vocabulario')
         if db:
             word_info = get_word_from_firestore(db, search_term)
             if word_info:
-                st.success(f"Información para: '{search_term}'")
+                st.info(f"Información para: '{search_term}'")
                 
-                # Reordenar el diccionario para mostrar el campo 'palabra' primero
-                ordered_info = {'palabra': word_info.get('palabra', 'N/A')}
-                for key, value in word_info.items():
-                    if key != 'palabra':
-                        ordered_info[key] = value
-                
-                st.write(ordered_info)
+                # Mostrar campos específicos en un orden legible
+                st.markdown(f"**Palabra:** {word_info.get('palabra', 'N/A')}")
+                st.markdown(f"**Traducción:** {word_info.get('traduccion', 'N/A')}")
+                st.markdown(f"**Número Strong:** {word_info.get('strong', 'N/A')}")
+                st.markdown(f"**Transliteración:** {word_info.get('transliteracion', 'N/A')}")
+                st.markdown(f"**Pronunciación:** {word_info.get('pronunciacion', 'N/A')}")
+                st.markdown(f"**Análisis morfológico:** {word_info.get('analisis_morfologico', 'N/A')}")
+                st.markdown(f"**Análisis sintáctico:** {word_info.get('analisis_sintactico', 'N/A')}")
+
             else:
-                st.warning(f"No se encontró información para: '{search_term}'")
+                st.warning(f"No se encontró información en el vocabulario para: '{search_term}'")
         else:
             st.error("No se pudo conectar con la base de datos de vocabulario.")
 
-        st.markdown(f'#### Ocurrencias en el texto de los libros')
+        # B. Concordancia de ocurrencias
+        st.markdown('---')
+        st.markdown('##### Ocurrencias en el texto')
         occurrences = parse_and_find_occurrences(st.session_state.df, search_term)
         
         if occurrences:
+            st.info(f"Se encontraron {len(occurrences)} ocurrencias en total.")
             for occ in occurrences:
                 st.markdown(f"- **{occ['Libro']} {occ['Capítulo']}:{occ['Versículo']}**")
                 st.markdown(f"  > {occ['Texto_Español']}")
