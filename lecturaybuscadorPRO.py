@@ -91,13 +91,11 @@ def get_word_from_firestore(db, word):
     Busca información sobre una palabra en la base de datos de Firestore.
     """
     if db:
-        # Asume que tu colección se llama 'vocabulario_NT' y el campo de la palabra griega es 'palabra'
-        # y el campo de la traducción al español es 'traduccion'
-        # Ajusta los nombres de los campos si son diferentes.
+        # Acomoda la búsqueda a minúsculas y elimina espacios
+        search_word = word.lower().strip()
         
         # Búsqueda por la palabra exacta
-        # La forma de buscar la palabra exacta es con `where('palabra', '==', word)`
-        docs = db.collection('vocabulario_NT').where('palabra', '==', word).stream()
+        docs = db.collection('vocabulario_NT').where('palabra', '==', search_word).stream()
         for doc in docs:
             return doc.to_dict()
 
@@ -124,6 +122,7 @@ def parse_and_find_occurrences(df, search_term):
         spanish_text = ""
         greek_text = ""
         found_greek_start = False
+        
         for char in full_text:
             if '\u0370' <= char <= '\u03FF' or '\u1F00' <= char <= '\u1FFF':
                 found_greek_start = True
