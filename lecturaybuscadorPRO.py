@@ -47,9 +47,8 @@ def init_firebase():
     """Inicializa la app de Firebase si aún no ha sido inicializada."""
     if not firebase_admin._apps:
         try:
-            # Aquí se lee la clave del archivo de secretos
-            key_dict = st.secrets
-
+            # Aquí se lee la clave como una cadena y se convierte a JSON
+            key_dict = json.loads(st.secrets["firebase_key"])
             cred = credentials.Certificate(key_dict)
             firebase_admin.initialize_app(cred)
             # st.success("Conexión con Firebase establecida.") # Mensaje de éxito solo para debug
