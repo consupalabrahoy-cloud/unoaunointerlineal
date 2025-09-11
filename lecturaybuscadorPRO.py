@@ -90,22 +90,16 @@ def load_all_data():
 def get_word_from_firestore(db, word):
     """
     Busca información sobre una palabra en la base de datos de Firestore.
-    Ajusta la búsqueda a minúsculas, sin espacios y con normalización Unicode.
+    Utiliza una consulta directa para mayor velocidad.
     """
     if db:
         # Normaliza la palabra de búsqueda a minúsculas y elimina espacios.
         normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
         
-        # Obtiene todos los documentos de la colección 'vocabulario_nt'
-        docs = db.collection('vocabulario_nt').stream()
+        # Realiza una consulta directa a Firestore con la palabra normalizada
+        docs = db.collection('vocabulario_nt').where('palabra', '==', normalized_search_word).stream()
         for doc in docs:
-            doc_data = doc.to_dict()
-            # Normaliza la palabra del documento para una comparación exacta
-            db_word = doc_data.get('palabra', '').lower().strip()
-            normalized_db_word = unicodedata.normalize('NFC', db_word)
-            
-            if normalized_db_word == normalized_search_word:
-                return doc_data
+            return doc.to_dict()
 
     return None
 
