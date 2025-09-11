@@ -88,8 +88,10 @@ def load_all_data():
     return None
 
 @st.cache_data(ttl=3600)
-def load_vocabulary(db):
+def load_vocabulary():
     """Carga toda la colección de vocabulario de Firestore en memoria."""
+    # Accede al cliente de Firestore directamente sin pasarlo como argumento
+    db = firestore.client()
     if db:
         docs = db.collection('vocabulario_nt').stream()
         return [doc.to_dict() for doc in docs]
@@ -162,8 +164,6 @@ db = init_firebase()
 # Cargar datos
 if 'df' not in st.session_state:
     st.session_state.df = load_all_data()
-if 'vocabulary' not in st.session_state and db:
-    st.session_state.vocabulary = load_vocabulary(db)
 
 # Lógica principal de la UI
 if st.session_state.df is not None:
@@ -207,6 +207,12 @@ if st.session_state.df is not None:
     # 2. Búsqueda y concordancia
     st.markdown('---')
     st.markdown('#### Buscar en el vocabulario y el texto')
+    
+    # Cargar el vocabulario si aún no está en la sesión
+    if 'vocabulary' not in st.session_state:
+        # Aquí es donde se llama a la función sin el argumento 'db'
+        st.session_state.vocabulary = load_vocabulary()
+        
     search_term = st.text_input('Ingrese una palabra en español o griego')
 
     if search_term:
