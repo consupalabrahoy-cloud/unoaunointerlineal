@@ -45,9 +45,7 @@ def init_firebase():
     """Inicializa la app de Firebase si aún no ha sido inicializada."""
     if not firebase_admin._apps:
         try:
-            # Lee la cadena Base64 del archivo de secretos
             key_base64 = st.secrets.firebase_key_base64
-            # Decodifica la cadena a un JSON legible
             key_json = base64.b64decode(key_base64).decode('utf-8')
             key_dict = json.loads(key_json)
             
@@ -70,7 +68,7 @@ def load_all_data():
             response.raise_for_status()
             text_content = response.content.decode('utf-8')
             df = pd.read_csv(io.StringIO(text_content), sep=',')
-            df['Libro'] = book_name  # Agrega la columna del libro para identificarlo
+            df['Libro'] = book_name
             all_dfs.append(df)
         except requests.exceptions.RequestException as e:
             st.error(f"Error al cargar datos de {book_name}: {e}")
@@ -81,35 +79,24 @@ def load_all_data():
 
     if all_dfs:
         combined_df = pd.concat(all_dfs, ignore_index=True)
-        # Convierte las columnas a tipos de datos correctos
         combined_df['Capítulo'] = pd.to_numeric(combined_df['Capítulo'], errors='coerce').fillna(0).astype(int)
         combined_df['Versículo'] = pd.to_numeric(combined_df['Versículo'], errors='coerce').fillna(0).astype(int)
         return combined_df
     return None
 
-@st.cache_data(ttl=3600)
-def load_vocabulary():
-    """Carga toda la colección de vocabulario de Firestore en memoria."""
-    # Accede al cliente de Firestore directamente sin pasarlo como argumento
+def get_word_from_firestore(word):
+    """
+    Busca información sobre una palabra en la base de datos de Firestore.
+    Se conecta directamente a la base de datos sin usar la caché.
+    """
     db = firestore.client()
     if db:
-        docs = db.collection('vocabulario_nt').stream()
-        return [doc.to_dict() for doc in docs]
-    return []
+        normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
+        
+        docs = db.collection('vocabulario_nt').where('palabra', '==', normalized_search_word).stream()
+        for doc in docs:
+            return doc.to_dict()
 
-def get_word_from_cache(vocabulary_list, word):
-    """
-    Busca una palabra en la lista de vocabulario cargada en memoria.
-    La búsqueda es flexible e insensible a la capitalización y tildes.
-    """
-    normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
-    
-    for vocab_entry in vocabulary_list:
-        db_word = vocab_entry.get('palabra', '').lower().strip()
-        normalized_db_word = unicodedata.normalize('NFC', db_word)
-        if normalized_db_word == normalized_search_word:
-            return vocab_entry
-            
     return None
 
 def parse_and_find_occurrences(df, search_term):
@@ -159,7 +146,7 @@ st.markdown('***')
 st.markdown('¡Bienvenido! Esta es una herramienta para el estudio interlineal del Nuevo Testamento en griego.')
 
 # Inicializar Firebase
-db = init_firebase()
+init_firebase()
 
 # Cargar datos
 if 'df' not in st.session_state:
@@ -208,37 +195,10 @@ if st.session_state.df is not None:
     st.markdown('---')
     st.markdown('#### Buscar en el vocabulario y el texto')
     
-    # Cargar el vocabulario si aún no está en la sesión
-    if 'vocabulary' not in st.session_state:
-        # Aquí es donde se llama a la función sin el argumento 'db'
-        st.session_state.vocabulary = load_vocabulary()
-        
     search_term = st.text_input('Ingrese una palabra en español o griego')
 
     if search_term:
-        # A. Información de la base de datos (con formato mejorado)
-        st.markdown('##### Información del vocabulario')
-        if 'vocabulary' in st.session_state and st.session_state.vocabulary:
-            word_info = get_word_from_cache(st.session_state.vocabulary, search_term)
-            if word_info:
-                st.info(f"Información para: '{search_term}'")
-                
-                # Mostrar campos específicos en un orden legible
-                st.markdown(f"**Palabra:** {word_info.get('palabra', 'N/A')}")
-                st.markdown(f"**Traducción:** {word_info.get('traduccion', 'N/A')}")
-                st.markdown(f"**Número Strong:** {word_info.get('strong', 'N/A')}")
-                st.markdown(f"**Transliteración:** {word_info.get('transliteracion', 'N/A')}")
-                st.markdown(f"**Pronunciación:** {word_info.get('pronunciacion', 'N/A')}")
-                st.markdown(f"**Análisis morfológico:** {word_info.get('analisis_morfologico', 'N/A')}")
-                st.markdown(f"**Análisis sintáctico:** {word_info.get('analisis_sintactico', 'N/A')}")
-
-            else:
-                st.warning(f"No se encontró información en el vocabulario para: '{search_term}'")
-        else:
-            st.error("No se pudo cargar el vocabulario de la base de datos.")
-
-        # B. Concordancia de ocurrencias
-        st.markdown('---')
+        # B. Concordancia de ocurrencias (rápida y local)
         st.markdown('##### Ocurrencias en el texto')
         occurrences = parse_and_find_occurrences(st.session_state.df, search_term)
         
@@ -250,5 +210,25 @@ if st.session_state.df is not None:
                 st.markdown(f'  > <span style="font-family:serif;font-size:16px;font-style:italic;">{occ["Texto_Griego"]}</span>', unsafe_allow_html=True)
         else:
             st.info("No se encontraron ocurrencias en el texto de los libros.")
+
+        # A. Información de la base de datos (con botón)
+        st.markdown('---')
+        st.markdown('##### Más información sobre la palabra seleccionada')
+        
+        if st.button('Obtener información del vocabulario'):
+            word_info = get_word_from_firestore(search_term)
+            if word_info:
+                st.info(f"Información para: '{search_term}'")
+                
+                # Mostrar campos específicos en un orden legible
+                st.markdown(f"**Palabra:** {word_info.get('palabra', 'N/A')}")
+                st.markdown(f"**Traducción:** {word_info.get('traduccion', 'N/A')}")
+                st.markdown(f"**Número Strong:** {word_info.get('strong', 'N/A')}")
+                st.markdown(f"**Transliteración:** {word_info.get('transliteracion', 'N/A')}")
+                st.markdown(f"**Pronunciación:** {word_info.get('pronunciacion', 'N/A')}")
+                st.markdown(f"**Análisis morfológico:** {word_info.get('analisis_morfologico', 'N/A')}")
+                st.markdown(f"**Análisis sintáctico:** {word_info.get('analisis_sintactico', 'N/A')}")
+            else:
+                st.warning(f"No se encontró información en el vocabulario para: '{search_term}'")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
