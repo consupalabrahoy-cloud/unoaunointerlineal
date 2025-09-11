@@ -16,30 +16,30 @@ BOOKS = {
     "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.csv",
     "Marcos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Marcos - Marcos.csv",
     "Lucas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Lucas - Lucas.csv",
-    "Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Juan - Juan.csv",
-    "Hechos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Hechos - Hechos.csv",
-    "Romanos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Romanos - Romanos.csv",
-    "1º a los Corintios": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera de Corintios - Primera de Corintios.csv",
-    "2º a los Corintios": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda de Corintios - Segunda de Corintios.csv",
-    "Gálatas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Gálatas - Gálatas.csv",
-    "Efesios": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Efesios - Efesios.csv",
-    "Filipenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Filipenses - Filipenses.csv",
-    "Colosenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Colosenses - Colosenses.csv",
-    "1º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera a Tesalonicenses - Primera a Tesalonicenses.csv",
-    "2º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda a Tesalonicenses - Segunda a Tesalonicenses.csv",
-    "1º a Timoteo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera a Timoteo - Primera a Timoteo.csv",
-    "2º a Timoteo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda a Timoteo - Segunda a Timoteo.csv",
-    "Tito": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Tito - Tito.csv",
-    "Filemón": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Filemón - Filemón.csv",
-    "Hebreos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Hebreos - Hebreos.csv",
-    "Santiago": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera de Pedro - Primera de Pedro.csv",
-    "1º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Santiago - Santiago.csv",
-    "2º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda de Pedro - Segunda de Pedro.csv",
-    "1º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera de Juan - Primera de Juan.csv",
-    "2º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda de Juan - Segunda de Juan.csv",
+    "Juan": "https://raw.githubusercontent.com/consupalabroy-cloud/unoaunointerlineal/main/Juan%20-%20Juan.csv",
+    "Hechos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Hechos%20-%20Hechos.csv",
+    "Romanos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Romanos%20-%20Romanos.csv",
+    "1º a los Corintios": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera%20de%20Corintios%20-%20Primera%20de%20Corintios.csv",
+    "2º a los Corintios": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda%20de%20Corintios%20-%20Segunda%20de%20Corintios.csv",
+    "Gálatas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Gálatas%20-%20Gálatas.csv",
+    "Efesios": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Efesios%20-%20Efesios.csv",
+    "Filipenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Filipenses%20-%20Filipenses.csv",
+    "Colosenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Colosenses%20-%20Colosenses.csv",
+    "1º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera%20a%20Tesalonicenses%20-%20Primera%20a%20Tesalonicenses.csv",
+    "2º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda%20a%20Tesalonicenses%20-%20Segunda%20a%20Tesalonicenses.csv",
+    "1º a Timoteo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera%20a%20Timoteo%20-%20Primera%20a%20Timoteo.csv",
+    "2º a Timoteo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda%20a%20Timoteo%20-%20Segunda%20a%20Timoteo.csv",
+    "Tito": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Tito%20-%20Tito.csv",
+    "Filemón": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Filemón%20-%20Filemón.csv",
+    "Hebreos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Hebreos%20-%20Hebreos.csv",
+    "Santiago": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Santiago%20-%20Santiago.csv", # URL corregida
+    "1º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera%20de%20Pedro%20-%20Primera%20de%20Pedro.csv", # URL corregida
+    "2º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda%20de%20Pedro%20-%20Segunda%20de%20Pedro.csv",
+    "1º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Primera%20de%20Juan%20-%20Primera%20de%20Juan.csv",
+    "2º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Segunda%20de%20Juan%20-%20Segunda%20de%20Juan.csv",
     "3º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/refs/heads/main/Tercera%20de%20Juan%20-%20Tercera%20de%20Juan.csv",
-    "Judas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Judas - Judas.csv",
-    "Apocalipsis": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Apocalipsis - Apocalipsis.csv",
+    "Judas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Judas%20-%20Judas.csv",
+    "Apocalipsis": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Apocalipsis%20-%20Apocalipsis.csv",
 }
 
 # --- Inicialización de Firebase (con Streamlit Secrets) ---
@@ -51,10 +51,10 @@ def init_firebase():
             key_dict = json.loads(st.secrets["firebase"]["service_account"])
             cred = credentials.Certificate(key_dict)
             firebase_admin.initialize_app(cred)
-            st.success("Conexión con Firebase establecida.")
+            # st.success("Conexión con Firebase establecida.") # Mensaje de éxito solo para debug
         except Exception as e:
             st.error(f"Error al inicializar Firebase: {e}")
-            st.info("Asegúrate de haber configurado el archivo `secrets.toml` correctamente en tu repositorio de Streamlit Cloud.")
+            st.info("Asegúrate de haber configurado el archivo `secrets.toml` correctamente en Streamlit Cloud.")
             return None
     return firestore.client()
 
@@ -85,20 +85,21 @@ def load_all_data():
         return combined_df
     return None
 
-def get_greek_word_info(db, search_term):
+def get_word_from_firestore(db, word):
     """
-    Busca información sobre una palabra griega en la base de datos de Firestore.
-    :param db: Instancia del cliente de Firestore.
-    :param search_term: La palabra a buscar.
-    :return: Un diccionario con la información de la palabra o None si no se encuentra.
+    Busca información sobre una palabra en la base de datos de Firestore.
     """
     if db:
-        # Asume que tu colección se llama 'diccionario' y tiene un campo 'palabra'
-        # para el término griego.
-        # Ajusta el nombre de la colección y el campo si son diferentes.
-        docs = db.collection('diccionario').where('palabra', '==', search_term).stream()
+        # Asume que tu colección se llama 'vocabulario_NT' y el campo de la palabra griega es 'palabra'
+        # y el campo de la traducción al español es 'traduccion'
+        # Ajusta los nombres de los campos si son diferentes.
+        
+        # Búsqueda por la palabra exacta
+        # La forma de buscar la palabra exacta es con `where('palabra', '==', word)`
+        docs = db.collection('vocabulario_NT').where('palabra', '==', word).stream()
         for doc in docs:
             return doc.to_dict()
+
     return None
 
 def parse_and_find_occurrences(df, search_term):
@@ -133,16 +134,24 @@ def parse_and_find_occurrences(df, search_term):
 
         # Determina si la coincidencia fue en español o griego
         language = "Español"
-        if search_term.lower() in greek_text.lower():
-            language = "Griego"
+        # Simplificamos la lógica para encontrar la palabra exacta en griego
+        greek_words_in_text = re.findall(r'[\u0370-\u03FF\u1F00-\u1FFF]+', greek_text)
         
+        found_exact_word = None
+        for g_word in greek_words_in_text:
+            if search_term.lower() in g_word.lower():
+                language = "Griego"
+                found_exact_word = g_word
+                break
+
         occurrences.append({
             "libro": row['Libro'],
             "capitulo": row['Capítulo'],
             "versiculo": verse_number,
             "spanish_text": spanish_text.strip(),
             "greek_text": greek_text.strip(),
-            "found_word": search_term,
+            "found_word": search_term, # Se mantiene el término de búsqueda original
+            "exact_greek_word": found_exact_word, # Nueva clave para la búsqueda en Firebase
             "language": language
         })
     
@@ -175,13 +184,11 @@ def main():
         st.markdown("---")
         st.write("Selecciona un libro y un capítulo para leer el texto interlineal.")
         
-        # Inicializa el estado de la sesión de manera segura
         if 'selected_book' not in st.session_state:
             st.session_state.selected_book = list(BOOKS.keys())[0]
         if 'font_size' not in st.session_state:
             st.session_state.font_size = 18
 
-        # Controles de navegación y fuente
         col1, col2, col3 = st.columns([1, 1, 2])
         with col3:
             st.session_state.font_size = st.slider(
@@ -191,26 +198,20 @@ def main():
                 value=st.session_state.font_size
             )
         
-        # Selectbox para el libro
         selected_book = st.selectbox(
             "Selecciona un libro:", 
             list(BOOKS.keys()), 
             index=list(BOOKS.keys()).index(st.session_state.selected_book)
         )
         
-        # Lógica para cambiar de libro y actualizar el capítulo
         if selected_book != st.session_state.selected_book:
             st.session_state.selected_book = selected_book
-            # No es necesario un st.rerun() aquí, Streamlit lo hará por sí solo.
 
-        # Obtener la lista de capítulos para el libro seleccionado
         book_chapters = sorted(combined_df[combined_df['Libro'] == st.session_state.selected_book]['Capítulo'].unique())
         
-        # Asegurar que el capítulo seleccionado sea válido para el nuevo libro
         if 'selected_chapter' not in st.session_state or st.session_state.selected_chapter not in book_chapters:
             st.session_state.selected_chapter = book_chapters[0]
         
-        # Botones de navegación de capítulos
         current_chapter_index = book_chapters.index(st.session_state.selected_chapter)
         
         col1, col2 = st.columns(2)
@@ -223,7 +224,6 @@ def main():
                 st.session_state.selected_chapter = book_chapters[current_chapter_index + 1]
                 st.rerun()
 
-        # Selectbox para el capítulo
         selected_chapter = st.selectbox(
             "Selecciona un capítulo:",
             book_chapters,
@@ -231,9 +231,7 @@ def main():
         )
         if selected_chapter != st.session_state.selected_chapter:
             st.session_state.selected_chapter = selected_chapter
-            # No es necesario un st.rerun() aquí.
 
-        # Muestra los versículos
         st.markdown("---")
         st.subheader(f"{st.session_state.selected_book} {st.session_state.selected_chapter}")
         chapter_verses = combined_df[(combined_df['Libro'] == st.session_state.selected_book) & (combined_df['Capítulo'] == st.session_state.selected_chapter)]
@@ -255,7 +253,6 @@ def main():
                         greek_text += char
                 
                 st.markdown(f"**Versículo {verse_number}**")
-                # Se muestra el texto en español siempre
                 st.markdown(f"<p style='font-size:{st.session_state.font_size}px;'>{spanish_text.strip()}</p>", unsafe_allow_html=True)
 
                 if found_greek_start:
@@ -274,13 +271,10 @@ def main():
             placeholder="Ejemplo: σπ o libertad"
         )
 
-        # Usar un expander para ocultar el filtro
         with st.expander("Filtrar la búsqueda de la palabra por Libros:"):
-            # Inicializar el estado de los libros si no existe
             if 'book_selection' not in st.session_state:
                 st.session_state.book_selection = {book: False for book in BOOKS.keys()}
 
-            # Crear las casillas de selección
             for book_name in BOOKS.keys():
                 st.session_state.book_selection[book_name] = st.checkbox(
                     book_name,
@@ -294,40 +288,44 @@ def main():
             if not search_term:
                 st.warning("Por favor, ingresa una secuencia de letras a buscar.")
             else:
-                # Determinar qué libros buscar
                 selected_books_list = [book for book, is_selected in st.session_state.book_selection.items() if is_selected]
                 
-                # Si no se seleccionó ningún libro, buscar en todos por defecto
                 if not selected_books_list:
                     books_to_search = list(BOOKS.keys())
                 else:
                     books_to_search = selected_books_list
 
                 try:
-                    # Filtra el DataFrame completo según los libros seleccionados
                     filtered_df = combined_df[combined_df['Libro'].isin(books_to_search)]
                     all_occurrences = parse_and_find_occurrences(filtered_df, search_term)
                     
                     if not all_occurrences:
                         st.warning(f"No se encontraron coincidencias que contengan '{search_term}' en los libros seleccionados.")
                     else:
-                        st.subheader(f" {len(all_occurrences)} resultados encontrados que contienen '{search_term}':")
+                        st.subheader(f"{len(all_occurrences)} resultados encontrados que contienen '{search_term}':")
                         
                         # --- NUEVA LÓGICA DE BÚSQUEDA EN FIREBASE ---
                         if db:
-                            word_info = get_greek_word_info(db, search_term)
-                            if word_info:
-                                st.subheader("Información de la palabra en la base de datos:")
-                                # Muestra la información de la palabra de forma legible
-                                st.json(word_info)
-                                st.markdown("---")
+                            # Se busca la palabra exacta encontrada en el texto en la base de datos
+                            # Solo se busca si la palabra encontrada es griega
+                            first_occurrence = all_occurrences[0]
+                            exact_greek_word = first_occurrence.get('exact_greek_word')
+                            
+                            if exact_greek_word:
+                                word_info = get_word_from_firestore(db, exact_greek_word)
+                                if word_info:
+                                    st.subheader("Información de la palabra en la base de datos:")
+                                    st.json(word_info)
+                                    st.markdown("---")
+                                else:
+                                    st.info(f"No se encontró información detallada para la palabra '{exact_greek_word}' en la base de datos.")
                             else:
-                                st.info("No se encontró información detallada para esta palabra en la base de datos.")
+                                st.info(f"El término de búsqueda '{search_term}' no coincide con una palabra griega exacta en el texto. No se buscará en la base de datos.")
 
-                        # Crear un DataFrame para la descarga
+                        # ... (el resto del código de la función `main` para mostrar resultados)
+                        
                         results_df = pd.DataFrame(all_occurrences)
                         
-                        # Renombrar las columnas para que estén en español
                         results_df = results_df.rename(columns={
                             'spanish_text': 'Texto en Español',
                             'greek_text': 'Texto en Griego',
@@ -335,10 +333,8 @@ def main():
                             'language': 'Idioma'
                         })
 
-                        # Convertir el DataFrame a CSV para el botón de descarga
                         csv_data = results_df.to_csv(index=False).encode('utf-8')
                         
-                        # Mostrar el botón de descarga
                         st.download_button(
                             label="Descargar resultados en CSV",
                             data=csv_data,
