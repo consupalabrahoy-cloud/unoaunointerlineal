@@ -7,6 +7,7 @@ import json
 import base64
 import firebase_admin
 from firebase_admin import credentials, firestore
+from google.api_core.exceptions import ResourceExhausted
 import unicodedata
 
 # Diccionario de libros y sus URL públicas
@@ -58,6 +59,30 @@ def init_firebase():
             return None
     return firestore.client()
 
+def get_word_from_firestore(word):
+    """
+    Busca información sobre una palabra en la base de datos de Firestore.
+    Se conecta directamente a la base de datos sin usar la caché.
+    """
+    db = firestore.client()
+    if db:
+        normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
+        
+        try:
+            # Firestore tiene un límite de cuota de lectura.
+            # Este código maneja el error si se excede el límite.
+            docs = db.collection('vocabulario_nt').where('palabra', '==', normalized_search_word).stream()
+            for doc in docs:
+                return doc.to_dict()
+        except ResourceExhausted as e:
+            st.error("Error: Se ha excedido la cuota de lectura de la base de datos de Firebase. Por favor, inténtalo de nuevo más tarde o revisa tu plan de facturación de Firebase.")
+            return None
+        except Exception as e:
+            st.error(f"Ocurrió un error inesperado al buscar en la base de datos: {e}")
+            return None
+
+    return None
+
 @st.cache_data(ttl=3600)
 def load_all_data():
     """Carga y combina los datos de todos los libros en un solo DataFrame."""
@@ -82,21 +107,6 @@ def load_all_data():
         combined_df['Capítulo'] = pd.to_numeric(combined_df['Capítulo'], errors='coerce').fillna(0).astype(int)
         combined_df['Versículo'] = pd.to_numeric(combined_df['Versículo'], errors='coerce').fillna(0).astype(int)
         return combined_df
-    return None
-
-def get_word_from_firestore(word):
-    """
-    Busca información sobre una palabra en la base de datos de Firestore.
-    Se conecta directamente a la base de datos sin usar la caché.
-    """
-    db = firestore.client()
-    if db:
-        normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
-        
-        docs = db.collection('vocabulario_nt').where('palabra', '==', normalized_search_word).stream()
-        for doc in docs:
-            return doc.to_dict()
-
     return None
 
 def parse_and_find_occurrences(df, search_term):
