@@ -87,20 +87,27 @@ def load_all_data():
         return combined_df
     return None
 
-def get_word_from_firestore(db, word):
-    """
-    Busca información sobre una palabra en la base de datos de Firestore.
-    Utiliza una consulta directa para mayor velocidad.
-    """
+@st.cache_data(ttl=3600)
+def load_vocabulary(db):
+    """Carga toda la colección de vocabulario de Firestore en memoria."""
     if db:
-        # Normaliza la palabra de búsqueda a minúsculas y elimina espacios.
-        normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
-        
-        # Realiza una consulta directa a Firestore con la palabra normalizada
-        docs = db.collection('vocabulario_nt').where('palabra', '==', normalized_search_word).stream()
-        for doc in docs:
-            return doc.to_dict()
+        docs = db.collection('vocabulario_nt').stream()
+        return [doc.to_dict() for doc in docs]
+    return []
 
+def get_word_from_cache(vocabulary_list, word):
+    """
+    Busca una palabra en la lista de vocabulario cargada en memoria.
+    La búsqueda es flexible e insensible a la capitalización y tildes.
+    """
+    normalized_search_word = unicodedata.normalize('NFC', word.lower().strip())
+    
+    for vocab_entry in vocabulary_list:
+        db_word = vocab_entry.get('palabra', '').lower().strip()
+        normalized_db_word = unicodedata.normalize('NFC', db_word)
+        if normalized_db_word == normalized_search_word:
+            return vocab_entry
+            
     return None
 
 def parse_and_find_occurrences(df, search_term):
@@ -155,6 +162,8 @@ db = init_firebase()
 # Cargar datos
 if 'df' not in st.session_state:
     st.session_state.df = load_all_data()
+if 'vocabulary' not in st.session_state and db:
+    st.session_state.vocabulary = load_vocabulary(db)
 
 # Lógica principal de la UI
 if st.session_state.df is not None:
@@ -203,8 +212,8 @@ if st.session_state.df is not None:
     if search_term:
         # A. Información de la base de datos (con formato mejorado)
         st.markdown('##### Información del vocabulario')
-        if db:
-            word_info = get_word_from_firestore(db, search_term)
+        if 'vocabulary' in st.session_state and st.session_state.vocabulary:
+            word_info = get_word_from_cache(st.session_state.vocabulary, search_term)
             if word_info:
                 st.info(f"Información para: '{search_term}'")
                 
@@ -220,7 +229,7 @@ if st.session_state.df is not None:
             else:
                 st.warning(f"No se encontró información en el vocabulario para: '{search_term}'")
         else:
-            st.error("No se pudo conectar con la base de datos de vocabulario.")
+            st.error("No se pudo cargar el vocabulario de la base de datos.")
 
         # B. Concordancia de ocurrencias
         st.markdown('---')
