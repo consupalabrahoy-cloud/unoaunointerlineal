@@ -199,7 +199,11 @@ if st.session_state.df is not None:
             st.info(f"Se encontraron {len(occurrences_list)} ocurrencias en total.")
             for occ in occurrences_list:
                 st.markdown(f"- **{occ['Libro']} {occ['Capítulo']}:{occ['Versículo']}**")
-                st.markdown(f"  > {occ['Texto_Español']}")
+                
+                # Aplica el tamaño de fuente al texto en español
+                st.markdown(f'  > <span style="font-size:{final_font_size};">{occ["Texto_Español"]}</span>', unsafe_allow_html=True)
+                
+                # Aplica el tamaño de fuente al texto en griego
                 st.markdown(f'  > <span style="font-family:serif;font-size:{final_font_size};font-style:italic;">{occ["Texto_Griego"]}</span>', unsafe_allow_html=True)
 
             # Botón de descarga
@@ -217,7 +221,3 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros seleccionados.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
-
-
-
-
