@@ -106,7 +106,7 @@ def parse_and_find_occurrences(df, search_term):
 # --- Contenido de la Aplicación ---
 st.title('Lector Interlineal español-griego del Nuevo Testamento.')
 st.markdown('***')
-st.markdown('Reina-Valera Antigua y Westcott-Hort. ¡Disfrute la lectura bíblica!')
+st.markdown('Reina-Valera Antigua y Westcott-Hort.')
 
 # Cargar datos
 if 'df' not in st.session_state:
@@ -217,6 +217,7 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros seleccionados.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
+
 
 
 
