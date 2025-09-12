@@ -126,7 +126,7 @@ if st.session_state.df is not None:
     font_size_map = {
         'Pequeña': '16px',
         'Normal': '18px',
-        'Grande': '22px'
+        'Grande': '23px'
     }
     
     final_font_size = font_size_map[font_size_option]
@@ -227,6 +227,7 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros seleccionados.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
+
 
 
 
