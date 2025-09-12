@@ -174,13 +174,18 @@ if st.session_state.df is not None:
 
     search_term = st.text_input('Ingrese una palabra o secuencia de letras en español o griego')
 
+    # Se crea la etiqueta con un color personalizado usando HTML y Markdown
+    colored_label = f'<span style="color:#6495ED;">Opcional: Filtrar la búsqueda por libros</span>'
+
     # Selector de libros para la búsqueda
     all_books = st.session_state.df['Libro'].unique()
     selected_search_books = st.multiselect(
-        'Opcional: Filtrar la búsqueda por libros',
+        #'Opcional: Filtrar la búsqueda por libros',
+        colored_label,
         options=all_books,
         default=[],
-        placeholder="Seleccionar libros..."
+        placeholder="Seleccionar libros...",
+        help="Si no seleccionas ningún libro, la búsqueda se hará en todo el Nuevo Testamento."
     )
 
     if search_term:
@@ -222,5 +227,6 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros seleccionados.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
+
 
 
