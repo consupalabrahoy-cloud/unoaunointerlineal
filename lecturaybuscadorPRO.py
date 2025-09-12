@@ -143,29 +143,30 @@ if st.session_state.df is not None:
         capitulos
     )
 
-    st.header(f'{selected_book} {selected_chapter}')
-    df_filtered_by_chapter = df_filtered_by_book[df_filtered_by_book['Capítulo'] == selected_chapter]
+    # Contenedor expandible para el texto del capítulo
+    with st.expander(f'{selected_book} {selected_chapter}', expanded=True):
+        df_filtered_by_chapter = df_filtered_by_book[df_filtered_by_book['Capítulo'] == selected_chapter]
 
-    for _, row in df_filtered_by_chapter.iterrows():
-        full_text = str(row['Texto'])
-        verse_number = row['Versículo']
+        for _, row in df_filtered_by_chapter.iterrows():
+            full_text = str(row['Texto'])
+            verse_number = row['Versículo']
 
-        spanish_text = ""
-        greek_text = ""
-        found_greek_start = False
-        
-        for char in full_text:
-            if '\u0370' <= char <= '\u03FF' or '\u1F00' <= char <= '\u1FFF':
-                found_greek_start = True
+            spanish_text = ""
+            greek_text = ""
+            found_greek_start = False
             
-            if not found_greek_start:
-                spanish_text += char
-            else:
-                greek_text += char
-        
-        # Aplica el tamaño de fuente al texto en español y griego
-        st.markdown(f'<span style="font-size:{final_font_size};">**{verse_number}** {spanish_text}</span>', unsafe_allow_html=True)
-        st.markdown(f'<span style="font-family:serif;font-size:{final_font_size};font-style:italic;">{greek_text}</span>', unsafe_allow_html=True)
+            for char in full_text:
+                if '\u0370' <= char <= '\u03FF' or '\u1F00' <= char <= '\u1FFF':
+                    found_greek_start = True
+                
+                if not found_greek_start:
+                    spanish_text += char
+                else:
+                    greek_text += char
+            
+            # Aplica el tamaño de fuente al texto en español y griego
+            st.markdown(f'<span style="font-size:{final_font_size};">**{verse_number}** {spanish_text}</span>', unsafe_allow_html=True)
+            st.markdown(f'<span style="font-family:serif;font-size:{final_font_size};font-style:italic;">{greek_text}</span>', unsafe_allow_html=True)
     
     # 2. Búsqueda y concordancia
     st.markdown('---')
@@ -176,7 +177,7 @@ if st.session_state.df is not None:
     selected_search_books = st.multiselect(
         'Buscar en los siguientes libros:',
         options=all_books,
-        default=[] # El cambio está aquí
+        default=[]
     )
     
     search_term = st.text_input('Ingrese una palabra o secuencia de letras en español o griego')
