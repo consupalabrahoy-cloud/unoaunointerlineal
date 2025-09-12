@@ -10,11 +10,12 @@ st.markdown("""
 <style>
     /* Estiliza el botón de descarga usando su data-testid */
     [data-testid="stDownloadButton"] > button {
-        background-color: #F0F2F6;
+        background-color: transparent; /* Fondo transparente */
         color: #0CA7CF;
-        border: 2px solid #0CA7CF;
+        border: 1px solid #0CA7CF; /* Borde más fino */
         border-radius: 8px;
         padding: 10px 20px;
+        margin-bottom: 20px; /* Separación del texto inferior */
     }
 
     /* Estilo del botón de descarga al pasar el ratón */
