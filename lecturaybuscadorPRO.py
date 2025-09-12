@@ -170,14 +170,15 @@ if st.session_state.df is not None:
     
     # 2. Búsqueda y concordancia
     st.markdown('---')
-    st.markdown('#### Buscar en el texto')
+    st.markdown('#### La búsqueda por defecto es en todos los Libros.')
 
     # Selector de libros para la búsqueda
     all_books = st.session_state.df['Libro'].unique()
     selected_search_books = st.multiselect(
-        'Buscar en los siguientes libros:',
+        'Prefiero buscar en los siguientes libros:',
         options=all_books,
         default=[]
+        placeholder="Seleccionar libros..."
     )
     
     search_term = st.text_input('Ingrese una palabra o secuencia de letras en español o griego')
@@ -216,3 +217,4 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros seleccionados.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
+
