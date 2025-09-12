@@ -15,7 +15,7 @@ st.markdown("""
         border: 1px solid #0CA7CF; /* Borde más fino */
         border-radius: 8px;
         padding: 10px 20px;
-        margin-bottom: 20px; /* Separación del texto inferior */
+        margin-top: 20px; /* Separación del texto inferior */
     }
 
     /* Estilo del botón de descarga al pasar el ratón */
@@ -251,3 +251,4 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros seleccionados.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
+
