@@ -4,6 +4,7 @@ import requests
 import io
 import re
 import unicodedata
+import json
 
 # CSS personalizado para estilizar los botones de descarga
 st.markdown("""
@@ -251,7 +252,16 @@ if st.session_state.df is not None:
                 mime='text/plain'
             )
 
-            # Botón de descarga para el formato .csv (segunda opción)
+            # Botón de descarga para el formato .json
+            json_data = json.dumps(occurrences_list, indent=2).encode('utf-8')
+            st.download_button(
+                label="Descargar resultados en JSON",
+                data=json_data,
+                file_name=f'concordancia_{search_term}.json',
+                mime='application/json'
+            )
+            
+            # Botón de descarga para el formato .csv
             df_to_download = pd.DataFrame(occurrences_list)
             csv_data = df_to_download.to_csv(index=False).encode('utf-8')
             
