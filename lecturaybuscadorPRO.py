@@ -169,23 +169,23 @@ if st.session_state.df is not None:
             st.markdown(f'<span style="font-family:serif;font-size:{final_font_size};font-style:italic;">{greek_text}</span>', unsafe_allow_html=True)
     
     # La búsqueda por defecto es en todos los Libros.
-    st.markdown('### Búsqueda y concordancia')
-    st.markdown("---") # Nueva línea horizontal para una mejor separación
+    st.markdown('---')
+    st.markdown('#### Búsqueda y concordancia')
 
+    # Se ingresa la palabra a buscar
     search_term = st.text_input('Ingrese una palabra o secuencia de letras en español o griego')
+    st.write("") # Línea para espacio en blanco
 
-    # Se crea la etiqueta con un color personalizado usando HTML y Markdown
-    colored_label = f'<span style="color:#6495ED;">Opcional: Filtrar la búsqueda por libros</span>'
+    # Se muestra la etiqueta de color para el filtro
+    st.markdown(f'<span style="color:#6495ED;">Opcional: Filtrar la búsqueda por libros</span>', unsafe_allow_html=True)
 
-    # Selector de libros para la búsqueda
+    # Selector de libros para la búsqueda, con etiqueta vacía
     all_books = st.session_state.df['Libro'].unique()
     selected_search_books = st.multiselect(
-        #'Opcional: Filtrar la búsqueda por libros',
-        colored_label,
+        "",  # Etiqueta vacía para no duplicar el texto
         options=all_books,
         default=[],
-        placeholder="Seleccionar libros...",
-        help="Si no seleccionas ningún libro, la búsqueda se hará en todo el Nuevo Testamento."
+        placeholder="Seleccionar libros..."
     )
 
     if search_term:
@@ -227,6 +227,3 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros seleccionados.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
-
-
-
