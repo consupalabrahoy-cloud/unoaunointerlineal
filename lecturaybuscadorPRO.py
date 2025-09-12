@@ -5,20 +5,20 @@ import io
 import re
 import unicodedata
 
-# CSS personalizado para estilizar el botón de descarga
+# CSS personalizado para estilizar los botones de descarga
 st.markdown("""
 <style>
-    /* Estiliza el botón de descarga usando su data-testid */
+    /* Estiliza los botones de descarga usando su data-testid */
     [data-testid="stDownloadButton"] > button {
         background-color: transparent; /* Fondo transparente */
         color: #0CA7CF;
         border: 1px solid #0CA7CF; /* Borde más fino */
         border-radius: 8px;
         padding: 10px 20px;
-        margin-top: 20px; /* Separación del texto inferior */
+        margin-top: 20px; /* Separación del texto superior */
     }
 
-    /* Estilo del botón de descarga al pasar el ratón */
+    /* Estilo de los botones de descarga al pasar el ratón */
     [data-testid="stDownloadButton"] > button:hover {
         background-color: #E6EAF0;
         border-color: #0A8AB3;
@@ -235,11 +235,26 @@ if st.session_state.df is not None:
 
                 # Aplica el tamaño de fuente al texto en griego
                 st.markdown(f'  > <span style="font-family:serif;font-size:{final_font_size};font-style:italic;">{occ["Texto_Griego"]}</span>', unsafe_allow_html=True)
+            
+            # Formatea los datos para el archivo .txt
+            txt_content = ""
+            for occ in occurrences_list:
+                txt_content += f"{occ['Libro']} {occ['Capítulo']}:{occ['Versículo']}\n"
+                txt_content += f"  {occ['Texto_Español']}\n"
+                txt_content += f"  {occ['Texto_Griego']}\n\n"
 
-            # Botón de descarga
+            # Botón de descarga para el formato .txt (primera opción)
+            st.download_button(
+                label="Descargar resultados en TXT",
+                data=txt_content.encode('utf-8'),
+                file_name=f'concordancia_{search_term}.txt',
+                mime='text/plain'
+            )
+
+            # Botón de descarga para el formato .csv (segunda opción)
             df_to_download = pd.DataFrame(occurrences_list)
             csv_data = df_to_download.to_csv(index=False).encode('utf-8')
-
+            
             st.download_button(
                 label="Descargar resultados en CSV",
                 data=csv_data,
@@ -251,4 +266,3 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros seleccionados.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
-
