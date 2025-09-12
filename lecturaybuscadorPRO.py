@@ -170,14 +170,14 @@ if st.session_state.df is not None:
     
     # La búsqueda por defecto es en todos los Libros.
     st.markdown('---')
-    st.markdown('#### Búsqueda y concordancia')
+    st.markdown('#### Búsqueda y concordancia (por defecto se hará en todos los Libros).')
 
     # Se ingresa la palabra a buscar
     search_term = st.text_input('Ingrese una palabra o secuencia de letras en español o griego')
     st.write("") # Línea para espacio en blanco
 
     # Se muestra la etiqueta de color para el filtro
-    st.markdown(f'<span style="color:#0CA7CF;">Opcional: Filtrar la búsqueda por libros</span>', unsafe_allow_html=True)
+    st.markdown(f'<span style="color:#0CA7CF;">**Prefiero filtrar la búsqueda por libros:</span>', unsafe_allow_html=True)
 
     # Selector de libros para la búsqueda, con etiqueta vacía
     all_books = st.session_state.df['Libro'].unique()
@@ -227,4 +227,5 @@ if st.session_state.df is not None:
             st.info("No se encontraron ocurrencias en el texto de los libros seleccionados.")
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
+
 
