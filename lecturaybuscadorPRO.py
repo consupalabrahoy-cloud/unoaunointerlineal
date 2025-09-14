@@ -108,6 +108,19 @@ def load_dictionary_data():
         return None
 
 # --- Funciones de Procesamiento y Búsqueda ---
+def normalize_greek(word):
+    """
+    Normaliza una palabra griega eliminando acentos y convirtiendo a minúsculas.
+    """
+    # Descompone el string en su forma normalizada
+    normalized = unicodedata.normalize('NFD', word)
+    
+    # Filtra los caracteres que no son letras, números o espacios (incluyendo diacríticos)
+    stripped = ''.join(c for c in normalized if unicodedata.category(c) != 'Mn')
+    
+    # Convierte a minúsculas
+    return stripped.lower()
+
 def parse_and_find_occurrences(df, search_term):
     """
     Busca un término en los DataFrames.
@@ -151,13 +164,18 @@ def parse_and_find_occurrences(df, search_term):
 
 def search_word_in_dict(word, dictionary_data):
     """
-    Busca una palabra en el diccionario y devuelve su información.
+    Busca una palabra en el diccionario y devuelve su información,
+    ignorando mayúsculas, minúsculas y acentos.
     """
-    search_term_lower = word.strip().lower()
+    # Normaliza la palabra de búsqueda para la comparación
+    normalized_search_term = normalize_greek(word)
     
     for entry in dictionary_data:
-        entry_word_lower = entry.get("palabra", "").lower()
-        if entry_word_lower == search_term_lower:
+        entry_word = entry.get("palabra", "")
+        # Normaliza la palabra del diccionario para la comparación
+        normalized_entry_word = normalize_greek(entry_word)
+        
+        if normalized_entry_word == normalized_search_term:
             return entry
             
     return None
