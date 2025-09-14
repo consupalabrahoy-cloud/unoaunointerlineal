@@ -29,7 +29,7 @@ BOOKS_URLS = {
     "Hebreos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Hebreos.csv",
     "Santiago": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Santiago.csv",
     "1º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/PrimeraPedro.csv",
-    "2º de Pedro": "https://raw.githubusercontent.com/consupalabroy-cloud/unoaunointerlineal/main/SegundaPedro.csv",
+    "2º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/SegundaPedro.csv",
     "1º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/PrimeraJuan.csv",
     "2º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/SegundaJuan.csv",
     "3º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/TerceraJuan.csv",
@@ -39,6 +39,7 @@ BOOKS_URLS = {
 
 # URL del archivo JSON del diccionario
 DICTIONARY_URL = "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/vocabulario_nt.json"
+
 
 # CSS personalizado para estilizar los botones de descarga
 st.markdown("""
@@ -61,6 +62,7 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 # --- Funciones de Carga de Datos ---
 @st.cache_data(ttl=3600)
@@ -310,11 +312,15 @@ if st.session_state.df is not None:
                     st.markdown(f'**Traducción literal:** {dict_entry.get("traduccion_literal", "No disponible")}')
                     
                     analisis = dict_entry.get("analisis_gramatical", {})
-                    if analisis:
+                    if isinstance(analisis, dict):
                         st.markdown('**Análisis Morfológico:**')
-                        st.json(analisis) # Muestra el objeto JSON de análisis
+                        st.json(analisis)
+                    elif isinstance(analisis, str):
+                        st.markdown('**Análisis Morfológico:**')
+                        st.markdown(analisis)
                     else:
                         st.markdown('**Análisis Morfológico:** No disponible')
+
                 else:
                     st.warning(f"La palabra '{search_term}' no se encontró en el diccionario.")
             else:
