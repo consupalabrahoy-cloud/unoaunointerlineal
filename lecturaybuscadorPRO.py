@@ -29,7 +29,7 @@ BOOKS_URLS = {
     "Hebreos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Hebreos.csv",
     "Santiago": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Santiago.csv",
     "1º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/PrimeraPedro.csv",
-    "2º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/SegundaPedro.csv",
+    "2º de Pedro": "https://raw.githubusercontent.com/consupalabroy-cloud/unoaunointerlineal/main/SegundaPedro.csv",
     "1º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/PrimeraJuan.csv",
     "2º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/SegundaJuan.csv",
     "3º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/TerceraJuan.csv",
@@ -39,7 +39,6 @@ BOOKS_URLS = {
 
 # URL del archivo JSON del diccionario
 DICTIONARY_URL = "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/vocabulario_nt.json"
-
 
 # CSS personalizado para estilizar los botones de descarga
 st.markdown("""
@@ -62,7 +61,6 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-
 
 # --- Funciones de Carga de Datos ---
 @st.cache_data(ttl=3600)
@@ -149,27 +147,15 @@ def parse_and_find_occurrences(df, search_term):
 
     return occurrences
 
-def clean_greek_word(word):
-    """
-    Limpia una palabra griega eliminando acentos y diacríticos.
-    """
-    # Normaliza a una forma descompuesta (por ejemplo, 'á' se convierte en 'a' y el acento)
-    normalized = unicodedata.normalize('NFKD', word)
-    # Filtra los caracteres que son marcas de diacríticos y luego lo convierte a minúsculas
-    cleaned = ''.join(c for c in normalized if not unicodedata.combining(c)).lower()
-    return cleaned
-
 def search_word_in_dict(word, dictionary_data):
     """
     Busca una palabra en el diccionario y devuelve su información.
     """
-    search_word_cleaned = clean_greek_word(word.strip())
+    search_term_lower = word.strip().lower()
     
     for entry in dictionary_data:
-        entry_word = entry.get("Palabra", "")
-        entry_word_cleaned = clean_greek_word(entry_word)
-        
-        if entry_word_cleaned == search_word_cleaned:
+        entry_word_lower = entry.get("palabra", "").lower()
+        if entry_word_lower == search_term_lower:
             return entry
             
     return None
@@ -217,7 +203,7 @@ if st.session_state.df is not None:
 
     # Contenedor expandible para el texto del capítulo
     with st.expander(f'{selected_book} {selected_chapter}', expanded=True):
-        df_filtered_by_chapter = df_filtered_by_book[st.session_state.df['Capítulo'] == selected_chapter]
+        df_filtered_by_chapter = df_filtered_by_book[df_filtered_by_book['Capítulo'] == selected_chapter]
 
         for _, row in df_filtered_by_chapter.iterrows():
             full_text = str(row['Texto'])
@@ -319,7 +305,6 @@ if st.session_state.df is not None:
             if st.session_state.dict_data:
                 dict_entry = search_word_in_dict(search_term, st.session_state.dict_data)
                 if dict_entry:
-                    # Acceso seguro a las claves del diccionario
                     st.markdown(f'**Palabra:** {dict_entry.get("palabra", "No disponible")}')
                     st.markdown(f'**Transliteración:** {dict_entry.get("transliteracion", "No disponible")}')
                     st.markdown(f'**Traducción literal:** {dict_entry.get("traduccion_literal", "No disponible")}')
@@ -327,8 +312,7 @@ if st.session_state.df is not None:
                     analisis = dict_entry.get("analisis_gramatical", {})
                     if analisis:
                         st.markdown('**Análisis Morfológico:**')
-                        for key, value in analisis.items():
-                            st.markdown(f'  - **{key.replace("_", " ").title()}:** {value}')
+                        st.json(analisis) # Muestra el objeto JSON de análisis
                     else:
                         st.markdown('**Análisis Morfológico:** No disponible')
                 else:
