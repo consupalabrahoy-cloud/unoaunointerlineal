@@ -149,16 +149,29 @@ def parse_and_find_occurrences(df, search_term):
 
     return occurrences
 
+def clean_greek_word(word):
+    """
+    Limpia una palabra griega eliminando acentos y diacríticos.
+    """
+    # Normaliza a una forma descompuesta (por ejemplo, 'á' se convierte en 'a' y el acento)
+    normalized = unicodedata.normalize('NFKD', word)
+    # Filtra los caracteres que son marcas de diacríticos y luego lo convierte a minúsculas
+    cleaned = ''.join(c for c in normalized if not unicodedata.combining(c)).lower()
+    return cleaned
+
 def search_word_in_dict(word, dictionary_data):
     """
     Busca una palabra en el diccionario y devuelve su información.
-    Se ha corregido la lógica para buscar directamente en la palabra griega.
     """
+    search_word_cleaned = clean_greek_word(word.strip())
+    
     for entry in dictionary_data:
-        # Se compara directamente la palabra del diccionario con la palabra buscada
-        # sin aplicar normalización de Unicode que no es compatible con el griego.
-        if entry.get("Palabra", "").lower() == word.lower():
+        entry_word = entry.get("Palabra", "")
+        entry_word_cleaned = clean_greek_word(entry_word)
+        
+        if entry_word_cleaned == search_word_cleaned:
             return entry
+            
     return None
 
 # --- Contenido de la Aplicación ---
@@ -204,7 +217,7 @@ if st.session_state.df is not None:
 
     # Contenedor expandible para el texto del capítulo
     with st.expander(f'{selected_book} {selected_chapter}', expanded=True):
-        df_filtered_by_chapter = df_filtered_by_book[df_filtered_by_book['Capítulo'] == selected_chapter]
+        df_filtered_by_chapter = df_filtered_by_book[st.session_state.df['Capítulo'] == selected_chapter]
 
         for _, row in df_filtered_by_chapter.iterrows():
             full_text = str(row['Texto'])
@@ -306,10 +319,18 @@ if st.session_state.df is not None:
             if st.session_state.dict_data:
                 dict_entry = search_word_in_dict(search_term, st.session_state.dict_data)
                 if dict_entry:
-                    st.markdown(f'**Palabra:** {dict_entry.get("Palabra", "No disponible")}')
-                    st.markdown(f'**Transliteración:** {dict_entry.get("Transliteración", "No disponible")}')
-                    st.markdown(f'**Traducción literal:** {dict_entry.get("Traducción literal", "No disponible")}')
-                    st.markdown(f'**Análisis Morfológico:** {dict_entry.get("Análisis Morfológico", "No disponible")}')
+                    # Acceso seguro a las claves del diccionario
+                    st.markdown(f'**Palabra:** {dict_entry.get("palabra", "No disponible")}')
+                    st.markdown(f'**Transliteración:** {dict_entry.get("transliteracion", "No disponible")}')
+                    st.markdown(f'**Traducción literal:** {dict_entry.get("traduccion_literal", "No disponible")}')
+                    
+                    analisis = dict_entry.get("analisis_gramatical", {})
+                    if analisis:
+                        st.markdown('**Análisis Morfológico:**')
+                        for key, value in analisis.items():
+                            st.markdown(f'  - **{key.replace("_", " ").title()}:** {value}')
+                    else:
+                        st.markdown('**Análisis Morfológico:** No disponible')
                 else:
                     st.warning(f"La palabra '{search_term}' no se encontró en el diccionario.")
             else:
