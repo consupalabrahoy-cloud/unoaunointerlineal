@@ -7,31 +7,91 @@ import unicodedata
 import json
 
 # URL del archivo CSV combinado en GitHub
-VOCABULARY_URL = "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/vocabulario_nt.csv"
+BOOKS_URLS = {
+    "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.csv",
+    "Marcos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Marcos.csv",
+    "Lucas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Lucas.csv",
+    "Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Juan.csv",
+    "Hechos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Hechos.csv",
+    "Romanos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Romanos.csv",
+    "1º a los Corintios": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/PrimeraCorintios.csv",
+    "2º a los Corintios": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/SegundaCorintios.csv",
+    "Gálatas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Gálatas.csv",
+    "Efesios": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Efesios.csv",
+    "Filipenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Filipenses.csv",
+    "Colosenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Colosenses.csv",
+    "1º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/PrimeraTesalonicenses.csv",
+    "2º a los Tesalonicenses": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/SegundaTesalonicenses.csv",
+    "1º a Timoteo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/PrimeraTimoteo.csv",
+    "2º a Timoteo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/SegundaTimoteo.csv",
+    "Tito": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Tito.csv",
+    "Filemón": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Filemón.csv",
+    "Hebreos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Hebreos.csv",
+    "Santiago": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Santiago.csv",
+    "1º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/PrimeraPedro.csv",
+    "2º de Pedro": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/SegundaPedro.csv",
+    "1º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/PrimeraJuan.csv",
+    "2º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/SegundaJuan.csv",
+    "3º de Juan": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/TerceraJuan.csv",
+    "Judas": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Judas.csv",
+    "Apocalipsis": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Apocalipsis.csv",
+}
 
 # URL del archivo JSON del diccionario
 DICTIONARY_URL = "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/vocabulario_nt.json"
+
+
+# CSS personalizado para estilizar los botones de descarga
+st.markdown("""
+<style>
+    /* Estiliza los botones de descarga usando su data-testid */
+    [data-testid="stDownloadButton"] > button {
+        background-color: transparent; /* Fondo transparente */
+        color: #0CA7CF;
+        border: 1px solid #0CA7CF; /* Borde más fino */
+        border-radius: 8px;
+        padding: 10px 20px;
+        margin-top: 20px; /* Separación del texto superior */
+    }
+
+    /* Estilo de los botones de descarga al pasar el ratón */
+    [data-testid="stDownloadButton"] > button:hover {
+        background-color: #E6EAF0;
+        border-color: #0A8AB3;
+        color: #0A8AB3;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 
 # --- Funciones de Carga de Datos ---
 @st.cache_data(ttl=3600)
 def load_all_data():
     """Carga y combina los datos de todos los libros en un solo DataFrame."""
-    try:
-        response = requests.get(VOCABULARY_URL, timeout=10)
-        response.raise_for_status()
-        text_content = response.content.decode('utf-8')
-        df = pd.read_csv(io.StringIO(text_content))
+    all_dfs = []
+    for book_name, url in BOOKS_URLS.items():
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            text_content = response.content.decode('utf-8')
+            df = pd.read_csv(io.StringIO(text_content), sep=',')
+            df['Libro'] = book_name
+            all_dfs.append(df)
+        except requests.exceptions.RequestException as e:
+            st.error(f"Error al cargar datos de {book_name}: {e}")
+            return None
+        except Exception as e:
+            st.error(f"Ocurrió un error inesperado al procesar {book_name}: {e}")
+            return None
 
+    if all_dfs:
+        combined_df = pd.concat(all_dfs, ignore_index=True)
+        combined_df['Capítulo'] = pd.to_numeric(combined_df['Capítulo'], errors='coerce').fillna(0).astype(int)
+        combined_df['Versículo'] = pd.to_numeric(combined_df['Versículo'], errors='coerce').fillna(0).astype(int)
         # Reemplazar valores nulos con cadenas vacías para evitar errores de búsqueda
-        df = df.fillna('')
-
-        return df
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error al cargar datos del vocabulario: {e}")
-        return None
-    except Exception as e:
-        st.error(f"Ocurrió un error inesperado al procesar el vocabulario: {e}")
-        return None
+        combined_df = combined_df.fillna('')
+        return combined_df
+    return None
 
 @st.cache_data(ttl=3600)
 def load_dictionary_data():
