@@ -6,7 +6,7 @@ import re
 import unicodedata
 import json
 
-# URL del archivo CSV combinado en GitHub
+# URL de los archivos CSV individuales en GitHub para el texto de la Biblia
 BOOKS_URLS = {
     "Mateo": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Mateo.csv",
     "Marcos": "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/Marcos.csv",
