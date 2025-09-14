@@ -44,22 +44,22 @@ DICTIONARY_URL = "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaun
 # CSS personalizado para estilizar los botones de descarga
 st.markdown("""
 <style>
-    /* Estiliza los botones de descarga usando su data-testid */
-    [data-testid="stDownloadButton"] > button {
-        background-color: transparent; /* Fondo transparente */
-        color: #0CA7CF;
-        border: 1px solid #0CA7CF; /* Borde más fino */
-        border-radius: 8px;
-        padding: 10px 20px;
-        margin-top: 20px; /* Separación del texto superior */
-    }
+    /* Estiliza los botones de descarga usando su data-testid */
+    [data-testid="stDownloadButton"] > button {
+        background-color: transparent; /* Fondo transparente */
+        color: #0CA7CF;
+        border: 1px solid #0CA7CF; /* Borde más fino */
+        border-radius: 8px;
+        padding: 10px 20px;
+        margin-top: 20px; /* Separación del texto superior */
+    }
 
-    /* Estilo de los botones de descarga al pasar el ratón */
-    [data-testid="stDownloadButton"] > button:hover {
-        background-color: #E6EAF0;
-        border-color: #0A8AB3;
-        color: #0A8AB3;
-    }
+    /* Estilo de los botones de descarga al pasar el ratón */
+    [data-testid="stDownloadButton"] > button:hover {
+        background-color: #E6EAF0;
+        border-color: #0A8AB3;
+        color: #0A8AB3;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -150,13 +150,14 @@ def parse_and_find_occurrences(df, search_term):
     return occurrences
 
 def search_word_in_dict(word, dictionary_data):
-    """Busca una palabra en el diccionario y devuelve su información."""
+    """
+    Busca una palabra en el diccionario y devuelve su información.
+    Se ha corregido la lógica para buscar directamente en la palabra griega.
+    """
     for entry in dictionary_data:
-        # Normaliza la palabra de búsqueda para comparación
-        entry_word_normalized = unicodedata.normalize('NFKD', entry.get('Palabra', '')).encode('ascii', 'ignore').decode('utf-8')
-        word_normalized = unicodedata.normalize('NFKD', word).encode('ascii', 'ignore').decode('utf-8')
-
-        if entry_word_normalized.lower() == word_normalized.lower():
+        # Se compara directamente la palabra del diccionario con la palabra buscada
+        # sin aplicar normalización de Unicode que no es compatible con el griego.
+        if entry.get("Palabra", "").lower() == word.lower():
             return entry
     return None
 
