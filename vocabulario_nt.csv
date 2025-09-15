@@ -1209,56 +1209,162 @@ Tiempo: No aplica (sustantivo)
 Voz: No aplica (sustantivo)
 Modo: No aplica (sustantivo)
 Otras observaciones:  Se deriva del adjetivo 'adikos' (ἄδικος), que significa 'injusto'.  Como sustantivo, 'adikema' describe un acto de injusticia, un agravio o un delito. La forma neutra singular en nominativo indica que es el sujeto de la frase en la que aparece.","injusticia, agravio, delito",αδικημα,adikema
-,,αδικηματα,
-,,αδικησαι,
-,,αδικησαντος,
-,,αδικησατω,
-,,αδικησει,
-,,αδικησης,
-,,αδικησητε,
-,,αδικησουσιν,
-,,αδικια,
-,,αδικιαις,
-,,αδικιαν,
-,,αδικιας,
-,,αδικοι,
-,,αδικος,
-,,αδικουμενοι,
-,,αδικουμενον,
-,,αδικους,
-,,αδικουσιν,
-,,αδικω,
-,,αδικων,
-,,αδικως,
-,,αδμιν,
-,,αδοκιμοι,
-,,αδοκιμον,
-,,αδοκιμος,
-,,αδολον,
-,,αδοντες,
-,,αδου,
-,,αδουσιν,
-,,αδραμυττηνω,
-,,αδρια,
-,,αδροτητι,
-,,αδυνατα,
-,,αδυνατησει,
-,,αδυνατον,
-,,αδυνατος,
-,,αδυνατων,
-,,αει,
-,,αερα,
-,,αερος,
-,,αετοι,
-,,αετου,
-,,αετω,
-,,αζυμα,
-,,αζυμοι,
-,,αζυμοις,
-,,αζυμων,
-,,αζωρ,
-,,αζωτον,
-,,αηρ,
+"Raíz: adik- (injusto)
+Clase de palabra: Sustantivo
+Caso: Acusativo
+Género: Neutro
+Número: Plural
+Tiempo: No aplica (sustantivo)
+Voz: No aplica (sustantivo)
+Modo: No aplica (sustantivo)
+Otra información relevante: Es un sustantivo neutro plural en acusativo, lo que indica que es el objeto directo de la oración. Se deriva del verbo 'adikeo' que significa 'hacer daño, cometer injusticia'. El sufijo '-mata' es un sufijo sustantivo que forma sustantivos de acción o resultado.  La palabra refleja una acción de injusticia, un transgresión o un acto ilícito, y no un estado de ser injusto.","injusticias, acciones injustas, delitos",αδικηματα,adikhmata
+"Raíz: δικη (dike, justicia). Clase de palabra: Verbo.  Voz: pasiva. Tiempo: aoristo. Modo: infinitivo.  Número: singular.  El infinitivo aoristo pasivo  αδικησαι (adikhsai) significa 'ser injustamente tratado', 'ser perjudicado', o 'sufrir una injusticia'.  Representa la acción de ser el receptor de una injusticia. Se puede traducir de diversas maneras dependiendo del contexto, pudiendo enfocarse en el daño sufrido o en la falta de justicia cometida contra alguien.","injusticiar, hacer daño, cometer una injusticia",αδικησαι,adikhsai
+"Raíz: adikέω (adikέō, hacer injusticia). Clase de palabra: Participio. Caso: Genitivo. Género: Masculino. Número: Singular. Tiempo: Aoristo. Voz: Activa. Modo: Indicativo (implicado, ya que es parte de una construcción participial).  Se usa como adjetivo verbal, modificando a un sustantivo implícito (e.g., un hombre, un agente), indicando la acción previa e influyendo en el estado del sustantivo implícito. La forma del genitivo indica una relación posesivo-adjetival o circunstancial, mostrando la causa o la razón de otra acción en el contexto de la oración completa.",habiendo hecho injusticia,αδικησαντος,adikhsantos
+"Raíz: αδικέω (adikeō) - hacer daño, actuar injustamente
+Clase de palabra: Verbo
+Tiempo: Aoristo
+Modo: Subjuntivo
+Voz: Pasivo
+Persona: 3ª
+Número: Singular
+Género: Neutro (debido al contexto, ya que se refiere a un sujeto neutro implícito)
+Observación: El subjuntivo aoristo pasivo de αδικέω expresa la idea de que se permita o se sufra una injusticia. El contexto de la oración determinará si se trata de un permiso, una posibilidad o una súplica.  La forma '-τω' (-tō) es la terminación característica del subjuntivo aoristo pasivo de tercera persona singular en griego neotestamentario.","que sea perjudicado, que sea tratado injustamente",αδικησατω,adikhsatō
+"{'modo': 'indicativo', 'clase_de_palabra': 'verbo', 'raiz': 'δικη (dike, justicia)', 'voz': 'activa', 'numero': 'singular', 'persona': 'tercera', 'tiempo': 'futuro'}","injusticiará, hará injusticia",αδικησει,adikhsei
+"Raíz: adikέω (adikeō, hacer injusticia). Clase de palabra: Sustantivo. Caso: Acusativo. Género: Femenino. Número: Singular. Tiempo: No aplica (sustantivo). Voz: No aplica (sustantivo). Modo: No aplica (sustantivo).  Adikēseis es la forma acusativa singular femenina del sustantivo verbal (nombre de acción) derivado del verbo adikέω.  Representa la acción de cometer injusticia o el hecho mismo de la injusticia como objeto de una oración. Se traduce generalmente como 'injusticia' en el contexto de un objeto directo, o puede representar una acción ('cometerás injusticia') en dependencia del contexto de la oración completa.","injusticia, cometerás injusticia",αδικησης,adikhseis
+"Raíz: adikos (ἄδικος, injusto)
+Clase de palabra: verbo
+Tiempo: futuro
+Modo: indicativo
+Voz: pasiva
+Persona: segunda
+Número: plural
+Diátesis: pasiva
+El sufijo -sete (-σητε) indica la segunda persona del plural del futuro indicativo pasivo. La raíz indica la acción de sufrir injusticia o daño.","seréis tratados injustamente, seréis perjudicados",αδικησητε,adikhsete
+"Raíz: adikέω (adikéō, hacer injusticia). Clase de palabra: Verbo. Tiempo: Futuro. Modo: Indicativo. Voz: Activa. Número: Plural. Persona: Tercera.  Género: No aplica (verbo).  El verbo está en tercera persona del plural, futuro, indicativo activo, lo que indica una acción futura realizada por varios sujetos. La terminación  -σουσιν (-sousi) es la marca morfológica que identifica el futuro indicativo activo en tercera persona del plural en los verbos de la segunda conjugación a la que pertenece este verbo.","injusticiarán, harán injusticia",αδικησουσιν,adikhsousi
+"Raíz: δικη (dike, 'justicia').  Clase de palabra: sustantivo femenino. Caso: Nominativo, acusativo o genitivo (depende del contexto de la oración). Género: Femenino. Número: Singular.  Tiempo: No aplica (sustantivo). Voz: No aplica (sustantivo). Modo: No aplica (sustantivo).  Información adicional:  La palabra 'αδικια' (adikia) es un sustantivo abstracto que denota la falta de justicia, la injusticia, la iniquidad o la impiedad.  Su significado se opone a la justicia (δικαιοσυνη, dikaiosyne). El prefijo 'α-' (a-) indica negación o privación.","injusticia, iniquidad",αδικια,adikia
+"{'observaciones': 'La palabra ""αδικιαις"" es el dativo plural femenino de ""αδικια"" (adikia), que significa ""injusticia"".  El sufijo ""-ais"" indica el caso dativo plural femenino.  La raíz se encuentra en ""δικη"" (dike), que se refiere a justicia o derecho.  ""αδικια"" es la forma negativa, indicando la ausencia de justicia o derecho, es decir, la injusticia. El dativo en este contexto usualmente indica el propósito, o la circunstancia en la que ocurre la acción principal de la oración, como ""por medio de injusticias"", ""a causa de injusticias"", o ""debido a injusticias"".', 'caso': 'dativo', 'modo': 'ninguno', 'genero': 'femenino', 'clase_de_palabra': 'sustantivo', 'raiz': 'δικη (dike)', 'voz': 'ninguna', 'numero': 'plural', 'tiempo': 'ninguno'}",injusticias,αδικιαις,adikiais
+"{'observaciones': ""El prefijo 'α' le da un significado negativo a la raíz 'δικη', convirtiéndola en 'injusticia'. El caso acusativo indica que 'adikián' es el objeto directo de un verbo en la oración."", 'caso': 'acusativo', 'modo': 'ninguno', 'prefijo': ""α (a, 'privativo')"", 'genero': 'femenino', 'clase_de_palabra': 'sustantivo', 'raiz': ""δικη (dike, 'justicia')"", 'voz': 'ninguna', 'numero': 'singular', 'tiempo': 'ninguno'}",injusticia,αδικιαν,adikián
+"{'observaciones': 'La palabra ""αδικιας"" (adikias) es el genitivo singular femenino de la palabra ""αδικια"" (adikia), que significa ""injusticia"".  El genitivo en este contexto generalmente indica una relación posesivia, de pertenencia o de origen. Por ejemplo, podria significar \'de la injusticia\', \'perteneciente a la injusticia\', o \'a causa de la injusticia\', dependiendo del contexto de la oración.', 'caso': 'genitivo', 'modo': 'No aplica', 'genero': 'femenino', 'clase_de_palabra': 'sustantivo', 'raiz': 'dikē', 'voz': 'No aplica', 'numero': 'singular', 'tiempo': 'No aplica'}",injusticia,αδικιας,adikias
+"{'observaciones': ""Adjetivo que significa 'injusto'. Es la forma masculina plural nominativo del adjetivo.  Se deriva de la palabra 'dike' (δικη), que significa justicia, y el prefijo 'a-', que indica privación o negación.  Por lo tanto, significa literalmente 'sin justicia' o 'injustos'."", 'caso': 'nominativo', 'modo': 'ninguno', 'genero': 'masculino', 'clase_de_palabra': 'adjetivo', 'raiz': 'δικη (dike, justicia)', 'voz': 'ninguna', 'numero': 'plural', 'tiempo': 'ninguno'}",injustos,αδικοι,adikoi
+"Raíz: δικη (dike, 'justicia').  Clase de palabra: adjetivo.  Caso: depende del contexto (puede ser nominativo, genitivo, dativo o acusativo). Género: puede ser masculino, femenino o neutro. Número: puede ser singular o plural.  Tiempo: no aplica (es un adjetivo, no un verbo). Voz: no aplica. Modo: no aplica.  Información adicional: Es un adjetivo que describe algo o alguien que carece de justicia, que es injusto o inicuo.  Se deriva de la raíz 'dike', que en sí misma puede ser sustantivo ('justicia') o adjetivo ('justo').  La partícula 'a-' es una partícula privativa, que niega o invierte el significado de la palabra raíz.","injusto, inicuo",αδικος,adikos
+"Raíz: adikέω (adikέō, hacer injusticia, perjudicar)
+Clase de palabra: Participio
+Caso: Nominativo
+Género: Masculino
+Número: Plural
+Tiempo: Presente
+Voz: Pasivo
+Modo: Indicativo (implicado, ya que es un participio que funciona adjetivalmente dentro de una oración. El modo del verbo principal de la oración determinaría el modo de este participio)
+
+Información adicional: Es un participio presente pasivo de nominativo masculino plural. Describe a los sujetos de la oración como los que están sufriendo injusticia en ese momento. Su función gramatical dentro de una oración será adjetival o adverbial, modificando el sustantivo u oración a la que se refiera.","siendo tratados injustamente, siendo perjudicados",αδικουμενοι,adikoumenoi
+"La palabra ""αδικουμενον"" (adikoumenon) es un participio presente pasivo de la voz media del verbo ""αδικεω"" (adikeo), que significa ""actuar injustamente"", ""cometer injusticia"", ""perjudicar"".
+
+* **Raíz:** αδικεω (adikeo)
+* **Clase de palabra:** Participio
+* **Caso:** Acusativo
+* **Género:** Neutro
+* **Número:** Singular
+* **Tiempo:** Presente
+* **Voz:** Media
+* **Modo:** Indicativo (implícito, ya que es un participio)
+
+El significado del participio se aproxima a ""siendo tratado injustamente"", o ""siendo perjudicado"". Dado que es un participio, funciona como un adjetivo verbal que describe a un sustantivo u oración, aportando información adicional sobre el estado o acción del sujeto. La voz media indica que el sujeto experimenta la acción de la injusticia,  es decir, es el que la sufre. El caso acusativo dependerá de la función sintáctica en la oración donde se encuentre. Por ejemplo, podría ser objeto directo de otro verbo o parte de un complemento.","siendo tratado injustamente, siendo perjudicado, sufriendo injusticia",αδικουμενον,adikoumenon
+"Raíz: adik- (injusto) 
+Clase de palabra: adjetivo
+Caso: acusativo
+Género: masculino
+Número: plural
+Declinación: adjetivo de la tercera declinación
+El adjetivo ""αδικους"" (adikous) describe a alguien o algo que es injusto o inicuo.  Se encuentra en el acusativo plural masculino, lo que significa que modifica un sustantivo masculino en plural que es el objeto directo de la oración.  La forma de la palabra indica un contexto de acción pasiva o estado.  La ausencia de artículo definido implica una referencia a personas u objetos inespecíficos o conocidos por el contexto.","injusto, inicuo",αδικους,adikous
+"Raíz: adikέω (adikέō) - cometer injusticia
+Clase de palabra: Verbo
+Tiempo: Presente
+Modo: Indicativo
+Voz: Activa
+Número: Plural
+Persona: Tercera
+Aspecto:  Imperfecto (acción continua o repetitiva en presente)
+Diátesis: Activa
+Análisis morfológico:  adiko- (tema verbal) + -ousin (terminación de la tercera persona del plural del presente de indicativo activo)","cometen injusticias, hacen mal, actúan injustamente",αδικουσιν,adikousin
+"Raíz: δικη (dike, justicia).  Clase de palabra: Verbo.  Voz: activa.  Modo: indicativo (usualmente, aunque puede aparecer en otros modos como subjuntivo u optativo dependiendo del contexto).  Tiempo: presente, aoristo, perfecto, futuro (dependiendo del contexto). Número: singular o plural. Persona: primera, segunda o tercera (dependiendo del contexto).  El verbo αδικω generalmente se traduce como 'hacer injusticia', 'perjudicar' o 'ser injusto con alguien'.  Su significado exacto depende del contexto de la oración.  No tiene género porque es un verbo.","injusto, hacer daño, perjudicar",αδικω,adiko
+"Raíz: δικη (dike, justicia).  Clase de palabra: Adjetivo verbal (participio presente activo). Caso: Genitivo. Género: Masculino. Número: Singular. Tiempo: Presente. Voz: Activa. Modo: No aplica (es un participio, no un verbo conjugado).  Información adicional: Se deriva del verbo αδικέω (adikeō, hacer injusticia), y en este caso, el genitivo singular masculino puede funcionar como adjetivo modificando a un sustantivo, indicando 'el que hace injusticia', 'el injusto', o formando parte de una expresión como 'obra de los injustos'","injusto, haciendo injusticia",αδικων,adikon
+"Raíz: adik- (injusto)
+Clase de palabra: Adverbio
+Derivación: Del adjetivo adíkos (ἄδικος), que significa ""injusto""
+Análisis morfológico: El sufijo -ōs forma adverbios a partir de adjetivos.  No tiene caso, género o número porque es un adverbio. No tiene tiempo, voz o modo, al no ser una forma verbal.","injustamente, ilegalmente",αδικως,adikōs
+"La palabra ""αδμιν"" no aparece en el griego del Nuevo Testamento.  Es posible que haya un error ortográfico o que se trate de una palabra inventada o de una forma inusual. Si pudieras proporcionar más contexto, como la frase completa en la que aparece o la fuente donde la encontraste, podría ayudarte a identificar la palabra correcta y su análisis gramatical.",no hay tal palabra en griego del Nuevo Testamento,αδμιν,adēmin
+"Raíz: δοκιμάζω (dokimázō, probar, examinar). Clase de palabra: adjetivo. Caso: nominativo. Género: masculino. Número: plural.  Tiempo: no aplica (es un adjetivo, no un verbo). Voz: no aplica. Modo: no aplica.  Información adicional: Es un adjetivo participio presente pasivo de δοκιμάζω, que significa 'no probado', 'desaprobado' o 'rechazado'.  Describe a un grupo de personas que no han superado una prueba o que han sido rechazadas por su falta de cualidades o capacidades. Se utiliza a menudo para referirse a aquellos que no alcanzan la estatura moral o espiritual esperada.","desaprobados, rechazados, ineptos",αδοκιμοι,adokimoi
+"Raíz: δοκιμάζω (dokimazō, probar, examinar). Clase de palabra: adjetivo.  Caso: acusativo. Género: neutro. Número: singular.  Declinación: adjetivo en -ος (-os) de la tercera declinación.  No tiene tiempo, voz o modo porque es un adjetivo, no un verbo.  Información adicional:  El adjetivo ""αδοκιμον"" (adokimon) es un adjetivo verbal que significa 'no probado' o, más comúnmente en el contexto del Nuevo Testamento, 'reprobado', 'desaprobado', o 'rechazado'. Implica una falta de aprobación o validación.  Se deriva de la raíz δοκιμάζω (dokimazō) mediante la adición del prefijo alfa privativo (α-) que le niega el significado,  y la terminación -μον (-mon) que lo marca como neutro singular en acusativo.","desaprobado, rechazado, reprobado",αδοκιμον,adokimon
+"Raíz: δοκιμάζω (dokimazō, probar, examinar).  Clase de palabra: adjetivo.  Caso: Nominativo (puede aparecer en otros casos dependiendo del contexto). Género: Masculino (puede variar para concordar con el sustantivo). Número: Singular (puede ser plural: άδοκιμοι - adokimoi). Tiempo: No aplica (es un adjetivo, no un verbo). Voz: No aplica. Modo: No aplica.  Información relevante:  Se trata de un adjetivo que describe algo o alguien que ha fallado en una prueba o examen, que ha sido encontrado deficiente o que no ha sido aprobado.  Su significado se deriva del verbo δοκιμάζω (dokimazō), cuyo significado central es 'probar', 'examinar' o 'poner a prueba'.  El prefijo α- (a-) indica negación, por lo que 'adokimos' significa literalmente 'no probado' en el sentido de 'no aprobado' o 'rechazado'. Se utiliza en contextos donde se evalúa la calidad, el carácter o la conformidad con un estándar.","desaprobado, rechazado, reprobad",αδοκιμος,adokimos
+"Raíz: δολεω (doleo, engañar). Clase de palabra: adjetivo.  Caso: Nominativo (aunque puede aparecer en otros casos dependiendo del contexto). Género: neutro. Número: singular (aunque puede ser plural: άδολα).  Tiempo: No aplica (es un adjetivo, no un verbo).  Voz: No aplica. Modo: No aplica.  Otros: Se deriva del verbo δολεω (doleo) a través de la negación 'a' (alfa privativo) que indica la ausencia de la cualidad del verbo. Es un adjetivo que describe una cualidad de pureza, sinceridad o ausencia de engaño.  Su uso en el Nuevo Testamento subraya la autenticidad y la falta de malicia o intención engañosa.","sin engaño, puro, sincero",αδολον,adolon
+"{'observaciones': 'Forma plural del genitivo del sustantivo ""odous"" (οδούς), que significa ""diente"".  El genitivo en este caso expresa posesión o relación. Por ejemplo, podría traducirse como ""de los dientes"" o ""los dientes (de alguien/algo)"".', 'caso': 'genitivo', 'modo': 'N/A', 'genero': 'masculino', 'clase_de_palabra': 'sustantivo', 'raiz': 'odous', 'voz': 'N/A', 'numero': 'plural', 'tiempo': 'N/A'}",dientes,αδοντες,adontos
+"Raíz: probablemente relacionada con una raíz indoeuropea que significa ""invisible"", ""oscuro"".
+Clase de palabra: Sustantivo propio.
+Caso: Genitivo.
+Género: Masculino.
+Número: Singular.
+Declinación: Sustantivo de la tercera declinación.
+Información adicional: Se refiere al inframundo griego, el reino de los muertos.  En el Nuevo Testamento, se utiliza con frecuencia como sinónimo de la morada de los condenados, aunque con matices teológicos distintos dependiendo del contexto.  El genitivo en este caso indica posesión, origen o relación: ""de Hades"".  Su uso es importante para entender la cosmovisión del mundo en el contexto del Nuevo Testamento, con una clara separación entre el reino de Dios y el reino de los muertos.",de Hades,αδου,hadou
+"Raíz: ἀείδω (aeidō, cantar). Clase de palabra: Verbo.  Tiempo: Presente.  Modo: Indicativo.  Voz: Activa.  Persona: Tercera.  Número: Plural.  Género: No aplicable (los verbos no tienen género).  El verbo está en la forma  ἀδουσιν (adousin), que es la tercera persona del plural del presente indicativo activo del verbo ἀείδω. La terminación -ουσιν (-ousin) es característica de esta forma verbal.",ellos cantan,αδουσιν,adousin
+"La palabra ""αδραμυττηνω"" (Adramytnwn) es un adjetivo que funciona como un adjetivo gentilicio.  Deriva del nombre propio de la ciudad de Adramitio (Αδραμύττιον, Adramuttion). Específicamente:
+
+* **Raíz:** Adramýttion (Αδραμύττιον)
+* **Clase de palabra:** Adjetivo
+* **Caso:** Genitivo
+* **Género:** Masculino
+* **Número:** Plural
+* **Declinación:**  Declinación de adjetivos de tercera declinación.  El genitivo plural en -ων (-wn) es característico de esta declinación para adjetivos de la primera y segunda clase.
+* **Uso:** Se usa para indicar origen o pertenencia.  Describe algo o alguien que 'pertenece a' o 'proviene de' Adramitio.",de Adramitio,αδραμυττηνω,Adramytnwn
+"Raíz: Probablemente derivado de un nombre propio de lugar (Adriático). Clase de palabra: Sustantivo propio. Caso: Nominativo. Género: Femenino. Número: Singular.  Tiempo: No aplica (sustantivo).  Voz: No aplica (sustantivo). Modo: No aplica (sustantivo).  Información adicional: Se refiere al mar Adriático.  En el Nuevo Testamento, aparece como un topónimo, indicando una ubicación geográfica.",Adria,αδρια,adria
+"Raíz:  ἀδρός (hadros) -  significando 'fuerte', 'vigoroso', 'abundante'
+Clase de palabra: Sustantivo
+Caso: Dativo
+Género: Femenino
+Número: Singular
+Declinación:  Sustantivo en -της (-tēs),  de la tercera declinación.  El dativo singular femenino termina en -ητι (-ēti).
+Derivación: Es un sustantivo abstracto derivado del adjetivo,  expresando la cualidad de ser 'fuerte' o 'abundante' en un sentido más amplio,  connotando  magnificencia o esplendor.  No es una palabra de uso frecuente en textos clásicos, encontrándose más en contextos bíblicos con un significado más elevado.
+Otras observaciones:  En el contexto del Nuevo Testamento,  el término suele transmitir la idea de un esplendor o magnificencia  divina o majestuosa. El dativo en este caso indica la circunstancia o el medio en el cual ocurre la acción descrita en la oración donde se encuentra la palabra.","en magnificencia, esplendor, gloria",αδροτητι,hadrōtēti
+"Raíz: δυνατος (dunatos, poderoso).  Clase de palabra: sustantivo, usado aquí como adjetivo en su forma plural neutro. Caso: nominativo. Género: neutro. Número: plural.  Tiempo: no aplica (sustantivo). Voz: no aplica (sustantivo). Modo: no aplica (sustantivo).  La palabra es una forma plural neutra del adjetivo  ἀδύνατος (adunatos), que significa ""imposible, débil, incapaz"". El prefijo α- (a-) indica negación. Describe algo que es incapaz de ser hecho o que carece de poder para ser hecho.  En este contexto, se refiere a cosas que son imposibles.",imposibles,αδυνατα,adunata
+"Raíz: δυνατος (dunatos, poderoso).  Clase de palabra: Verbo.  Tiempo: Futuro.  Voz: Indicativo.  Modo: Activo.  Persona: 3ª singular.  Número: Singular.  Aspecto: Simple. La terminación '-σει' (-sei) indica un futuro activo de 3ª persona singular en los verbos de la tercera conjugación (en este caso, un verbo contractum que se forma de la raíz 'δυνατος' y se contrae en algunos de sus tiempos).  Se puede traducir como 'será incapaz', 'se debilitará', o 'fracasará', dependiendo del contexto. Implica la falta de capacidad o fuerza para realizar una acción.","será incapaz, se debilitará, fracasará",αδυνατησει,adunathsei
+"Raíz: δυνατος (dyna-tos, 'poderoso').  Clase de palabra: adjetivo, usado sustantivamente en el Nuevo Testamento.  Caso: nominativo (usualmente), puede aparecer en otros casos dependiendo del contexto.  Género: neutro.  Número: singular (puede ser plural: αδυνατα, adynata).  Tiempo: No aplica (es un adjetivo, no un verbo).  Voz: No aplica.  Modo: No aplica.  Otras observaciones: Se usa para describir algo que es incapaz de ser hecho o que no puede ocurrir.  A menudo implica una imposibilidad absoluta, no simplemente una dificultad.  La forma αδυνατον es un adjetivo que deriva del verbo δυναμαι (dynamai), 'ser capaz', mediante la negación 'a-' .  Su uso sustantivo refleja la naturaleza descriptiva de su significado.",imposible,αδυνατον,adynaton
+"Raíz: δυνατος (dunatos, poderoso).  Clase de palabra: adjetivo.  Caso: Nominativo (usualmente, puede variar según el contexto). Género: Masculino (puede variar según el sustantivo al que modifica). Número: Singular (puede ser plural: αδυνατοι, adunatoi).  Tiempo: No aplica (es un adjetivo, no un verbo). Voz: No aplica. Modo: No aplica.  Información relevante:  Se forma añadiendo el prefijo α (a-), que en este contexto indica negación o privación, al adjetivo δυνατος. Por lo tanto, αδυνατος significa literalmente 'no poderoso', 'sin poder'.  La interpretación precisa puede variar ligeramente dependiendo del contexto en el que se use en el Nuevo Testamento. Puede transmitir ideas de debilidad física, incapacidad moral, falta de poder espiritual o ineficacia.","incapaz, débil, impotente",αδυνατος,adunatos
+"Raíz: δύναμαι (dúnamai, 'ser capaz').
+Clase de palabra: adjetivo.
+Caso: Genitivo.
+Género: Neutro.
+Número: Plural.
+Declinación: Adjetivo de la tercera declinación, en su forma genitivo plural neutro.  Se forma a partir del sustantivo adjetivo αδυνατος (αδυνατoς), 'imposible', que a su vez deriva de la raíz verbal.
+Significado: El genitivo neutro plural puede expresar la idea de 'entre los' o 'de los', denotando procedencia, pertenencia o asociación. En este contexto, se refiere a las personas que son impotentes o incapaces.  La palabra destaca la falta de poder o habilidad para hacer algo.","de los impotentes, de los débiles, de los incapaces",αδυνατων,adynatōn
+"Raíz:  aεί (siempre)
+Clase de palabra: Adverbio
+Género: No aplica (es un adverbio)
+Número: No aplica (es un adverbio)
+Caso: No aplica (es un adverbio)
+Tiempo: No aplica (es un adverbio)
+Voz: No aplica (es un adverbio)
+Modo: No aplica (es un adverbio)
+Información adicional:  Es un adverbio de tiempo que indica duración continua e ilimitada.  Se deriva de la raíz  aεί  y enfatiza la idea de  'continuidad sin fin'.  No tiene flexiones porque es un adverbio. Su uso en el Nuevo Testamento concuerda con su significado de duración ilimitada, tanto en el pasado como en el futuro, a menudo aplicado a la vida eterna o a la presencia de Dios.","siempre, eternamente, para siempre",αει,aei
+"Raíz: probablemente relacionada con el verbo *aíro* (αἴρω), ""levantar"", aunque el sustantivo es de origen incierto.  Clase de palabra: Sustantivo. Caso: Nominativo o Acusativo (depende del contexto de la oración, que no se proporciona). Género: Neutro. Número: Singular.  Tiempo: No aplicable (sustantivo). Voz: No aplicable (sustantivo). Modo: No aplicable (sustantivo).  Observaciones: En el Nuevo Testamento, ""αέρα"" se refiere al aire atmosférico, a la atmósfera.  La falta de artículo definido (el/la/los/las) indica que puede ser genérico o que se refiere al aire en un contexto específico dentro de la oración.",aire,αερα,aera
+"{'observaciones': ""Es el genitivo singular masculino del sustantivo αήρ (aer), que significa 'aire'.  En el Nuevo Testamento, a menudo se utiliza en expresiones como 'en el aire' (ἐν τῷ ἀέρι) o 'de los aires' (ἐκ τῶν ἀέρων), indicando el ámbito celestial o espiritual, en oposición a la tierra. La forma genitiva puede indicar pertenencia, origen o relación, dependiendo del contexto."", 'caso': 'genitivo', 'modo': 'No aplica', 'genero': 'masculino', 'clase_de_palabra': 'sustantivo', 'raiz': 'aer', 'voz': 'No aplica', 'numero': 'singular', 'tiempo': 'No aplica'}",aire,αερος,aerós
+"{'observaciones': ""Sustantivo masculino plural nominativo.  Describe aves de rapiña.  La forma es regular, derivada de la raíz 'aetos' con la terminación plural '-oi'."", 'caso': 'nominativo', 'modo': 'ninguno', 'genero': 'masculino', 'clase_de_palabra': 'sustantivo', 'raiz': 'aetos', 'voz': 'ninguna', 'numero': 'plural', 'tiempo': 'ninguno'}",águilas,αετοι,aetoi
+"Raíz: αετός (aetos). Clase de palabra: Sustantivo. Caso: Genitivo. Género: Masculino. Número: Singular.  El genitivo en este contexto indica posesión o pertenencia,  describiendo algo que 'pertenece al águila' o 'de un águila'.  No tiene tiempo, voz o modo al ser un sustantivo.",de águila,αετου,aetou
+"Raíz:  ἀετός (aetos)
+Clase de palabra: Sustantivo
+Caso: Nominativo
+Género: Masculino
+Número: Singular
+Tiempo: No aplica (sustantivo)
+Voz: No aplica (sustantivo)
+Modo: No aplica (sustantivo)
+Declinación: Sustantivo de la tercera declinación.  La forma nominativo singular 'αετός'  muestra la terminación característica de la tercera declinación masculina.
+Otra información: La palabra 'αετός' (aetos) es un sustantivo común que se refiere a un águila. Su uso en el Nuevo Testamento es escaso, pero evoca imágenes de poder, visión y altura.",águila,αετω,aeto
+"Raíz:  ζυμός (zumós, levadura); prefijo α (a, privativo). Clase de palabra: sustantivo. Caso: nominativo o acusativo (dependiendo del contexto). Género: neutro. Número: singular.  El prefijo 'α' indica la ausencia o privación de la levadura, por lo que el significado es 'sin levadura'.  No tiene tiempo, voz o modo, ya que es un sustantivo.",sin levadura,αζυμα,azyma
+"Raíz: ζυμος (zymos, 'levadura').  Clase de palabra: adjetivo.  Caso: nominativo (o acusativo, dependiendo del contexto de la oración). Género: masculino plural (o femenino plural, o neutro plural dependiendo del sustantivo al que califica). Número: plural.  Tiempo: no aplica (es un adjetivo, no un verbo). Voz: no aplica. Modo: no aplica.  Información adicional: Es un adjetivo que significa 'sin levadura', derivado del sustantivo 'zymos' con la adición del prefijo privativo 'a-' que niega la presencia de levadura.  Su forma plural refleja que se refiere a múltiples panes o elementos sin levadura.  La declinación variará dependiendo del género y caso del sustantivo al que modifica.",sin levadura,αζυμοι,azymoi
+"{'observaciones': ""Es un adjetivo del tipo compuesto, formado por la negacion 'a-' y 'zymois'. Describe a sustantivo al cual se le añade como atributo la ausencia de levadura.  Se utiliza en el Nuevo Testamento para describir el pan sin levadura de la Pascua."", 'caso': 'dativo', 'modo': 'ninguno', 'genero': 'masculino', 'clase_de_palabra': 'adjetivo', 'raiz': 'ζυμη (zyme)', 'voz': 'ninguna', 'numero': 'plural', 'tiempo': 'ninguno'}",sin levadura,αζυμοις,azymois
+"Raíz:  ζύμη (zýmē, levadura), con el prefijo negativo α- (a-, sin). Clase de palabra: Adjetivo. Caso: Nominativo, Acusativo o Vocativo (dependiendo del contexto de la oración). Género: Neutro. Número: Singular.  Tiempo: No aplicable (es un adjetivo, no un verbo). Voz: No aplicable (es un adjetivo, no un verbo). Modo: No aplicable (es un adjetivo, no un verbo).  Otras observaciones: Se usa frecuentemente para referirse al pan sin levadura, símbolo importante en la Pascua judía y con connotaciones teológicas en el Nuevo Testamento.",sin levadura,αζυμων,azymon
+"Raíz: ζύη (zūē,  'fermentación', 'levadura').  Clase de palabra: sustantivo.  Caso: nominativo.  Género: femenino.  Número: singular.  No tiene tiempo, voz o modo, ya que es un sustantivo.",levadura,αζωρ,azōr
+"Raíz: άζυμος (azymos). Clase de palabra: adjetivo.  Caso: Acusativo. Género: Neutro. Número: Singular.  El adjetivo ""azymos"" significa 'sin levadura' y se usa aquí en su forma acusativa singular neutra para concordar con un sustantivo implícito, como 'pan' o 'comida', que se entiende del contexto. No tiene tiempo, voz o modo porque es un adjetivo, no un verbo.",sin levadura,αζωτον,azōton
+"{'observaciones': 'Sustantivo masculino que se refiere al aire o la atmósfera.  Puede usarse en contextos que se refieren al espacio aéreo, al viento o a la atmósfera en general. La forma plural es ""aeres"".  El caso dependerá del contexto de la oración.', 'caso': 'nominativo, genitivo, dativo, acusativo, vocativo', 'modo': 'No aplica a sustantivos', 'genero': 'masculino', 'clase_de_palabra': 'sustantivo', 'raiz': 'aer', 'voz': 'No aplica a sustantivos', 'numero': 'singular, plural', 'tiempo': 'No aplica a sustantivos'}","aire, atmósfera",αηρ,aer
 ,,αθανασιαν,
 ,,αθεμιτοις,
 ,,αθεμιτον,
