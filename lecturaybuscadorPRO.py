@@ -62,14 +62,11 @@ def load_all_data():
 
     if all_dfs:
         combined_df = pd.concat(all_dfs, ignore_index=True)
-        # Asegurarse de que los nombres de las columnas sean robustos a las mayúsculas/minúsculas y tildes
-        combined_df.columns = [col.strip().replace(' ', '_').lower() for col in combined_df.columns]
+        # Normalizar los nombres de las columnas para evitar errores de tipeo
+        combined_df.columns = combined_df.columns.str.replace(r'[^a-zA-Z0-9]', '', regex=True).str.lower()
         
         combined_df['capítulo'] = pd.to_numeric(combined_df['capítulo'], errors='coerce').fillna(0).astype(int)
         combined_df['versículo'] = pd.to_numeric(combined_df['versículo'], errors='coerce').fillna(0).astype(int)
-        
-        # Elimina las columnas con nombres duplicados (creados por errores previos)
-        combined_df = combined_df.loc[:,~combined_df.columns.duplicated()]
         
         combined_df = combined_df.fillna('')
         return combined_df
@@ -129,7 +126,6 @@ def search_word_in_dict(word, dictionary_data):
     """
     normalized_search_term = normalize_greek(word)
     
-    # Crea un diccionario para una búsqueda más rápida O(1)
     if not hasattr(st.session_state, 'dictionary_map'):
         st.session_state.dictionary_map = {normalize_greek(entry.get("palabra", "")): entry for entry in dictionary_data}
 
@@ -192,13 +188,12 @@ verse_data = combined_df[(combined_df['libro'] == selected_book) & (combined_df[
 if not verse_data.empty:
     current_verse = -1
     for index, row in verse_data.iterrows():
-        # Usa .get() para evitar el KeyError si la columna no existe
         if row.get('versículo') != current_verse:
             st.markdown(f"**Versículo {row.get('versículo', 'N/A')}**")
             current_verse = row.get('versículo')
         
         # Muestra la información de cada palabra en el versículo de manera segura
-        st.markdown(f"**Posición:** {row.get('posicion_en_versiculo', 'N/A')}")
+        st.markdown(f"**Posición:** {row.get('posicionenversiculo', 'N/A')}")
         st.write(f"RV1960: {row.get('rv1960', 'N/A')}")
         st.write(f"Original: {row.get('original', 'N/A')}")
         st.write(f"Transliteración: {row.get('transliteracion', 'N/A')}")
