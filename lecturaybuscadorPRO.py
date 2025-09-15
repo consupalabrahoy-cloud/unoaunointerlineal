@@ -62,8 +62,15 @@ def load_all_data():
 
     if all_dfs:
         combined_df = pd.concat(all_dfs, ignore_index=True)
-        combined_df['Capítulo'] = pd.to_numeric(combined_df['Capítulo'], errors='coerce').fillna(0).astype(int)
-        combined_df['Versículo'] = pd.to_numeric(combined_df['Versículo'], errors='coerce').fillna(0).astype(int)
+        # Asegurarse de que los nombres de las columnas sean robustos a las mayúsculas/minúsculas y tildes
+        combined_df.columns = [col.strip().replace(' ', '_').lower() for col in combined_df.columns]
+        
+        combined_df['capítulo'] = pd.to_numeric(combined_df['capítulo'], errors='coerce').fillna(0).astype(int)
+        combined_df['versículo'] = pd.to_numeric(combined_df['versículo'], errors='coerce').fillna(0).astype(int)
+        
+        # Elimina las columnas con nombres duplicados (creados por errores previos)
+        combined_df = combined_df.loc[:,~combined_df.columns.duplicated()]
+        
         combined_df = combined_df.fillna('')
         return combined_df
     return None
@@ -100,32 +107,17 @@ def parse_and_find_occurrences(df, search_term):
     normalized_search_term = normalize_greek(search_term)
     
     # Crea una columna normalizada para una búsqueda más eficiente
-    df['normalized_text'] = df['Texto'].apply(normalize_greek)
+    df['normalized_original'] = df.get('original', '').apply(lambda x: normalize_greek(str(x)))
     
-    all_matches = df[df['normalized_text'].str.contains(normalized_search_term, na=False, regex=False)]
+    all_matches = df[df['normalized_original'].str.contains(normalized_search_term, na=False, regex=False)]
     
     for _, row in all_matches.iterrows():
-        full_text = str(row['Texto'])
-        verse_number = row['Versículo']
-        spanish_text = ""
-        greek_text = ""
-        found_greek_start = False
-
-        for char in full_text:
-            if '\u0370' <= char <= '\u03FF' or '\u1F00' <= char <= '\u1FFF':
-                found_greek_start = True
-
-            if not found_greek_start:
-                spanish_text += char
-            else:
-                greek_text += char
-
         occurrences.append({
-            'Libro': row['Libro'],
-            'Capítulo': row['Capítulo'],
-            'Versículo': row['Versículo'],
-            'Texto_Español': spanish_text.strip(),
-            'Texto_Griego': greek_text.strip()
+            'Libro': row.get('libro'),
+            'Capítulo': row.get('capítulo'),
+            'Versículo': row.get('versículo'),
+            'Texto_Español': row.get('rv1960'),
+            'Texto_Griego': row.get('original')
         })
 
     return occurrences
@@ -163,13 +155,13 @@ if st.button("Actualizar la Base de Datos"):
     st.success("¡Base de datos actualizada con éxito!")
 
 # --- Controles de selección ---
-book_options = combined_df['Libro'].unique()
+book_options = combined_df['libro'].unique()
 selected_book = st.selectbox("Selecciona un libro:", book_options)
 
-chapters_in_book = combined_df[combined_df['Libro'] == selected_book]['Capítulo'].unique()
+chapters_in_book = combined_df[combined_df['libro'] == selected_book]['capítulo'].unique()
 selected_chapter = st.selectbox("Selecciona un capítulo:", sorted(chapters_in_book))
 
-# --- Búsqueda de palabras ---
+# --- Búsqueda de palabras (Concordancia) ---
 st.markdown("---")
 st.subheader("Buscar una Palabra (Concordancia)")
 search_term = st.text_input("Ingresa una palabra para buscar (ej. `Dios`, `amor` o `ἀγάπη`):")
@@ -195,25 +187,26 @@ if st.button("Buscar"):
 st.markdown("---")
 st.subheader(f"Texto Interlineal: {selected_book} - Capítulo {selected_chapter}")
 # Filtra el DataFrame para mostrar todo el capítulo seleccionado
-verse_data = combined_df[(combined_df['Libro'] == selected_book) & (combined_df['Capítulo'] == selected_chapter)]
+verse_data = combined_df[(combined_df['libro'] == selected_book) & (combined_df['capítulo'] == selected_chapter)]
 
 if not verse_data.empty:
     current_verse = -1
     for index, row in verse_data.iterrows():
-        if row['Versículo'] != current_verse:
-            st.markdown(f"**Versículo {row['Versículo']}**")
-            current_verse = row['Versículo']
+        # Usa .get() para evitar el KeyError si la columna no existe
+        if row.get('versículo') != current_verse:
+            st.markdown(f"**Versículo {row.get('versículo', 'N/A')}**")
+            current_verse = row.get('versículo')
         
         # Muestra la información de cada palabra en el versículo de manera segura
-        st.markdown(f"**Posición: {row.get('Posicion_En_Versiculo', 'N/A')}**")
-        st.write(f"RV1960: {row.get('RV1960', 'N/A')}")
-        st.write(f"Original: {row.get('Original', 'N/A')}")
-        st.write(f"Transliteración: {row.get('Transliteracion', 'N/A')}")
-        st.write(f"Significado: {row.get('Significado', 'N/A')}")
+        st.markdown(f"**Posición:** {row.get('posicion_en_versiculo', 'N/A')}")
+        st.write(f"RV1960: {row.get('rv1960', 'N/A')}")
+        st.write(f"Original: {row.get('original', 'N/A')}")
+        st.write(f"Transliteración: {row.get('transliteracion', 'N/A')}")
+        st.write(f"Significado: {row.get('significado', 'N/A')}")
         
         # Opciones para el diccionario
-        with st.expander(f"Ver información de '{row.get('Original', 'N/A')}'"):
-            word_info = search_word_in_dict(row.get('Original', ''), dictionary_data)
+        with st.expander(f"Ver información de '{row.get('original', 'N/A')}'"):
+            word_info = search_word_in_dict(row.get('original', ''), dictionary_data)
             if word_info:
                 st.subheader(f"Información de la palabra: {word_info.get('palabra', 'N/A')}")
                 st.markdown(f"**Transliteración:** {word_info.get('transliteracion', 'N/A')}")
