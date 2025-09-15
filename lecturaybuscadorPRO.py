@@ -60,6 +60,18 @@ st.markdown("""
         border-color: #0A8AB3;
         color: #0A8AB3;
     }
+    
+    /* Estilo para el botón de limpiar caché */
+    .stButton > button {
+        background-color: #f0f2f6;
+        color: #262730;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+    }
+    .stButton > button:hover {
+        background-color: #e6eaf0;
+        border-color: #d0d0d0;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -185,6 +197,11 @@ def search_word_in_dict(word, dictionary_data):
 st.title('Lector Interlineal español-griego del Nuevo Testamento.')
 st.markdown('***')
 st.markdown('Reina-Valera Antigua y Westcott-Hort.')
+
+# Botón para limpiar el caché
+if st.button('Actualizar datos'):
+    st.cache_data.clear()
+    st.experimental_rerun()
 
 # Cargar datos
 if 'df' not in st.session_state:
@@ -347,4 +364,3 @@ if st.session_state.df is not None:
 
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
-
