@@ -1363,7 +1363,15 @@ Otra información: La palabra 'αετός' (aetos) es un sustantivo común que s
 "{'observaciones': ""Es un adjetivo del tipo compuesto, formado por la negacion 'a-' y 'zymois'. Describe a sustantivo al cual se le añade como atributo la ausencia de levadura.  Se utiliza en el Nuevo Testamento para describir el pan sin levadura de la Pascua."", 'caso': 'dativo', 'modo': 'ninguno', 'genero': 'masculino', 'clase_de_palabra': 'adjetivo', 'raiz': 'ζυμη (zyme)', 'voz': 'ninguna', 'numero': 'plural', 'tiempo': 'ninguno'}",sin levadura,αζυμοις,azymois
 "Raíz:  ζύμη (zýmē, levadura), con el prefijo negativo α- (a-, sin). Clase de palabra: Adjetivo. Caso: Nominativo, Acusativo o Vocativo (dependiendo del contexto de la oración). Género: Neutro. Número: Singular.  Tiempo: No aplicable (es un adjetivo, no un verbo). Voz: No aplicable (es un adjetivo, no un verbo). Modo: No aplicable (es un adjetivo, no un verbo).  Otras observaciones: Se usa frecuentemente para referirse al pan sin levadura, símbolo importante en la Pascua judía y con connotaciones teológicas en el Nuevo Testamento.",sin levadura,αζυμων,azymon
 "Raíz: ζύη (zūē,  'fermentación', 'levadura').  Clase de palabra: sustantivo.  Caso: nominativo.  Género: femenino.  Número: singular.  No tiene tiempo, voz o modo, ya que es un sustantivo.",levadura,αζωρ,azōr
-"Raíz: άζυμος (azymos). Clase de palabra: adjetivo.  Caso: Acusativo. Género: Neutro. Número: Singular.  El adjetivo ""azymos"" significa 'sin levadura' y se usa aquí en su forma acusativa singular neutra para concordar con un sustantivo implícito, como 'pan' o 'comida', que se entiende del contexto. No tiene tiempo, voz o modo porque es un adjetivo, no un verbo.",sin levadura,αζωτον,azōton
+"Raíz: Es un nombre propio, Ἄζωτος (Ázōtos).
+
+Clase de palabra: Sustantivo propio.
+
+Caso, Género, Número: La terminación -ον indica el caso acusativo neutro singular.
+
+Función sintáctica: En este pasaje, el acusativo funciona como un complemento circunstancial de lugar (un ""acusativo de lugar""), indicando el lugar donde se halló Felipe en Hechos 8:40.
+
+Notas: Esta forma es una variante textual de la forma más común, Ἀζώτῳ (Azṓtō), que es el dativo del mismo nombre. Ambas se refieren a la misma ciudad y son igualmente válidas según los manuscritos que se consulten.",Azoto (nombre propio de una ciudad),αζωτον,azōton
 "{'observaciones': 'Sustantivo masculino que se refiere al aire o la atmósfera.  Puede usarse en contextos que se refieren al espacio aéreo, al viento o a la atmósfera en general. La forma plural es ""aeres"".  El caso dependerá del contexto de la oración.', 'caso': 'nominativo, genitivo, dativo, acusativo, vocativo', 'modo': 'No aplica a sustantivos', 'genero': 'masculino', 'clase_de_palabra': 'sustantivo', 'raiz': 'aer', 'voz': 'No aplica a sustantivos', 'numero': 'singular, plural', 'tiempo': 'No aplica a sustantivos'}","aire, atmósfera",αηρ,aer
 ,,αθανασιαν,
 ,,αθεμιτοις,
