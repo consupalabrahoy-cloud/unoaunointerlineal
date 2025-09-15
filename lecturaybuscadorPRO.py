@@ -200,7 +200,7 @@ st.markdown('***')
 st.markdown('Reina-Valera Antigua y Westcott-Hort.')
 
 # Botón para limpiar el caché
-if st.button('Actualizar la Base de Datos'):
+if st.button('Actualizar datos en el diccionario'):
     st.cache_data.clear()
     st.rerun()
 
@@ -365,3 +365,4 @@ if st.session_state.df is not None:
 
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
+
