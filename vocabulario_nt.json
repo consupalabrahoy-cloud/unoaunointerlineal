@@ -1,14 +1,20 @@
 [
     {
-        "palabra": "πορνείας",
-        "transliteracion": "porneias",
-        "traduccion_literal": "de prostitución, de fornicación",
-        "analisis_gramatical": "Raíz: La palabra proviene de la raíz πόρνη (pórnē), que significa \"prostituta\".\n\nClase de palabra: Sustantivo, de la primera declinación.\n\nCaso: Genitivo. La terminación -ας indica que la palabra está en caso genitivo. Este caso se usa para mostrar posesión, origen o relación, y a menudo se traduce como \"de\" en español.\n\nGénero: Femenino.\n\nNúmero: Singular.\n\nSignificado en contexto: En el Nuevo Testamento, πορνείας a menudo se usa para referirse a la inmoralidad sexual en general, incluyendo adulterio, fornicación y prostitución. El caso genitivo \"de fornicación\" aparece en frases como \"a causa de la fornicación\" o \"del espíritu de fornicación\"."
-    },
-    {
         "palabra": "πεφυσιωμένοι",
         "transliteracion": "pephysiōménoi",
         "traduccion_literal": "(ustedes) que han sido inflados; envanecidos, orgullosos",
         "analisis_gramatical": "La palabra πεφυσιωμένοι es un participio que proviene del verbo φυσιάω (physiáō), que significa \"inflar\", \"soplar\" o \"hinchar\". . En este contexto, tiene un sentido figurado y metafórico.\n\n    Raíz: φυσιο- (physio-)\n\n    Tiempo: Perfecto. El prefijo πε- (pe-) y la reduplicación indican que la acción de \"inflarse\" ya ha ocurrido y sus resultados perduran en el presente. La congregación de Corinto ya estaba en un estado de arrogancia.\n\n    Voz: Pasiva. La terminación -μένοι indica que los sujetos no se inflaron a sí mismos, sino que fueron \"inflados\" o se volvieron orgullosos debido a una situación o conocimiento.\n\n    Modo: Participio. Funciona como un adjetivo verbal, describiendo el estado o la condición de los sujetos (\"ustedes\").\n\n    Caso, Género, Número: La terminación -μένοι indica que la palabra está en caso nominativo, género masculino y número plural. Se refiere a \"ustedes\" (en plural, los miembros de la iglesia).\n\nEn este versículo, Pablo los está reprendiendo por su arrogancia (su estado de ser \"inflados\") frente a un grave pecado en su comunidad, en lugar de estar de luto."
+    },
+    {
+        "palabra": "πορνείας",
+        "transliteracion": "porneías",
+        "traduccion_literal": "de prostitución, de fornicación",
+        "analisis_gramatical": "Raíz: La palabra proviene de la raíz πόρνη (pórnē), que significa \"prostituta\".\n\nClase de palabra: Sustantivo, de la primera declinación.\n\nCaso: Genitivo. La terminación -ας indica que la palabra está en caso genitivo. Este caso se usa para mostrar posesión, origen o relación, y a menudo se traduce como \"de\" en español.\n\nGénero: Femenino.\n\nNúmero: Singular.\n\nSignificado en contexto: En el Nuevo Testamento, πορνείας a menudo se usa para referirse a la inmoralidad sexual en general, incluyendo adulterio, fornicación y prostitución. El caso genitivo \"de fornicación\" aparece en frases como \"a causa de la fornicación\" o \"del espíritu de fornicación\"."
+    },
+    {
+        "palabra": "πορνεια",
+        "transliteracion": "porneia",
+        "traduccion_literal": "Prostitución, fornicación, inmoralidad sexual.",
+        "analisis_gramatical": "        Clase de palabra: Sustantivo\n\n        Género: Femenino\n\n        Número: Singular\n\n        Caso: Nominativo\n\nEn el Nuevo Testamento, esta palabra tiene un significado amplio y se utiliza para referirse no solo a la prostitución, sino a cualquier tipo de inmoralidad sexual. El término abarca una gama de actos que van en contra de la enseñanza bíblica sobre la pureza sexual."
     }
 ]
