@@ -51,7 +51,13 @@ def load_all_data():
             response.raise_for_status()
             text_content = response.content.decode('utf-8')
             df = pd.read_csv(io.StringIO(text_content), sep=',')
-            df['Libro'] = book_name
+            
+            # Verificar si las columnas esenciales existen
+            required_cols = ['Libro', 'Capítulo', 'Versículo', 'Texto']
+            if not all(col in df.columns for col in required_cols):
+                df['Libro'] = book_name  # Por si falta la columna Libro
+                st.warning(f"Advertencia: Archivo '{book_name}.csv' puede tener un formato inesperado.")
+            
             all_dfs.append(df)
         except requests.exceptions.RequestException as e:
             st.error(f"Error al cargar datos de {book_name}: {e}")
@@ -62,33 +68,22 @@ def load_all_data():
 
     if all_dfs:
         combined_df = pd.concat(all_dfs, ignore_index=True)
-        # Normalizar los nombres de las columnas para evitar errores
-        combined_df.columns = combined_df.columns.str.lower()
+        combined_df = combined_df.fillna('')
         
-        # Elimina las columnas con nombres duplicados (creados por errores previos)
-        combined_df = combined_df.loc[:,~combined_df.columns.duplicated()]
-
-        # Asegurar que las columnas clave existan
-        for col in ['libro', 'capítulo', 'versículo', 'texto']:
-            if col not in combined_df.columns:
-                st.error(f"Error: No se encontró la columna '{col}' en los archivos CSV.")
-                return None
-
         # Separar el texto en español y griego
         spanish_texts = []
         greek_texts = []
-        for text in combined_df['texto']:
-            parts = re.split(r'\s(?=[α-ωΑ-Ω])', text, 1)
+        for text in combined_df['Texto']:
+            parts = text.split(" ", 1)
             spanish_texts.append(parts[0].strip())
             greek_texts.append(parts[1].strip() if len(parts) > 1 else '')
         
         combined_df['texto_espanol'] = spanish_texts
         combined_df['texto_griego'] = greek_texts
 
-        combined_df['capítulo'] = pd.to_numeric(combined_df['capítulo'], errors='coerce').fillna(0).astype(int)
-        combined_df['versículo'] = pd.to_numeric(combined_df['versículo'], errors='coerce').fillna(0).astype(int)
+        combined_df['Capítulo'] = pd.to_numeric(combined_df['Capítulo'], errors='coerce').fillna(0).astype(int)
+        combined_df['Versículo'] = pd.to_numeric(combined_df['Versículo'], errors='coerce').fillna(0).astype(int)
         
-        combined_df = combined_df.fillna('')
         return combined_df
     return None
 
@@ -130,9 +125,9 @@ def parse_and_find_occurrences(df, search_term):
     
     for _, row in all_matches.iterrows():
         occurrences.append({
-            'Libro': row['libro'],
-            'Capítulo': row['capítulo'],
-            'Versículo': row['versículo'],
+            'Libro': row['Libro'],
+            'Capítulo': row['Capítulo'],
+            'Versículo': row['Versículo'],
             'Texto_Español': row['texto_espanol'],
             'Texto_Griego': row['texto_griego']
         })
@@ -171,10 +166,10 @@ if st.button("Actualizar la Base de Datos"):
     st.success("¡Base de datos actualizada con éxito!")
 
 # --- Controles de selección ---
-book_options = combined_df['libro'].unique()
+book_options = combined_df['Libro'].unique()
 selected_book = st.selectbox("Selecciona un libro:", book_options)
 
-chapters_in_book = combined_df[combined_df['libro'] == selected_book]['capítulo'].unique()
+chapters_in_book = combined_df[combined_df['Libro'] == selected_book]['Capítulo'].unique()
 selected_chapter = st.selectbox("Selecciona un capítulo:", sorted(chapters_in_book))
 
 # --- Búsqueda de palabras (Concordancia) ---
@@ -203,34 +198,26 @@ if st.button("Buscar"):
 st.markdown("---")
 st.subheader(f"Texto Interlineal: {selected_book} - Capítulo {selected_chapter}")
 # Filtra el DataFrame para mostrar todo el capítulo seleccionado
-verse_data = combined_df[(combined_df['libro'] == selected_book) & (combined_df['capítulo'] == selected_chapter)]
+verse_data = combined_df[(combined_df['Libro'] == selected_book) & (combined_df['Capítulo'] == selected_chapter)]
 
 if not verse_data.empty:
     for index, row in verse_data.iterrows():
-        st.markdown(f"**Versículo {row['versículo']}**")
+        st.markdown(f"**Versículo {row['Versículo']}**")
         
         # Muestra la información del versículo
         st.write(f"**Español:** {row['texto_espanol']}")
         
         greek_words = row['texto_griego'].split()
-        cols = st.columns(len(greek_words))
         
         for i, word in enumerate(greek_words):
-            with cols[i]:
-                st.button(word, key=f"{row['libro']}-{row['capítulo']}-{row['versículo']}-{i}")
-                
-                # Check for button click and show expander
-                if st.session_state[f"{row['libro']}-{row['capítulo']}-{row['versículo']}-{i}"]:
-                    with st.expander(f"Ver información de '{word}'", expanded=True):
-                        word_info = search_word_in_dict(word, dictionary_data)
-                        if word_info:
-                            st.subheader(f"Información de la palabra: {word_info.get('palabra', 'N/A')}")
-                            st.markdown(f"**Transliteración:** {word_info.get('transliteracion', 'N/A')}")
-                            st.markdown(f"**Traducción literal:** {word_info.get('traduccion_literal', 'N/A')}")
-                            st.markdown(f"**Análisis Gramatical:** {word_info.get('analisis_gramatical', 'N/A')}")
-                        else:
-                            st.info("En este momento no hay información gramatical para esta palabra.")
+            with st.expander(f"Ver información de '{word}'"):
+                word_info = search_word_in_dict(word, dictionary_data)
+                if word_info:
+                    st.subheader(f"Información de la palabra: {word_info.get('palabra', 'N/A')}")
+                    st.markdown(f"**Transliteración:** {word_info.get('transliteracion', 'N/A')}")
+                    st.markdown(f"**Traducción literal:** {word_info.get('traduccion_literal', 'N/A')}")
+                    st.markdown(f"**Análisis Gramatical:** {word_info.get('analisis_gramatical', 'N/A')}")
+                else:
+                    st.info("En este momento no hay información gramatical para esta palabra.")
 else:
     st.warning("Capítulo no encontrado. Por favor, selecciona otro.")
-
-
