@@ -316,14 +316,16 @@ if st.session_state.df is not None:
                     st.markdown(f'**Traducción literal:** {dict_entry.get("traduccion_literal", "No disponible")}')
                     
                     analisis = dict_entry.get("analisis_gramatical", {})
+                    st.markdown('**Análisis Morfológico:**')
+                    
                     if isinstance(analisis, dict):
-                        st.markdown('**Análisis Morfológico:**')
-                        st.json(analisis)
+                        # Convertir el diccionario a una cadena JSON formateada
+                        analisis_str = json.dumps(analisis, indent=2, ensure_ascii=False)
+                        st.markdown(f'```json\n{analisis_str}\n```')
                     elif isinstance(analisis, str):
-                        st.markdown('**Análisis Morfológico:**')
                         st.markdown(analisis)
                     else:
-                        st.markdown('**Análisis Morfológico:** No disponible')
+                        st.markdown('No disponible')
 
                 else:
                     st.warning("No hay información gramatical para esa palabra en este momento.")
