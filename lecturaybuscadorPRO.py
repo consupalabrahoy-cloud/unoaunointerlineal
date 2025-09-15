@@ -171,7 +171,7 @@ selected_chapter = st.selectbox("Selecciona un capítulo:", sorted(chapters_in_b
 
 # --- Búsqueda de palabras ---
 st.markdown("---")
-st.subheader("Buscar una Palabra")
+st.subheader("Buscar una Palabra (Concordancia)")
 search_term = st.text_input("Ingresa una palabra para buscar (ej. `Dios`, `amor` o `ἀγάπη`):")
 
 if st.button("Buscar"):
@@ -199,10 +199,12 @@ verse_data = combined_df[(combined_df['Libro'] == selected_book) & (combined_df[
 
 if not verse_data.empty:
     for index, row in verse_data.iterrows():
+        # Usa .get() para evitar el KeyError si la columna no existe
+        position = row.get('Posicion_En_Versiculo', 'N/A')
         st.markdown(f"**Versículo {row['Versículo']}**")
         
         # Muestra la información de cada palabra en el versículo
-        st.markdown(f"**{row.get('Posicion_En_Versiculo', 'N/A')}**")
+        st.markdown(f"**Posición: {position}**")
         st.write(f"RV1960: {row['RV1960']}")
         st.write(f"Original: {row['Original']}")
         st.write(f"Transliteración: {row['Transliteracion']}")
