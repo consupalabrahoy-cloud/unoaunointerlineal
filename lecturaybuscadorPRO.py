@@ -123,17 +123,17 @@ def normalize_greek(word):
 
 def parse_and_find_occurrences(df, search_term):
     """
-    Busca un término en los DataFrames.
+    Busca un término en los DataFrames, normalizando el texto de búsqueda y el
+    texto de la Biblia para ignorar mayúsculas y acentos.
     """
     occurrences = []
+    normalized_search_term = normalize_greek(search_term)
 
     # Crea una máscara booleana para encontrar las coincidencias en español y griego
-    spanish_matches = df['Texto'].str.lower().str.contains(search_term.lower(), na=False, regex=False)
-    greek_matches = df['Texto'].str.contains(search_term.lower(), na=False, regex=False)
-
-    # Combina las coincidencias de ambos idiomas
-    all_matches = df[spanish_matches | greek_matches]
-
+    df['normalized_text'] = df['Texto'].apply(normalize_greek)
+    
+    all_matches = df[df['normalized_text'].str.contains(normalized_search_term, na=False, regex=False)]
+    
     for _, row in all_matches.iterrows():
         full_text = str(row['Texto'])
         verse_number = row['Versículo']
@@ -171,7 +171,8 @@ def search_word_in_dict(word, dictionary_data):
     normalized_search_term = normalize_greek(word)
     
     for entry in dictionary_data:
-        entry_word = entry.get("palabra", "")
+        # Extrae la palabra del diccionario y elimina espacios en blanco
+        entry_word = entry.get("palabra", "").strip()
         # Normaliza la palabra del diccionario para la comparación
         normalized_entry_word = normalize_greek(entry_word)
         
