@@ -198,21 +198,22 @@ st.subheader(f"Texto Interlineal: {selected_book} - Capítulo {selected_chapter}
 verse_data = combined_df[(combined_df['Libro'] == selected_book) & (combined_df['Capítulo'] == selected_chapter)]
 
 if not verse_data.empty:
+    current_verse = -1
     for index, row in verse_data.iterrows():
-        # Usa .get() para evitar el KeyError si la columna no existe
-        position = row.get('Posicion_En_Versiculo', 'N/A')
-        st.markdown(f"**Versículo {row['Versículo']}**")
+        if row['Versículo'] != current_verse:
+            st.markdown(f"**Versículo {row['Versículo']}**")
+            current_verse = row['Versículo']
         
-        # Muestra la información de cada palabra en el versículo
-        st.markdown(f"**Posición: {position}**")
-        st.write(f"RV1960: {row['RV1960']}")
-        st.write(f"Original: {row['Original']}")
-        st.write(f"Transliteración: {row['Transliteracion']}")
-        st.write(f"Significado: {row['Significado']}")
+        # Muestra la información de cada palabra en el versículo de manera segura
+        st.markdown(f"**Posición: {row.get('Posicion_En_Versiculo', 'N/A')}**")
+        st.write(f"RV1960: {row.get('RV1960', 'N/A')}")
+        st.write(f"Original: {row.get('Original', 'N/A')}")
+        st.write(f"Transliteración: {row.get('Transliteracion', 'N/A')}")
+        st.write(f"Significado: {row.get('Significado', 'N/A')}")
         
         # Opciones para el diccionario
-        with st.expander(f"Ver información de '{row['Original']}'"):
-            word_info = search_word_in_dict(row['Original'], dictionary_data)
+        with st.expander(f"Ver información de '{row.get('Original', 'N/A')}'"):
+            word_info = search_word_in_dict(row.get('Original', ''), dictionary_data)
             if word_info:
                 st.subheader(f"Información de la palabra: {word_info.get('palabra', 'N/A')}")
                 st.markdown(f"**Transliteración:** {word_info.get('transliteracion', 'N/A')}")
