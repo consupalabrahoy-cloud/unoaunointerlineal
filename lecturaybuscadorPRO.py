@@ -41,36 +41,37 @@ BOOKS_URLS = {
 DICTIONARY_URL = "https://raw.githubusercontent.com/consupalabrahoy-cloud/unoaunointerlineal/main/vocabulario_nt.json"
 
 
-# CSS personalizado para estilizar los botones de descarga
+# CSS personalizado para estilizar los botones
 st.markdown("""
 <style>
-    /* Estiliza los botones de descarga usando su data-testid */
-    [data-testid="stDownloadButton"] > button {
-        background-color: transparent; /* Fondo transparente */
+    /* Estilo del botón de actualización */
+    .stButton > button {
+        background-color: transparent;
         color: #0CA7CF;
-        border: 1px solid #0CA7CF; /* Borde más fino */
+        border: 1px solid #0CA7CF;
         border-radius: 8px;
         padding: 10px 20px;
-        margin-top: 20px; /* Separación del texto superior */
+        margin-top: 20px;
     }
-
-    /* Estilo de los botones de descarga al pasar el ratón */
-    [data-testid="stDownloadButton"] > button:hover {
+    .stButton > button:hover {
         background-color: #E6EAF0;
         border-color: #0A8AB3;
         color: #0A8AB3;
     }
-    
-    /* Estilo para el botón de limpiar caché */
-    .stButton > button {
-        background-color: #f0f2f6;
-        color: #262730;
-        border: 1px solid #e0e0e0;
+
+    /* Estilo para los botones de descarga */
+    [data-testid="stDownloadButton"] > button {
+        background-color: transparent;
+        color: #0CA7CF;
+        border: 1px solid #0CA7CF;
         border-radius: 8px;
+        padding: 10px 20px;
+        margin-top: 20px;
     }
-    .stButton > button:hover {
-        background-color: #e6eaf0;
-        border-color: #d0d0d0;
+    [data-testid="stDownloadButton"] > button:hover {
+        background-color: #E6EAF0;
+        border-color: #0A8AB3;
+        color: #0A8AB3;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -199,9 +200,9 @@ st.markdown('***')
 st.markdown('Reina-Valera Antigua y Westcott-Hort.')
 
 # Botón para limpiar el caché
-if st.button('Actualizar datos'):
+if st.button('Actualizar la Base de Datos'):
     st.cache_data.clear()
-    st.experimental_rerun()
+    st.rerun()
 
 # Cargar datos
 if 'df' not in st.session_state:
