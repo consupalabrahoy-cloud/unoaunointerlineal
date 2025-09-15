@@ -65,6 +65,20 @@ st.markdown("""
 
 
 # --- Funciones de Carga de Datos ---
+def _split_text(full_text):
+    """
+    Función auxiliar para dividir el texto en español y griego.
+    Utiliza una expresión regular para encontrar el punto de división.
+    """
+    # Expresión regular para encontrar un espacio seguido de un carácter griego
+    match = re.search(r'\s(?=[α-ωΑ-Ω])', full_text)
+    if match:
+        split_index = match.start()
+        spanish_text = full_text[:split_index].strip()
+        greek_text = full_text[split_index:].strip()
+        return spanish_text, greek_text
+    return full_text, ""
+
 @st.cache_data(ttl=3600)
 def load_all_data():
     """Carga y combina los datos de todos los libros en un solo DataFrame."""
@@ -88,18 +102,32 @@ def load_all_data():
         combined_df = pd.concat(all_dfs, ignore_index=True)
         combined_df['Capítulo'] = pd.to_numeric(combined_df['Capítulo'], errors='coerce').fillna(0).astype(int)
         combined_df['Versículo'] = pd.to_numeric(combined_df['Versículo'], errors='coerce').fillna(0).astype(int)
-        # Reemplazar valores nulos con cadenas vacías para evitar errores de búsqueda
         combined_df = combined_df.fillna('')
+        
+        # Aplicar la lógica de separación de texto
+        combined_df[['texto_espanol', 'texto_griego']] = combined_df['Texto'].apply(
+            lambda x: pd.Series(_split_text(x))
+        )
         return combined_df
     return None
 
 @st.cache_data(ttl=3600)
 def load_dictionary_data():
-    """Carga los datos del diccionario desde el archivo JSON."""
+    """Carga los datos del diccionario y los prepara para una búsqueda rápida."""
     try:
         response = requests.get(DICTIONARY_URL, timeout=10)
         response.raise_for_status()
-        return response.json()
+        dictionary_list = response.json()
+        
+        # Crear un mapa para una búsqueda instantánea
+        dictionary_map = {}
+        for entry in dictionary_list:
+            word = entry.get("palabra", "")
+            if word:
+                normalized_word = normalize_greek(word)
+                dictionary_map[normalized_word] = entry
+        
+        return dictionary_map
     except requests.exceptions.RequestException as e:
         st.error(f"Error al cargar datos del diccionario: {e}")
         return None
@@ -130,56 +158,30 @@ def parse_and_find_occurrences(df, search_term):
     normalized_search_term = normalize_greek(search_term)
 
     # Crea una máscara booleana para encontrar las coincidencias en español y griego
-    df['normalized_text'] = df['Texto'].apply(normalize_greek)
+    df['normalized_espanol'] = df['texto_espanol'].apply(normalize_greek)
+    df['normalized_griego'] = df['texto_griego'].apply(normalize_greek)
     
-    all_matches = df[df['normalized_text'].str.contains(normalized_search_term, na=False, regex=False)]
+    all_matches = df[df['normalized_espanol'].str.contains(normalized_search_term, na=False, regex=False) |
+                     df['normalized_griego'].str.contains(normalized_search_term, na=False, regex=False)]
     
     for _, row in all_matches.iterrows():
-        full_text = str(row['Texto'])
-        verse_number = row['Versículo']
-
-        # Separa el texto en español y griego
-        spanish_text = ""
-        greek_text = ""
-        found_greek_start = False
-
-        for char in full_text:
-            if '\u0370' <= char <= '\u03FF' or '\u1F00' <= char <= '\u1FFF':
-                found_greek_start = True
-
-            if not found_greek_start:
-                spanish_text += char
-            else:
-                greek_text += char
-
         occurrences.append({
             'Libro': row['Libro'],
             'Capítulo': row['Capítulo'],
             'Versículo': row['Versículo'],
-            'Texto_Español': spanish_text.strip(),
-            'Texto_Griego': greek_text.strip()
+            'Texto_Español': row['texto_espanol'].strip(),
+            'Texto_Griego': row['texto_griego'].strip()
         })
-
     return occurrences
 
 def search_word_in_dict(word, dictionary_data):
     """
-    Busca una palabra en el diccionario y devuelve su información,
-    ignorando mayúsculas, minúsculas y acentos.
+    Busca una palabra en el diccionario y devuelve su información.
+    Utiliza el mapa de búsqueda instantánea.
     """
-    # Normaliza la palabra de búsqueda para la comparación
     normalized_search_term = normalize_greek(word)
-    
-    for entry in dictionary_data:
-        # Extrae la palabra del diccionario y elimina espacios en blanco
-        entry_word = entry.get("palabra", "").strip()
-        # Normaliza la palabra del diccionario para la comparación
-        normalized_entry_word = normalize_greek(entry_word)
-        
-        if normalized_entry_word == normalized_search_term:
-            return entry
-            
-    return None
+    return dictionary_data.get(normalized_search_term)
+
 
 # --- Contenido de la Aplicación ---
 st.title('Lector Interlineal español-griego del Nuevo Testamento.')
@@ -224,28 +226,11 @@ if st.session_state.df is not None:
 
     # Contenedor expandible para el texto del capítulo
     with st.expander(f'{selected_book} {selected_chapter}', expanded=True):
-        df_filtered_by_chapter = df_filtered_by_book[df_filtered_by_book['Capítulo'] == selected_chapter]
+        df_filtered_by_chapter = df_filtered_by_book[st.session_state.df['Capítulo'] == selected_chapter]
 
         for _, row in df_filtered_by_chapter.iterrows():
-            full_text = str(row['Texto'])
-            verse_number = row['Versículo']
-
-            spanish_text = ""
-            greek_text = ""
-            found_greek_start = False
-
-            for char in full_text:
-                if '\u0370' <= char <= '\u03FF' or '\u1F00' <= char <= '\u1FFF':
-                    found_greek_start = True
-
-                if not found_greek_start:
-                    spanish_text += char
-                else:
-                    greek_text += char
-
-            # Aplica el tamaño de fuente al texto en español y griego
-            st.markdown(f'<span style="font-size:{final_font_size};">**{verse_number}** {spanish_text}</span>', unsafe_allow_html=True)
-            st.markdown(f'<span style="font-family:serif;font-size:{final_font_size};font-style:italic;">{greek_text}</span>', unsafe_allow_html=True)
+            st.markdown(f'<span style="font-size:{final_font_size};">**{row["Versículo"]}** {row["texto_espanol"]}</span>', unsafe_allow_html=True)
+            st.markdown(f'<span style="font-family:serif;font-size:{final_font_size};font-style:italic;">{row["texto_griego"]}</span>', unsafe_allow_html=True)
 
     # La búsqueda por defecto es en todos los Libros.
     st.markdown('---')
@@ -341,7 +326,7 @@ if st.session_state.df is not None:
                         st.markdown('**Análisis Morfológico:** No disponible')
 
                 else:
-                    st.warning(f"La palabra '{search_term}' no se encontró en el diccionario.")
+                    st.warning("No hay información gramatical para esa palabra en este momento.")
             else:
                 st.error("No se pudo cargar el diccionario.")
 
