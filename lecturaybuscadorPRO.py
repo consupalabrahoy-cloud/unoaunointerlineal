@@ -145,7 +145,7 @@ def search_word_in_dict(word, dictionary_data):
 
 # --- Streamlit Interface ---
 st.title("Lector Interlineal del Nuevo Testamento 📖")
-st.write("Selecciona un libro, un capítulo y un versículo para leer el texto interlineal. Puedes hacer clic en una palabra griega para ver su definición, transliteración y análisis morfológico.")
+st.write("Selecciona un libro y un capítulo para leer el texto interlineal. Puedes hacer clic en una palabra griega para ver su definición, transliteración y análisis morfológico.")
 
 # --- Cargar datos ---
 combined_df = load_all_data()
@@ -168,9 +168,6 @@ selected_book = st.selectbox("Selecciona un libro:", book_options)
 
 chapters_in_book = combined_df[combined_df['Libro'] == selected_book]['Capítulo'].unique()
 selected_chapter = st.selectbox("Selecciona un capítulo:", sorted(chapters_in_book))
-
-verses_in_chapter = combined_df[(combined_df['Libro'] == selected_book) & (combined_df['Capítulo'] == selected_chapter)]['Versículo'].unique()
-selected_verse = st.selectbox("Selecciona un versículo:", sorted(verses_in_chapter))
 
 # --- Búsqueda de palabras ---
 st.markdown("---")
@@ -196,19 +193,20 @@ if st.button("Buscar"):
 
 # --- Mostrar texto interlineal ---
 st.markdown("---")
-st.subheader(f"Texto Interlineal: {selected_book} {selected_chapter}:{selected_verse}")
-verse_data = combined_df[(combined_df['Libro'] == selected_book) & (combined_df['Capítulo'] == selected_chapter) & (combined_df['Versículo'] == selected_verse)]
+st.subheader(f"Texto Interlineal: {selected_book} - Capítulo {selected_chapter}")
+# Filtra el DataFrame para mostrar todo el capítulo seleccionado
+verse_data = combined_df[(combined_df['Libro'] == selected_book) & (combined_df['Capítulo'] == selected_chapter)]
 
 if not verse_data.empty:
     for index, row in verse_data.iterrows():
-        # Usa .get() para evitar el KeyError si la columna no existe
-        position = row.get('Posicion_En_Versiculo', 'N/A')
-        st.markdown(f"**{position}**")
+        st.markdown(f"**Versículo {row['Versículo']}**")
         
-        st.write(row['RV1960'])
-        st.write(row['Original'])
-        st.write(row['Transliteracion'])
-        st.write(row['Significado'])
+        # Muestra la información de cada palabra en el versículo
+        st.markdown(f"**{row.get('Posicion_En_Versiculo', 'N/A')}**")
+        st.write(f"RV1960: {row['RV1960']}")
+        st.write(f"Original: {row['Original']}")
+        st.write(f"Transliteración: {row['Transliteracion']}")
+        st.write(f"Significado: {row['Significado']}")
         
         # Opciones para el diccionario
         with st.expander(f"Ver información de '{row['Original']}'"):
@@ -221,4 +219,4 @@ if not verse_data.empty:
             else:
                 st.info("En este momento no hay información gramatical para esta palabra.")
 else:
-    st.warning("Versículo no encontrado. Por favor, selecciona otro.")
+    st.warning("Capítulo no encontrado. Por favor, selecciona otro.")
