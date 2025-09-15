@@ -85,17 +85,11 @@ def load_all_data():
     all_dfs = []
     for book_name, url in BOOKS_URLS.items():
         try:
-            response = requests.get(url, timeout=10)
-            response.raise_for_status()
-            text_content = response.content.decode('utf-8')
-            df = pd.read_csv(io.StringIO(text_content), sep=',')
+            df = pd.read_csv(url, sep=',')
             df['Libro'] = book_name
             all_dfs.append(df)
-        except requests.exceptions.RequestException as e:
-            st.error(f"Error al cargar datos de {book_name}: {e}")
-            return None
         except Exception as e:
-            st.error(f"Ocurrió un error inesperado al procesar {book_name}: {e}")
+            st.error(f"Error al cargar datos de {book_name}: {e}")
             return None
 
     if all_dfs:
@@ -226,7 +220,7 @@ if st.session_state.df is not None:
 
     # Contenedor expandible para el texto del capítulo
     with st.expander(f'{selected_book} {selected_chapter}', expanded=True):
-        df_filtered_by_chapter = df_filtered_by_book[st.session_state.df['Capítulo'] == selected_chapter]
+        df_filtered_by_chapter = df_filtered_by_book[st.session_state.df['Libro'] == selected_chapter]
 
         for _, row in df_filtered_by_chapter.iterrows():
             st.markdown(f'<span style="font-size:{final_font_size};">**{row["Versículo"]}** {row["texto_espanol"]}</span>', unsafe_allow_html=True)
