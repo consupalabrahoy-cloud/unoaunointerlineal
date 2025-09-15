@@ -201,7 +201,10 @@ verse_data = combined_df[(combined_df['Libro'] == selected_book) & (combined_df[
 
 if not verse_data.empty:
     for index, row in verse_data.iterrows():
-        st.markdown(f"**{row['Posicion_En_Versiculo']}**")
+        # Usa .get() para evitar el KeyError si la columna no existe
+        position = row.get('Posicion_En_Versiculo', 'N/A')
+        st.markdown(f"**{position}**")
+        
         st.write(row['RV1960'])
         st.write(row['Original'])
         st.write(row['Transliteracion'])
