@@ -40,5 +40,23 @@
         "transliteracion": "pascha",
         "traduccion_literal": "Pascua, cordero pascual.",
         "analisis_gramatical": "Clase de palabra: Sustantivo (de origen hebreo)\nGénero: Neutro\nNúmero: Singular\nCaso: Nominativo/Acusativo (la palabra es indeclinable, es decir, no cambia de forma según el caso).\nLa palabra πάσχα es una transliteración directa del hebreo פֶּסַח (pesakh), que significa \"pasar por encima\". Se refiere a la fiesta judía que conmemora la liberación de los israelitas de la esclavitud en Egipto, cuando el ángel de la muerte \"pasó por encima\" de las casas marcadas con la sangre del cordero.\n\nEn el Nuevo Testamento, el término se usa en su sentido literal para referirse a la fiesta judía, como en los evangelios. Sin embargo, en 1 Corintios 5:7, Pablo le da un profundo significado teológico al usarlo metafóricamente para referirse a Jesucristo: \"Porque nuestra pascua, que es Cristo, ya fue sacrificada por nosotros\". Con esta analogía, Pablo presenta a Cristo como el Cordero pascual definitivo, cuyo sacrificio es la base de la nueva fiesta de la purificación."
+    },
+    {
+        "palabra": "πορνοις",
+        "transliteracion": "pornois",
+        "traduccion_literal": "Fornicarios, los que cometen inmoralidad sexual (en plural).",
+        "analisis_gramatical": "Clase de palabra: Sustantivo\n\nRaíz: πόρνος (pornos)\nGénero: Masculino\nNúmero: Plural\nCaso: Dativo\nLa palabra πόρνοις es la forma plural de πόρνος, que significa \"una persona que comete inmoralidad sexual\" o \"un fornicario\".\nEs importante diferenciarla de πορνεία (porneia), la palabra que analizamos primero. Mientras que πορνεία se refiere al acto de la inmoralidad sexual (el sustantivo abstracto), πόρνος se refiere a la persona que lleva a cabo ese acto."
+    },
+    {
+        "palabra": "συναναμιγνυσθαι",
+        "transliteracion": "synanamignysthai",
+        "traduccion_literal": "Mezclarse con, asociarse con, tener compañerismo con.",
+        "analisis_gramatical": "Clase de palabra: Verbo (infinitivo)\nTiempo: Presente\nVoz: Media\nModo: Infinitivo\nEsta palabra es un verbo compuesto que se forma de la siguiente manera:  συν- (syn-): Prefijo que significa \"con\" o \"junto con\". ανα- (ana-): Prefijo que en este caso intensifica la acción. μίγνυμι (mignymi): La raíz del verbo, que significa \"mezclar\" o \"unir\".\nEn su conjunto, συναναμίγνυσθαι significa \"mezclarse completamente con\" o \"asociarse íntimamente\". No se refiere a un encuentro casual, sino a formar una relación o un compañerismo cercano.\nEn 1 Corintios 5:9, Pablo usa este verbo para dar un mandato claro: \"no asociarse\" con los fornicarios. El uso del infinitivo en este contexto funciona como una orden o prohibición, enfatizando que no deben tener un compañerismo cercano con aquellos que persisten en el pecado."
+    },
+    {
+        "palabra": "εξαρατε",
+        "transliteracion": "exarate",
+        "traduccion_literal": "Expulsen, quiten, remuevan.",
+        "analisis_gramatical": "Clase de palabra: Verbo\nRaíz verbal: ἐξαίρω (exairō)\nTiempo: Aoristo\nVoz: Activa\nModo: Imperativo\nPersona: Segunda\nNúmero: Plural\nLa palabra ἐξάρατε es un verbo compuesto que se forma a partir de:\nEl prefijo ἐξ- (ex-), que significa \"fuera de\" o \"desde\".\nLa raíz verbal αἴρω (airō), que significa \"levantar\", \"quitar\" o \"remover\".\nJuntas, estas partes forman un verbo que significa \"levantar y sacar\", \"expulsar\".\nEn 1 Corintios 5:13, esta palabra se usa como una orden directa de Pablo a la iglesia de Corinto: \"expulsen al perverso de entre ustedes\". El uso del modo imperativo subraya que es un mandato, no una sugerencia. Además, el tiempo aoristo indica que se trata de una acción que debe realizarse de forma decisiva e inmediata, no un proceso continuo. Se requiere una acción de remoción final para purificar la comunidad. Esta palabra aparece una sola vez en el NT y es en 1 Corintios 5:13. "
     }
 ]
