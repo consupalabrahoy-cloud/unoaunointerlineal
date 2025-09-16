@@ -1,10 +1,10 @@
 import streamlit as st
 import pandas as pd
+import requests
 import io
 import re
 import unicodedata
 import json
-import requests
 
 # URL de los archivos CSV individuales en GitHub para el texto de la Biblia
 BOOKS_URLS = {
@@ -85,12 +85,19 @@ def load_all_data():
     all_dfs = []
     for book_name, url in BOOKS_URLS.items():
         try:
-            # Usa pandas.read_csv directamente, es más robusto con URLs
-            df = pd.read_csv(url, sep=',', encoding='utf-8')
+            # Clave de la solución: Obtener el contenido binario y decodificar explícitamente con 'utf-8'.
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            text_content = response.content.decode('utf-8')
+            
+            df = pd.read_csv(io.StringIO(text_content), sep=',')
             df['Libro'] = book_name
             all_dfs.append(df)
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             st.error(f"Error al cargar datos de {book_name}: {e}")
+            return None
+        except Exception as e:
+            st.error(f"Ocurrió un error inesperado al procesar {book_name}: {e}")
             return None
 
     if all_dfs:
@@ -327,5 +334,3 @@ if st.session_state.df is not None and st.session_state.dict_data is not None:
 
 else:
     st.error("No se pudo cargar el DataFrame. Por favor, revisa la conexión a internet y el origen de datos.")
-
-
