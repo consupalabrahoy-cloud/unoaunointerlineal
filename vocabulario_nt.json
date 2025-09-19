@@ -124,5 +124,35 @@
         "transliteracion": "diakrinai",
         "traduccion_literal": "juzgar entre, discernir, arbitrar.",
         "analisis_gramatical": "Clase de palabra: Verbo (infinitivo).\nRaíz: Es un verbo compuesto de la raíz κρίνω (krinō, \"juzgar\") y el prefijo διά (dia, \"a través de\", \"entre\"). El prefijo añade el sentido de \"juzgar entre\" o \"arbitrar\".\nTiempo: Aoristo.\nVoz: Activa.\nModo: Infinitivo.\n"
+    },
+    {
+        "palabra": "εξουθενημενους",
+        "transliteracion": "exouthenēmenous",
+        "traduccion_literal": "a los despreciados, a los tenidos por nada.",
+        "analisis_gramatical": "Clase de palabra: Participio.\nRaíz verbal: ἐξουθενέω (exoutheneō). Este es un verbo compuesto de ἐξ (ex, \"fuera de\") y οὐθέν (outhen, \"nada\"). Literalmente significa \"tratar como nada\" o \"despreciar\".\nTiempo: Perfecto.\nVoz: Pasiva.\nGénero: Masculino.\nNúmero: Plural.\nCaso: Acusativo.\nParticipio Perfecto Pasivo: El uso de esta forma verbal es crucial. Indica que el sujeto ha sido objeto de una acción en el pasado y ahora se encuentra en un estado resultante de esa acción. Es decir, estas personas han sido y continúan siendo \"despreciadas\" o \"tratadas como nada\"."
+    },
+    {
+        "palabra": "αποστερεισθε",
+        "transliteracion": "aposteristhe",
+        "traduccion_literal": "sois defraudados, se os roba, se os priva de algo.",
+        "analisis_gramatical": "Clase de palabra: Verbo.\nRaíz: ἀποστερέω (aposteréō), que es un verbo compuesto. Viene del prefijo ἀπό (apo, \"de\", \"lejos de\") y del verbo στερέω (steréō, \"privar\", \"robar\"). Juntas, significan \"privar a alguien de algo\" o \"defraudar\".\nTiempo: Presente.\nVoz: Pasiva.\nModo: Indicativo.\nPersona: Segunda.\nNúmero: Plural.\nEn 1 Corintios 6:7 Pablo usa las dos palabras juntas, ἀδικεῖσθε (sufrir injusticia) y ἀποστερεῖσθε (sufrir fraude), para cubrir la gama de conflictos que existían. El primer término es más general (ser tratado injustamente), mientras que el segundo es más específico (ser despojado de bienes o propiedad)."
+    },
+    {
+        "palabra": "αδικεισθε",
+        "transliteracion": "adikeisthe",
+        "traduccion_literal": "sois tratados injustamente, se os hace daño.",
+        "analisis_gramatical": "Clase de palabra: Verbo.\nRaíz: ἀδικέω (adikeō), que significa \"hacer el mal\" o \"ser injusto\".\nTiempo: Presente.\nVoz: Pasiva.\nModo: Indicativo.\nPersona: Segunda.\nNúmero: Plural.\nUso Retórico en 1 Corintios 6:7: Al conectar αδικεισθε con el adverbio μαλλον (mallon, \"más bien\"), Pablo sugiere que es preferible y más coherente con la identidad cristiana sufrir una injusticia o ser tratado injustamente por un hermano, que llevar a ese hermano ante un tribunal secular. En este versículo usa dos palabras (ambas conectadas con μαλλον - mallon, \"más bien\"): αδικεισθε y la otra es ἀποστερεῖσθε (sufrir fraude), cubriendo así la gama de conflictos que existían en la iglesia. El primer término es más general (ser tratado injustamente), mientras que el segundo es más específico (ser despojado de bienes o propiedad)."
+    },
+    {
+        "palabra": "αδικειτε",
+        "transliteracion": "adikeite",
+        "traduccion_literal": "vosotros hacéis injusticia, vosotros hacéis mal.",
+        "analisis_gramatical": "Clase de palabra: Verbo.\nRaíz: ἀδικέω (adikeō), que significa \"hacer el mal\", \"ser injusto\".\nTiempo: Presente.\nVoz: Activa.\nModo: Indicativo.\nPersona: Segunda.\nNúmero: Plural.\nEn 1 Corintios 6:8 la voz activa de ἀδικεῖτε indica que los corintios están realizando la acción de cometer injusticia. El tiempo presente subraya que esta es una práctica actual y continua en su comunidad."
+    },
+    {
+        "palabra": "αποστερειτε",
+        "transliteracion": "apostereite",
+        "traduccion_literal": "vosotros defraudáis, vosotros robáis.",
+        "analisis_gramatical": "Clase de palabra: Verbo.\nRaíz: ἀποστερέω (aposteréō), que significa \"privar de\", \"defraudar\", \"robar\".\nTiempo: Presente.\nVoz: Activa.\nModo: Indicativo.\nPersona: Segunda.\nNúmero: Plural.\nEl Tiempo Presente y la Voz activa indican que las personas están cometiendo agravio de forma permanente. En el contexto de 1 Corintios 6:8 esto es escandaloso."
     }
 ]
