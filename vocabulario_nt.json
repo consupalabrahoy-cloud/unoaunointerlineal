@@ -82,5 +82,47 @@
         "transliteracion": "sophos",
         "traduccion_literal": "sabio, hábil, entendido.",
         "analisis_gramatical": "Clase de palabra: Adjetivo.\nGénero: Masculino.\nNúmero: Singular.\nCaso: Nominativo.\nLa palabra σοφός se refiere a una persona que posee sabiduría, tanto en un sentido práctico como en uno intelectual o moral. Sin embargo, en los escritos de Pablo, especialmente en 1 Corintios, su uso tiene un matiz crítico.\nPablo a menudo contrasta la σοφία (sabiduría) del mundo con la sabiduría de Dios. La sabiduría mundana, de la que los corintios se jactaban, se considera inútil y vana ante la cruz de Cristo. Por ejemplo, en 1 Corintios 1:19, Pablo cita a Isaías: \"Destruiré la sabiduría de los sabios (σοφῶν)\".\nEn este sentido, σοφός no es necesariamente un elogio, sino que puede ser una advertencia contra la confianza en el conocimiento humano en lugar de la revelación de Dios a través del evangelio."
+    },
+    {
+        "palabra": "κρινουσιν",
+        "transliteracion": "krinousin",
+        "traduccion_literal": "Ellos juzgarán, ellos decidirán.",
+        "analisis_gramatical": "Clase de palabra: Verbo.\nRaíz: κρίνω (krinō), que significa \"juzgar\", \"decidir\", \"separar\".\nTiempo: Futuro.\nVoz: Activa.\nModo: Indicativo.\nPersona: Tercera.\nNúmero: Plural.\nEl verbo indica una acción que ocurrirá en el futuro. Pablo lo utiliza en 1 de Corintios 6:2 para recordarle a la iglesia  el alto honor y la autoridad que Dios les ha dado a los creyentes. Si ellos están destinados a juzgar al mundo, es una vergüenza que no sean capaces de juzgar y resolver sus propias disputas, especialmente las triviales, dentro de la comunidad de fe."
+    },
+    {
+        "palabra": "απολογια",
+        "transliteracion": "apologia",
+        "traduccion_literal": "una defensa, una justificación, un argumento.",
+        "analisis_gramatical": "Clase de palabra: Sustantivo.\nOrigen: Es una palabra compuesta de:\nἀπό (apo): preposición que significa \"de\", \"lejos de\".\nλόγος (logos): sustantivo que significa \"palabra\", \"razón\", \"relato\".\nGénero: Femenino.\nNúmero: Singular.\nCaso: Nominativo (es la forma de diccionario, aunque se mantiene igual en otros casos como el acusativo y el vocativo).\nEn el griego del Nuevo Testamento, una ἀπολογία es una defensa formal y razonada. Se utiliza en un contexto legal o retórico, para presentar un caso o dar una explicación convincente."
+    },
+    {
+        "palabra": "κρινεσθαι",
+        "transliteracion": "krinesthai",
+        "traduccion_literal": "ser juzgado, ser decidido, ser sometido o someterse a juicio.",
+        "analisis_gramatical": "Clase de palabra: Verbo.\nRaíz: κρίνω (krinō), que significa \"juzgar\" o \"decidir\".\nTiempo: Presente.\nVoz: Media/Pasiva.\nModo: Infinitivo.\n\nLa forma griega de los verbos en tiempo presente, como κρίνεσθαι, a menudo es morfológicamente idéntica en la voz media y la pasiva. Para determinar la voz correcta, debemos basarnos en el contexto."
+    },
+    {
+        "palabra": "κρινεται",
+        "transliteracion": "krinetai",
+        "traduccion_literal": "es juzgado, es decidido.",
+        "analisis_gramatical": "Clase de palabra: Verbo.\nRaíz: κρίνω (krinō), que significa \"juzgar\" o \"decidir\".\nTiempo: Presente.\nVoz: Media o Pasiva.\nModo: Indicativo.\nPersona: Tercera.\nNúmero: Singular.\nEn 1 Corintios 6:2 algunas traducciones al español dicen \"será juzgado\" y otras \"es juzgado\".  El Tiempo Presente de esta palabra respalda la traducción \"es juzgado\"."
+    },
+    {
+        "palabra": "κριτηρια",
+        "transliteracion": "kriteria",
+        "traduccion_literal": "juicios, tribunales, criterios de juicio.",
+        "analisis_gramatical": "Clase de palabra: Sustantivo.\nRaíz: κριτής (kritēs), que significa \"juez\".\nGénero: Neutro.\nNúmero: Plural.\nCaso: Nominativo/Acusativo.\n"
+    },
+    {
+        "palabra": "εντροπην",
+        "transliteracion": "entropen",
+        "traduccion_literal": "vergüenza, motivo de vergüenza, humillación.",
+        "analisis_gramatical": "Clase de palabra: Sustantivo.\nRaíz: La palabra proviene del verbo ἐντρέπω (entrepō), que significa \"avergonzar\" o \"respetar\". El sustantivo se refiere al sentimiento de vergüenza.\nGénero: Femenino.\nNúmero: Singular.\nCaso: Acusativo.\nLa palabra ἐντροπὴν aparece de forma contundente en 1 Corintios 6:5, cuando Pablo dice:\n\n\"προς εντροπην υμιν λεγω\"  \"Para avergonzaros lo digo.\"\n\nEl caso acusativo se usa aquí con la preposición προς (pros), que significa \"hacia\" o \"con el propósito de\". La frase literalmente se traduce como \"para vergüenza vuestra lo digo\".\nEste es uno de los reproches más fuertes de Pablo en la carta. A diferencia de los gentiles que se avergonzarían de un pecado tan público (como se vio en el capítulo 5), la iglesia de Corinto, que se jactaba de su sabiduría, no tenía ningún sentido de vergüenza.\nPablo usa deliberadamente esta palabra para provocar en ellos la humillación que debería haberles causado su propia incapacidad para resolver sus disputas internas, lo que demuestra su inmadurez espiritual y su falta de discernimiento. La falta de un hombre sabio entre ellos para juzgar es el motivo de su vergüenza."
+    },
+    {
+        "palabra": "διακριναι",
+        "transliteracion": "diakrinai",
+        "traduccion_literal": "juzgar entre, discernir, arbitrar.",
+        "analisis_gramatical": "Clase de palabra: Verbo (infinitivo).\nRaíz: Es un verbo compuesto de la raíz κρίνω (krinō, \"juzgar\") y el prefijo διά (dia, \"a través de\", \"entre\"). El prefijo añade el sentido de \"juzgar entre\" o \"arbitrar\".\nTiempo: Aoristo.\nVoz: Activa.\nModo: Infinitivo.\n"
     }
 ]
